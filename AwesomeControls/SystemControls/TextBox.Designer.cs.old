@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AwesomeControls.SystemControls
+{
+    public partial class TextBox
+    {
+        private System.Windows.Forms.Timer tmrCaret;
+        private System.ComponentModel.IContainer components;
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.tmrCaret = new System.Windows.Forms.Timer(this.components);
+            this.mnuContext = new AwesomeControls.CommandBars.CBContextMenu(this.components);
+            this.SuspendLayout();
+            // 
+            // mnuContext
+            // 
+            this.mnuContext.Name = "mnuContext";
+            this.mnuContext.Size = new System.Drawing.Size(61, 4);
+            this.ResumeLayout(false);
+
+        }
+
+        private CommandBars.CBContextMenu mnuContext;
+    }
+}

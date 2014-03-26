@@ -1,0 +1,378 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace AwesomeControls.PropertyGrid
+{
+    public partial class PropertyGridPanel : UserControl
+    {
+        private bool _hasFocus = false;
+        private bool _isPopupOpen = false;
+
+        public PropertyGridPanel()
+        {
+            InitializeComponent();
+            base.BackColor = Color.FromKnownColor(KnownColor.Window);
+        }
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+
+            if (base.ParentForm != null)
+            {
+	            base.ParentForm.Activated += delegate(object o, EventArgs e)
+	            {
+	                if (!_isPopupOpen)
+	                {
+	                    _hasFocus = true;
+	                    pnlProperties.Refresh();
+	                }
+	            };
+	            base.ParentForm.Deactivate += delegate(object o, EventArgs e)
+	            {
+	                if (!_isPopupOpen)
+	                {
+	                    _hasFocus = false;
+	                    pnlProperties.Refresh();
+	                }
+	            };
+            }
+        }
+
+        private PropertyGridView mvarView = PropertyGridView.Unsorted;
+        public PropertyGridView View { get { return mvarView; } set { mvarView = value; } }
+
+        private PropertyGroup mvarGroup = null;
+        public PropertyGroup Group { get { return mvarGroup; } set { mvarGroup = value; Refresh(); } }
+
+        private int m_previdx = -1;
+        private int m_clicked = 0;
+
+        private int mvarMarginWidth = 14;
+
+        public Property SelectedProperty
+        {
+            get
+            {
+                if (mvarGroup != null)
+                {
+                    if (mvarSelectedPropertyIndex > -1 && mvarSelectedPropertyIndex < mvarGroup.Properties.Count)
+                    {
+                        return mvarGroup.Properties[mvarSelectedPropertyIndex];
+                    }
+                }
+                return null;
+            }
+        }
+
+        private int mvarItemHeight = 16;
+        public int ItemHeight { get { return mvarItemHeight; } set { mvarItemHeight = value; } }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            if (mvarGroup == null) return;
+
+            if (SelectedProperty != null) txt.Text = SelectedProperty.Value;
+            pnlProperties.Refresh();
+            vsc.Minimum = 0;
+
+            RecalculateVisibleProperties();
+        }
+
+        private void RecalculateVisibleProperties()
+        {
+            if (mvarGroup == null) return;
+            int visibleProperties = 0, h = 0;
+            for (int i = 0; i < mvarGroup.Properties.Count; i++)
+            {
+                h += CalculatePropertyHeight(mvarGroup.Properties[i]);
+                if (h <= pnlProperties.Height)
+                {
+                    visibleProperties++;
+                }
+            }
+			visibleProperties--;
+            vsc.Maximum = (mvarGroup.Properties.Count - visibleProperties) + 7;
+        }
+
+        private int CalculatePropertyHeight(Property property)
+        {
+            int h = 0;
+            h++;
+            h += mvarItemHeight;
+            if (property.Expanded)
+            {
+                for (int i = 0; i < property.Properties.Count; i++)
+                {
+                    h += CalculatePropertyHeight(property.Properties[i]);
+                }
+            }
+            h++;
+            return h;
+        }
+
+        private Color mvarBorderColor = Color.FromKnownColor(KnownColor.ControlDark);
+        public Color BorderColor { get { return mvarBorderColor; } set { mvarBorderColor = value; } }
+
+        private Color mvarGridColor  = Color.FromKnownColor(KnownColor.Control);
+        public Color GridColor { get { return mvarGridColor; } set { mvarGridColor = value; } }
+
+        private double mvarSplitterPosition = 0.40;
+        public double SplitterPosition { get { return mvarSplitterPosition; } set { mvarSplitterPosition = value; } }
+
+        private int mvarSelectedPropertyIndex = -1;
+        public int SelectedPropertyIndex { get { return mvarSelectedPropertyIndex; } set { mvarSelectedPropertyIndex = value; m_previdx = value; m_clicked = 2; } }
+
+        private Color mvarHighlightBackColor = Color.FromKnownColor(KnownColor.Highlight);
+        public Color HighlightBackColor { get { return mvarHighlightBackColor; } set { mvarHighlightBackColor = value; } }
+
+        private Color mvarHighlightForeColor = Color.FromKnownColor(KnownColor.HighlightText);
+        public Color HighlightForeColor { get { return mvarHighlightForeColor; } set { mvarHighlightForeColor = value; } }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            RecalculateVisibleProperties();
+            Refresh();
+        }
+
+        private void pnlProperties_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(base.BackColor);
+
+            DrawingTools.PrepareGraphics(e.Graphics);
+
+            e.Graphics.FillRectangle(new SolidBrush(mvarGridColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
+            e.Graphics.DrawRectangle(new Pen(mvarBorderColor), new Rectangle(0, 0, pnlProperties.Width - 1, pnlProperties.Height - 1));
+            
+            int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
+            int rightWidth = pnlProperties.Width - leftWidth;
+
+            if (mvarGroup != null)
+            {
+                if (mvarView == PropertyGridView.Alphabetical)
+                {
+                }
+                else if (mvarView == PropertyGridView.Categorized)
+                {
+                }
+                else if (mvarView == PropertyGridView.Unsorted)
+                {
+                    int s = 0;
+                    if (vsc.Maximum > 0) s = vsc.Value;
+                    for (int i = s; i < mvarGroup.Properties.Count; i++)
+                    {
+                        Color fc = base.ForeColor;
+                        if (mvarGroup.Properties[i].ReadOnly)
+                        {
+                            fc = Color.FromKnownColor(KnownColor.GrayText);
+                        }
+                        if (mvarSelectedPropertyIndex == i)
+                        {
+                            if (_hasFocus)
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(mvarHighlightBackColor), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
+                                fc = mvarHighlightForeColor;
+                            }
+                            else
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
+                            }
+
+                            if (mvarGroup.Properties[i].Type == PropertyDataType.Choice || mvarGroup.Properties[i].Type == PropertyDataType.Boolean || mvarGroup.Properties[i].Type == PropertyDataType.Custom)
+                            {
+                                Rectangle rect = new Rectangle(pnlProperties.Width - 16 - 1, mvarItemHeight * (i - s), 16, mvarItemHeight);
+                                e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rect);
+                                DrawingTools.DrawArrow(e.Graphics, ArrowDirection.Down, rect.Left + 5, rect.Top + 6, 5);
+
+                                if (buttonDown)
+                                {
+                                    DrawingTools.DrawSunkenBorder(e.Graphics, rect);
+                                }
+                                else
+                                {
+                                    DrawingTools.DrawRaisedBorder(e.Graphics, rect);
+                                }
+                            }
+                        }
+                        e.Graphics.DrawString(mvarGroup.Properties[i].Name, base.Font, new SolidBrush(fc), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s) + 1, leftWidth - mvarMarginWidth, mvarItemHeight));
+
+
+                        if (mvarGroup.Properties[i].ReadOnly)
+                        {
+                            fc = Color.FromKnownColor(KnownColor.GrayText);
+                        }
+                        else
+                        {
+                            fc = base.ForeColor;
+                        }
+                        if (mvarGroup.Properties[i].Value == null)
+                        {
+                            if (mvarGroup.Properties[i].DefaultValue != null)
+                            {
+                                e.Graphics.DrawString(mvarGroup.Properties[i].DefaultValue, base.Font, new SolidBrush(fc), new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight));
+                            }
+                        }
+                        else
+                        {
+                            e.Graphics.DrawString(mvarGroup.Properties[i].Value, base.Font, new SolidBrush(fc), new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight));
+                        }
+                        e.Graphics.DrawLine(new Pen(mvarGridColor), mvarMarginWidth, mvarItemHeight * ((i - s) + 1), pnlProperties.Width - 2, mvarItemHeight * ((i - s) + 1));
+                    }
+                }
+            }
+            e.Graphics.DrawLine(new Pen(mvarGridColor), leftWidth, 1, leftWidth, pnlProperties.Height - 2);
+        }
+
+        private void vsc_Scroll(object sender, ScrollEventArgs e)
+        {
+            vsc.Value = e.NewValue;
+            pnlProperties.Refresh();
+        }
+
+        private bool buttonDown = false;
+        private void pnlProperties_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (mvarGroup == null) return;
+            int h = 0, s = 0;
+            if (vsc.Maximum > 0) s = vsc.Value;
+            for (int i = s; i < mvarGroup.Properties.Count; i++)
+            {
+                if (e.Y >= h && e.Y <= (h + mvarItemHeight))
+                {
+                    mvarSelectedPropertyIndex = i;
+
+                    if (mvarSelectedPropertyIndex != m_previdx)
+                    {
+                        m_clicked = 0;
+                        m_previdx = mvarSelectedPropertyIndex;
+                    }
+                    m_clicked++;
+
+                    int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
+                    int rightWidth = pnlProperties.Width - leftWidth;
+
+                    txt.Visible = true;
+                    txt.Left = leftWidth + 4;
+                    txt.Width = rightWidth - 6;
+
+                    txt.Text = mvarGroup.Properties[i].Value;
+                    txt.Top = (mvarItemHeight * (i - s)) + 1;
+
+                    if (mvarGroup.Properties[i].ReadOnly)
+                    {
+                        txt.ReadOnly = true;
+                        txt.BackColor = base.BackColor;
+                        txt.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+                    }
+                    else
+                    {
+                        txt.BackColor = base.BackColor;
+                        txt.ForeColor = base.ForeColor;
+                    }
+
+                    if (mvarGroup.Properties[i].Type == PropertyDataType.Choice || mvarGroup.Properties[i].Type == PropertyDataType.Boolean || mvarGroup.Properties[i].Type == PropertyDataType.Custom)
+                    {
+                        txt.Width -= 16;
+                        
+                        if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - 16)
+                        {
+                            buttonDown = true;
+                        }
+                    }
+                    txt.SelectAll();
+
+                    pnlProperties.Refresh();
+                    return;
+                }
+                h += mvarItemHeight;
+            }
+        }
+        private void pnlProperties_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (mvarGroup == null) return;
+                int h = 0, s = 0;
+                if (vsc.Maximum > 0) s = vsc.Value;
+                if (m_clicked > 1)
+                {
+                    for (int i = s; i < mvarGroup.Properties.Count; i++)
+                    {
+                        if (e.Y >= h && e.Y <= (h + mvarItemHeight))
+                        {
+                            if (e.X >= (pnlProperties.Width - 16))
+                            {
+                                if (!mvarGroup.Properties[i].ReadOnly)
+                                {
+                                    // Dropdown open
+                                    PropertyGridDropDownWindow wnd = new PropertyGridDropDownWindow(this);
+                                    wnd.StartPosition = FormStartPosition.Manual;
+                                    wnd.Width = txt.Width + 6;
+                                    int hhh = 0;
+                                    if (mvarGroup.Properties[i].Type == PropertyDataType.Custom || mvarGroup.Properties[i].Type == PropertyDataType.Choice)
+                                    {
+                                        hhh = (mvarItemHeight * mvarGroup.Properties[i].ValidValues.Count);
+                                    }
+                                    else if (mvarGroup.Properties[i].Type == PropertyDataType.Boolean)
+                                    {
+                                        hhh = (mvarItemHeight * PropertyPredefinedType.BooleanValues.Length);
+                                    }
+
+                                    Point pt = new Point(txt.Left + base.Left - 3, txt.Top + txt.Height + base.Top + 3);
+                                    pt = Parent.PointToScreen(pt);
+
+                                    wnd.Left = pt.X;
+                                    wnd.Top = pt.Y;
+                                    wnd.Height = hhh + 2;
+                                    wnd.FormClosed += delegate(object dsender, FormClosedEventArgs de)
+                                    {
+                                        buttonDown = false;
+                                        _isPopupOpen = false;
+                                        if (!ParentForm.Focused)
+                                        {
+                                            _hasFocus = false;
+                                        }
+                                        pnlProperties.Refresh();
+                                    };
+                                    _isPopupOpen = true;
+                                    wnd.Show(ParentForm);
+                                }
+                                break;
+                            }
+                        }
+                        h += mvarItemHeight;
+                    }
+                }
+            }
+        }
+
+        private void pnlProperties_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+        private void pnlProperties_MouseWheel(object sender, MouseEventArgs e)
+        {
+
+        }
+
+
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (mvarGroup == null) return;
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (mvarSelectedPropertyIndex > -1)
+                {
+                    mvarGroup.Properties[mvarSelectedPropertyIndex].Value = txt.Text;
+                    txt.Visible = false;
+                }
+            }
+        }
+    }
+}

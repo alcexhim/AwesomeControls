@@ -1,0 +1,724 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using TextRenderer = System.Windows.Forms.TextRenderer;
+
+namespace AwesomeControls.SystemControls
+{
+    partial class TextBox : System.Windows.Forms.Control
+    {
+        public TextBox()
+        {
+            InitializeComponent();
+            
+            ResetBackColor();
+            ResetForeColor();
+            ResetCursor();
+
+            tmrCaret.Tick += new EventHandler(tmrCaret_Tick);
+        }
+
+        #region Focus handling
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+            tmrCaret.Enabled = mvarCaretBlinkEnabled;
+        }
+        protected override void OnLostFocus(EventArgs e)
+        {
+            base.OnLostFocus(e);
+            bCaret = false;
+            tmrCaret.Enabled = false;
+        }
+        #endregion
+        #region Line separator
+        public TextBoxLineSeparator LineSeparator
+        {
+            get
+            {
+                if (mvarLineSeparatorString == Environment.NewLine) return TextBoxLineSeparator.Default;
+                switch (mvarLineSeparatorString)
+                {
+                    case "\r\n": return TextBoxLineSeparator.CarriageReturnLineFeed;
+                    case "\r": return TextBoxLineSeparator.CarriageReturn;
+                    case "\n": return TextBoxLineSeparator.LineFeed;
+                }
+                return TextBoxLineSeparator.Unknown;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case TextBoxLineSeparator.CarriageReturn: mvarLineSeparatorString = "\r"; return;
+                    case TextBoxLineSeparator.CarriageReturnLineFeed: mvarLineSeparatorString = "\r\n"; return;
+                    case TextBoxLineSeparator.Default: mvarLineSeparatorString = Environment.NewLine; return;
+                    case TextBoxLineSeparator.LineFeed: mvarLineSeparatorString = "\n"; return;
+                }
+                throw new InvalidOperationException();
+            }
+        }
+
+        private string mvarLineSeparatorString = "\r\n";
+        public string LineSeparatorString { get { return mvarLineSeparatorString; } set { mvarLineSeparatorString = value; } }
+        #endregion
+        #region Default properties
+        public override void ResetBackColor()
+        {
+            BackColor = Color.FromKnownColor(KnownColor.Window);
+        }
+        public override void ResetForeColor()
+        {
+            ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+        }
+        protected override System.Windows.Forms.Cursor DefaultCursor { get { return System.Windows.Forms.Cursors.IBeam; } }
+        public override void ResetCursor()
+        {
+            Cursor = DefaultCursor;
+        }
+        #endregion
+
+        #region Caret
+        private bool bCaret = false;
+        private Color mvarCaretColor = Color.FromKnownColor(KnownColor.WindowText);
+        public Color CaretColor { get { return mvarCaretColor; } set { mvarCaretColor = value; } }
+        private bool mvarCaretBlinkEnabled = true;
+        public bool CaretBlinkEnabled { get { return mvarCaretBlinkEnabled; } set { mvarCaretBlinkEnabled = value; tmrCaret.Enabled = (Focused && value); bCaret = (mvarCaretVisible && Focused); } }
+        private bool mvarCaretVisible = true;
+        public bool CaretVisible { get { return mvarCaretVisible; } set { mvarCaretVisible = value; } }
+        private int mvarCaretBlinkRate = System.Windows.Forms.SystemInformation.CaretBlinkTime;
+        public int CaretBlinkRate { get { return mvarCaretBlinkRate; } set { mvarCaretBlinkRate = value; } }
+        private int mvarCaretSize = System.Windows.Forms.SystemInformation.CaretWidth;
+        public int CaretSize { get { return mvarCaretSize; } set { mvarCaretSize = value; } }
+        private System.Windows.Forms.Orientation mvarCaretOrientation = System.Windows.Forms.Orientation.Vertical;
+        public System.Windows.Forms.Orientation CaretOrientation { get { return mvarCaretOrientation; } set { mvarCaretOrientation = value; } }
+
+        private void tmrCaret_Tick(object sender, EventArgs e)
+        {
+            bCaret = !bCaret;
+            RefreshCaret();
+        }
+
+
+        private void UpdateCaretPosition(Point point)
+        {
+            mvarOldCaretPosition = mvarCaretPosition;
+            mvarCaretPosition = point;
+            RefreshCaret();
+        }
+        private void RefreshCaret()
+        {
+            if (!mvarOldCaretPosition.IsEmpty)
+            {
+                Invalidate(GetOldCaretRectangle());
+                mvarOldCaretPosition = Point.Empty;
+            }
+            Invalidate(GetCaretRectangle());
+        }
+        private Rectangle GetOldCaretRectangle()
+        {
+            int charIndex = GetCharIndexFromCharPosition(mvarOldCaretPosition);
+            Point pt = GetPhysicalPositionFromCharIndex(charIndex);
+            if (charIndex > -1 && (charIndex + 1) < Text.Length)
+            {
+                pt.Offset(TextRenderer.MeasureText(Text.Substring(charIndex, 1), Font).Width, 0);
+            }
+
+            Size sz = Size.Empty;
+            if (mvarCaretOrientation == System.Windows.Forms.Orientation.Horizontal)
+            {
+                sz = new Size(Font.Height, mvarCaretSize);
+            }
+            else if (mvarCaretOrientation == System.Windows.Forms.Orientation.Vertical)
+            {
+                sz = new Size(mvarCaretSize, Font.Height);
+            }
+            return new Rectangle(pt, sz);
+        }
+        private Rectangle GetCaretRectangle()
+        {
+            int charIndex = GetCharIndexFromCharPosition(mvarCaretPosition);
+            Point pt = GetPhysicalPositionFromCharIndex(charIndex);
+            if (charIndex > -1 && (charIndex + 1) < Text.Length)
+            {
+                pt.Offset(TextRenderer.MeasureText(Text.Substring(charIndex, 1), Font).Width, 0);
+            }
+            Size sz = Size.Empty;
+            if (mvarCaretOrientation == System.Windows.Forms.Orientation.Horizontal)
+            {
+                sz = new Size(Font.Height, mvarCaretSize);
+            }
+            else if (mvarCaretOrientation == System.Windows.Forms.Orientation.Vertical)
+            {
+                sz = new Size(mvarCaretSize, Font.Height);
+            }
+            return new Rectangle(pt, sz);
+        }
+        #endregion
+
+        private TextBoxTextStyle.TextBoxTextStyleCollection mvarTextStyles = new TextBoxTextStyle.TextBoxTextStyleCollection();
+        public TextBoxTextStyle.TextBoxTextStyleCollection TextStyles { get { return mvarTextStyles; } set { mvarTextStyles = value; } }
+
+        protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+            Focus();
+        }
+
+        #region Key processing
+        public static char GetKeyValue(System.Windows.Forms.Keys keyData)
+        {
+            System.Windows.Forms.Keys keyCode = (keyData & System.Windows.Forms.Keys.KeyCode);
+            System.Windows.Forms.Keys modifiers = (keyData & System.Windows.Forms.Keys.Modifiers);
+
+            switch (keyCode)
+            {
+                case System.Windows.Forms.Keys.OemCloseBrackets:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '}';
+                    }
+                    else
+                    {
+                        return ']';
+                    }
+                }
+                case System.Windows.Forms.Keys.Oemcomma:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '<';
+                    }
+                    else
+                    {
+                        return ',';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemMinus:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '_';
+                    }
+                    else
+                    {
+                        return '-';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemOpenBrackets:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '{';
+                    }
+                    else
+                    {
+                        return '[';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemPeriod:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '>';
+                    }
+                    else
+                    {
+                        return '.';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemPipe:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '|';
+                    }
+                    else
+                    {
+                        return '\\';
+                    }
+                }
+                case System.Windows.Forms.Keys.Oemplus:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '+';
+                    }
+                    else
+                    {
+                        return '=';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemQuestion:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '?';
+                    }
+                    else
+                    {
+                        return '/';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemQuotes:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '"';
+                    }
+                    else
+                    {
+                        return '\'';
+                    }
+                }
+                case System.Windows.Forms.Keys.OemSemicolon:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return ':';
+                    }
+                    else
+                    {
+                        return ';';
+                    }
+                }
+                case System.Windows.Forms.Keys.Oemtilde:
+                {
+                    if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+                    {
+                        return '~';
+                    }
+                    else
+                    {
+                        return '`';
+                    }
+                }
+            }
+
+            if ((modifiers & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift)
+            {
+                return ((char)keyCode).ToString().ToUpper()[0];
+            }
+            else
+            {
+                return ((char)keyCode).ToString().ToLower()[0];
+            }
+        }
+        #endregion
+
+        private TextBoxSelection.TextBoxSelectionCollection mvarSelections = new TextBoxSelection.TextBoxSelectionCollection();
+        /// <summary>
+        /// Gets the selections of text that are currently selected.
+        /// </summary>
+        public TextBoxSelection.TextBoxSelectionCollection Selections { get { return mvarSelections; } }
+
+        private Point mvarOldCaretPosition = new Point(0, 0);
+        private Point mvarCaretPosition = new Point(0, 0);
+        public Point CaretPosition { get { return mvarCaretPosition; } set { mvarCaretPosition = value; } }
+
+        #region Public API methods
+        #region Position conversion
+        private int posoffsetX = -6;
+        public Point GetPhysicalPositionFromCharIndex(int charIndex)
+        {
+            int offsetX = 2, offsetY = 2;
+            int x = offsetX, y = offsetY;
+            int lastHeight = 0;
+            for (int i = 0; i < charIndex; i++)
+            {
+                Font font = base.Font;
+                Size sz = TextRenderer.MeasureText(Text[i].ToString(), font);
+
+                if (lastHeight < sz.Height) lastHeight = sz.Height;
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    x = offsetX;
+
+                    // use the largest font height for this line
+                    y += lastHeight;
+                    lastHeight = 0;
+                }
+                else
+                {
+                    x += sz.Width + posoffsetX;
+                }
+            }
+            return new Point(x, y);
+        }
+
+        public Point GetPhysicalPositionFromCharPosition(Point pt)
+        {
+            return GetPhysicalPositionFromCharPosition(pt.X, pt.Y);
+        }
+        public Point GetPhysicalPositionFromCharPosition(int row, int column)
+        {
+            int _x = 0, _y = 0;
+            int offsetX = 2, offsetY = 2;
+            int cx = offsetX, cy = offsetY;
+            int lastHeight = 0;
+            
+            for (int i = 0; i < Text.Length; i++)
+            {
+                Font font = base.Font;
+                Size sz = TextRenderer.MeasureText(Text[i].ToString(), font);
+                if (lastHeight < sz.Height) lastHeight = sz.Height;
+                
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    _x = 0;
+                    cx = offsetX;
+
+                    // TODO: get largest font height for this line
+                    _y++;
+
+                    // use the largest font height for this line
+                    cy += lastHeight;
+                    lastHeight = 0;
+                }
+                else
+                {
+                    _x++;
+                    cx += sz.Width + posoffsetX;
+                }
+                if (_x == row && _y == column)
+                {
+                    return new Point(cx, cy);
+                }
+            }
+            return Point.Empty;
+        }
+
+        public int GetCharIndexFromCharPosition(Point pt)
+        {
+            return GetCharIndexFromCharPosition(pt.X, pt.Y);
+        }
+        public int GetCharIndexFromCharPosition(int row, int column)
+        {
+            int _x = 0, _y = 0;
+            for (int i = 0; i < Text.Length; i++)
+            {
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    _x = 0;
+
+                    // TODO: get largest font height for this line
+                    _y++;
+                }
+                else
+                {
+                    _x++;
+                }
+                if (_x == row && _y == column)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public int GetCharIndexFromPhysicalPosition(Point pt)
+        {
+            return GetCharIndexFromPhysicalPosition(pt.X, pt.Y);
+        }
+        public int GetCharIndexFromPhysicalPosition(int x, int y)
+        {
+            int offsetX = 2, offsetY = 2;
+
+            int lastHeight = 0;
+            int _x = offsetX, _y = offsetY;
+            for (int i = 0; i < Text.Length; i++)
+            {
+                Font font = base.Font;
+                Size sz = TextRenderer.MeasureText(Text[i].ToString(), font);
+
+                if (lastHeight < sz.Height) lastHeight = sz.Height;
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    _x = offsetX;
+
+                    // TODO: get largest font height for this line
+                    _y += lastHeight;
+                    continue;
+                }
+
+                if (x >= _x && x <= (_x + sz.Width) && y >= _y && y <= (_y + sz.Height))
+                {
+                    return i + 1;
+                }
+                else
+                {
+                    _x += sz.Width + posoffsetX;
+                    if (lastHeight < sz.Height) lastHeight = sz.Height;
+                }
+            }
+            return Text.Length;
+        }
+        /// <summary>
+        /// Gets the row and column location of the character at the specified
+        /// physical position.
+        /// </summary>
+        /// <param name="pt">The physical position to search in.</param>
+        /// <returns>
+        /// A <see cref="System.Drawing.Point" /> representing the row and column
+        /// location of the character.
+        /// </returns>
+        public Point GetCharPositionFromPhysicalPosition(Point pt)
+        {
+            return GetCharPositionFromPhysicalPosition(pt.X, pt.Y);
+        }
+        public Point GetCharPositionFromPhysicalPosition(int x, int y)
+        {
+            return GetCharPositionFromCharIndex(GetCharIndexFromPhysicalPosition(x, y));
+        }
+        public Point GetCharPositionFromCharIndex(int charIndex)
+        {
+            int x = 0, y = 0;
+            for (int i = 0; i < charIndex; i++)
+            {
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    x = 0;
+                    y++;
+                }
+                else
+                {
+                    x++;
+                }
+            }
+            return new Point(x, y);
+        }
+        #endregion
+        #region Text manipulation
+        public void InsertText(char character)
+        {
+            InsertText(character.ToString());
+        }
+        public void InsertText(string text)
+        {
+            if (mvarSelections.Count > 0)
+            {
+                // TODO: figure out how to handle multiple selection text insertion
+                foreach (TextBoxSelection sel in mvarSelections)
+                {
+                    int selstart = GetCharIndexFromCharPosition(sel.Start);
+                    int selend = GetCharIndexFromCharPosition(sel.End);
+                    int sellength = selend - selstart;
+                    InsertText(text, selstart, sellength);
+                }
+            }
+            else
+            {
+                int selstart = GetCharIndexFromCharPosition(mvarCaretPosition);
+                int sellength = 0;
+                InsertText(text, selstart, sellength);
+                mvarCaretPosition.X++;
+            }
+            Refresh();
+        }
+        /// <summary>
+        /// Inserts text at the specified starting position, overwriting the
+        /// specified amount of text.
+        /// </summary>
+        /// <param name="text">The text to insert.</param>
+        /// <param name="start">The position at which to begin inserting text.</param>
+        /// <param name="length">The amount of text to overwrite.</param>
+        public void InsertText(string text, int start, int length)
+        {
+            string before = Text.Substring(0, start);
+            int afterstart = start + length;
+            if (afterstart > Text.Length)
+            {
+                afterstart -= (afterstart - Text.Length);
+            }
+            string after = Text.Substring(afterstart);
+            Text = before + text + after;
+        }
+        #endregion
+        #endregion
+        #region Event handlers
+        #region Keyboard
+        protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            switch (e.KeyCode)
+            {
+                case System.Windows.Forms.Keys.Back:
+                {
+                    // TODO: implement backspace and multiselection
+                    break;
+                }
+                case System.Windows.Forms.Keys.Menu:
+                case System.Windows.Forms.Keys.ShiftKey:
+                case System.Windows.Forms.Keys.ControlKey:
+                {
+                    break;
+                }
+                default:
+                {
+                    InsertText(GetKeyValue(e.KeyData));
+                    break;
+                }
+            }
+        }
+        #endregion
+        #region Mouse
+        protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            if (!mvarSelections.Contains(e.Location))
+            {
+                mvarSelections.Clear();
+                // mvarSelections.Add(GetCharPositionFromPhysicalPosition(e.Location), Point.Empty);
+                UpdateCaretPosition(GetCharPositionFromPhysicalPosition(e.Location));
+            }
+        }
+        #endregion
+        #region Paint
+        protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            Theming.Theme.CurrentTheme.DrawTextBoxBackground(e.Graphics, base.ClientRectangle, ControlState.Normal);
+        }
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            // caret
+            if (Focused && mvarCaretVisible && bCaret) e.Graphics.FillRectangle(new SolidBrush(mvarCaretColor), GetCaretRectangle());
+
+            #region Text
+            int offsetX = 2, offsetY = 2;
+            int x = offsetX, y = offsetY;
+
+            int lastHeight = 0;
+            for (int i = 0; i < Text.Length; i++)
+            {
+                Font font = base.Font;
+                Color foreColor = base.ForeColor;
+                Color backColor = Color.Transparent;
+                
+                string str = Text[i].ToString();
+                TextRenderer.DrawText(e.Graphics, str, font, new Rectangle(new Point(x, y), TextRenderer.MeasureText(str, font)), foreColor, backColor, System.Windows.Forms.TextFormatFlags.Left | System.Windows.Forms.TextFormatFlags.Top);
+
+                if ((i + mvarLineSeparatorString.Length < Text.Length) && (Text.Substring(i, mvarLineSeparatorString.Length) == mvarLineSeparatorString))
+                {
+                    // new line
+                    x = offsetX;
+
+                    // use the largest font height for this line
+                    y += lastHeight;
+                    lastHeight = 0;
+                }
+                else
+                {
+                    Size sz = TextRenderer.MeasureText(str, font);
+                    x += sz.Width + posoffsetX;
+                    if (lastHeight < sz.Height) lastHeight = sz.Height;
+                }
+            }
+            #endregion
+        }
+        #endregion
+        #endregion
+    }
+    public enum TextBoxLineSeparator
+    {
+        Unknown = -1,
+        Default = 0,
+        CarriageReturnLineFeed,
+        CarriageReturn,
+        LineFeed
+    }
+    public class TextBoxSelection
+    {
+        public class TextBoxSelectionCollection
+            : System.Collections.ObjectModel.Collection<TextBoxSelection>
+        {
+            internal bool Contains(Point point)
+            {
+                foreach (TextBoxSelection sel in this)
+                {
+                    if (sel.Bounds.Contains(point))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            public TextBoxSelection Add(Point start, Point end)
+            {
+                TextBoxSelection sel = new TextBoxSelection();
+                sel.Start = start;
+                sel.End = end;
+                return sel;
+            }
+            public TextBoxSelection Add(Point start, Size length)
+            {
+                TextBoxSelection sel = new TextBoxSelection();
+                sel.Start = start;
+                sel.Length = length;
+                return sel;
+            }
+        }
+
+        private Point mvarStart = new Point(0, 0);
+        /// <summary>
+        /// Gets the starting point of the selection, in characters.
+        /// </summary>
+        public Point Start { get { return mvarStart; } set { mvarStart = value; } }
+        private Point mvarEnd = new Point(0, 0);
+        /// <summary>
+        /// Gets the ending point of the selection, in characters.
+        /// </summary>
+        public Point End { get { return mvarEnd; } set { mvarEnd = value; } }
+
+        public Size Length
+        {
+            get { return new Size(mvarEnd.X - mvarStart.X, mvarEnd.Y - mvarStart.Y); }
+            set { mvarEnd = new Point(mvarStart.X + value.Width, mvarStart.Y + value.Height); }
+        }
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(mvarStart.X, mvarStart.Y, Length.Width, Length.Height);
+            }
+        }
+    }
+    public class TextBoxTextStyle
+    {
+        public class TextBoxTextStyleCollection
+            : System.Collections.ObjectModel.Collection<TextBoxTextStyle>
+        {
+        }
+
+        private Point mvarStart = new Point(0, 0);
+        public Point Start { get { return mvarStart; } set { mvarStart = value; } }
+
+        private Point mvarEnd = new Point(0, 0);
+        public Point End { get { return mvarEnd; } set { mvarEnd = value; } }
+
+        public Point Length
+        {
+            get { return new Point(mvarEnd.X - mvarStart.X, mvarEnd.Y - mvarStart.Y); }
+            set { mvarEnd = new Point(mvarStart.X + value.X, mvarStart.Y + value.Y); }
+        }
+
+        private Color mvarBackColor = Color.Empty;
+        public Color BackColor { get { return mvarBackColor; } set { mvarBackColor = value; } }
+        private Color mvarForeColor = Color.Empty;
+        public Color ForeColor { get { return mvarForeColor; } set { mvarForeColor = value; } }
+        private Font mvarFont = null;
+        public Font Font { get { return mvarFont; } set { mvarFont = value; } }
+    }
+}

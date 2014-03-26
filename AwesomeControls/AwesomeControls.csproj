@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AwesomeControls</RootNamespace>
+    <AssemblyName>AwesomeControls</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <WarningLevel>2</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Shared Code\Visual C#\DrawingTools.cs">
+      <Link>DrawingTools.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Shared Code\Visual C#\StringWrapper.cs">
+      <Link>StringWrapper.cs</Link>
+    </Compile>
+    <Compile Include="Accordion\AccordionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Accordion\AccordionControl.Designer.cs">
+      <DependentUpon>AccordionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionBar\ActionBarControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ActionBar\ActionBarItem.cs" />
+    <Compile Include="ActionBar\DrawActionBarItemEvent.cs" />
+    <Compile Include="Breadcrumb\BreadcrumbControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="CommandBars\CBContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBMenuBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
+    <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
+    <Compile Include="CommandBars\CBPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBRenderer.cs" />
+    <Compile Include="CommandBars\CBStatusBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBToolbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommandBars\CBWindow.Designer.cs">
+      <DependentUpon>CBWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommandBars\CommandBarItem.cs" />
+    <Compile Include="CommandBars\CommandManager.cs" />
+    <Compile Include="CommandBars\ToolStripItemExtensions.cs" />
+    <Compile Include="CommandBars\ICommandBar.cs" />
+    <Compile Include="ControlState.cs" />
+    <Compile Include="CustomizeCommandBarDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomizeCommandBarDialog.Designer.cs">
+      <DependentUpon>CustomizeCommandBarDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Designer\DesignerObjectLocationEvent.cs" />
+    <Compile Include="Designer\DesignerObjectMouseEvent.cs" />
+    <Compile Include="Designer\DesignerArea.cs" />
+    <Compile Include="Designer\DesignerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Designer\DesignerControl.Designer.cs">
+      <DependentUpon>DesignerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Designer\DesignerObject.cs" />
+    <Compile Include="Designer\DesignerObjectClass.cs" />
+    <Compile Include="Designer\DesignerObjectSelectedEvent.cs" />
+    <Compile Include="Designer\DesignerObjectPaintEventArgs.cs" />
+    <Compile Include="Designer\DesignerObjectZIndexComparer.cs" />
+    <Compile Include="Designer\DesignerAreas\GenericDesignerArea.cs" />
+    <Compile Include="Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog.Designer.cs">
+      <DependentUpon>Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.Designer.cs">
+      <DependentUpon>WindowListPopupDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockingWindows\DockBehavior.cs" />
+    <Compile Include="DockingWindows\DockingArea.cs" />
+    <Compile Include="DockingWindows\DockingContainerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\DockingContainerControl.Designer.cs">
+      <DependentUpon>DockingContainerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockingWindows\DockingContainerMessageFilter.cs" />
+    <Compile Include="DockingWindows\DockingWindow.cs" />
+    <Compile Include="DockingWindows\DockPosition.cs" />
+    <Compile Include="DockingWindows\IDockingContainerObject.cs" />
+    <Compile Include="DockingWindows\PopoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\WindowClosedEvent.cs" />
+    <Compile Include="DockingWindows\WindowClosingEvent.cs" />
+    <Compile Include="DynamicContainer\DynamicContainerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DynamicContainer\DynamicContainerControl.Designer.cs">
+      <DependentUpon>DynamicContainerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicContainer\DynamicContainerWindow.cs" />
+    <Compile Include="DynamicContainer\FloatingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DynamicContainer\FloatingWindow.Designer.cs">
+      <DependentUpon>FloatingWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GanttChart\GanttChartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GanttChart\GanttChartControl.Designer.cs">
+      <DependentUpon>GanttChartControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GanttChart\GanttColumn.cs" />
+    <Compile Include="GanttChart\GanttTask.cs" />
+    <Compile Include="GraphicsExtensions.cs" />
+    <Compile Include="Internal\Windows\Constants.cs" />
+    <Compile Include="Internal\Windows\Methods.cs" />
+    <Compile Include="Internal\Windows\Structures.cs" />
+    <Compile Include="Label\LabelControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListView\ListViewColumn.cs" />
+    <Compile Include="ListView\ListViewColumnAutoResizeMode.cs" />
+    <Compile Include="ListView\ListViewColumnBehavior.cs" />
+    <Compile Include="ListView\ListViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ListView\ListViewControl.Designer.cs">
+      <DependentUpon>ListViewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListView\ListViewDetail.cs" />
+    <Compile Include="ListView\ListViewItem.cs" />
+    <Compile Include="ListView\ListViewItemBounds.cs" />
+    <Compile Include="ListView\ListViewItemDragEvent.cs" />
+    <Compile Include="ListView\ListViewItemSelectionChangingEvent.cs" />
+    <Compile Include="ListView\ListViewMode.cs" />
+    <Compile Include="MovingEvent.cs" />
+    <Compile Include="MultipleDocumentContainer\DocumentClosedEvent.cs" />
+    <Compile Include="MultipleDocumentContainer\Dialogs\DocumentPreviewWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\Dialogs\DocumentPreviewWindow.Designer.cs">
+      <DependentUpon>DocumentPreviewWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\Dialogs\WindowListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\Dialogs\WindowListDialog.Designer.cs">
+      <DependentUpon>WindowListDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\Document.cs" />
+    <Compile Include="MultipleDocumentContainer\DocumentClosingEvent.cs" />
+    <Compile Include="MultipleDocumentContainer\IMultipleDocumentContainerProgressBroadcaster.cs" />
+    <Compile Include="MultipleDocumentContainer\MultipleDocumentContainerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\MultipleDocumentContainerControl.Designer.cs">
+      <DependentUpon>MultipleDocumentContainerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleDocumentContainer\MultipleDocumentContainerDocumentChangingEvent.cs" />
+    <Compile Include="MultipleDocumentContainer\MultipleDocumentContainerMessageFilter.cs" />
+    <Compile Include="MultipleDocumentContainer\MultipleDocumentContainerProgressEvent.cs" />
+    <Compile Include="NotebookTabs\NotebookTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotebookTabs\NotebookTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotebookTabs\NotebookTabControlDesigner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid\DBPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PropertyGrid\DrawingTools.cs" />
+    <Compile Include="PropertyGrid\Property.cs" />
+    <Compile Include="PropertyGrid\PropertyButtonType.cs" />
+    <Compile Include="PropertyGrid\PropertyChangingEvent.cs" />
+    <Compile Include="PropertyGrid\PropertyCustomType.cs" />
+    <Compile Include="PropertyGrid\PropertyDataType.cs" />
+    <Compile Include="PropertyGrid\PropertyGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridControl.Designer.cs">
+      <DependentUpon>PropertyGridControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridDropDownWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridDropDownWindow.Designer.cs">
+      <DependentUpon>PropertyGridDropDownWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridErrorDialog.Designer.cs">
+      <DependentUpon>PropertyGridErrorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyGridPanel.Designer.cs">
+      <DependentUpon>PropertyGridPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid\PropertyChangedEvent.cs" />
+    <Compile Include="PropertyGrid\PropertyGridView.cs" />
+    <Compile Include="PropertyGrid\PropertyGroup.cs" />
+    <Compile Include="PropertyGrid\PropertyPredefinedType.cs" />
+    <Compile Include="Ribbon\Ribbon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonControl.cs" />
+    <Compile Include="Ribbon\RibbonControlDisplayStyle.cs" />
+    <Compile Include="Ribbon\RibbonControlGroup.cs" />
+    <Compile Include="Ribbon\RibbonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonForm.Designer.cs">
+      <DependentUpon>RibbonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ribbon\RibbonMenuItem.cs" />
+    <Compile Include="Ribbon\RibbonPopupControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon\RibbonQuickAccessToolbar.cs" />
+    <Compile Include="Ribbon\RibbonTab.cs" />
+    <Compile Include="ScrollBar\ScrollBarControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartTag\SmartTagComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartTag\SmartTagComponent.Designer.cs">
+      <DependentUpon>SmartTagComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemControls\Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemControls\ProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemControls\ProgressBar.Designer.cs">
+      <DependentUpon>ProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBox\TextBoxAutoSuggestMode.cs" />
+    <Compile Include="TextBox\TextBoxAutoSuggestTerm.cs" />
+    <Compile Include="TextBox\TextBoxAutoSuggestWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBox\TextBoxAutoSuggestWindow.Designer.cs">
+      <DependentUpon>TextBoxAutoSuggestWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBox\TextBoxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextBox\TextBoxControl.Designer.cs">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBox\TextBoxFormatting.cs" />
+    <Compile Include="TextBox\TextBoxFormattingAttributes.cs" />
+    <Compile Include="TextBox\TextBoxFormattingLine.cs" />
+    <Compile Include="TextBox\TextBoxLineSeparator.cs" />
+    <Compile Include="TextBox\TextBoxSelection.cs" />
+    <Compile Include="TextBox\TextBoxSelectionMode.cs" />
+    <Compile Include="TextBox\TextBoxSyntaxHighlightObject.cs" />
+    <Compile Include="TextBox\TextBoxTextReplacement.cs" />
+    <Compile Include="TextBox\TextBoxToolTipWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBox\TextBoxToolTipWindow.Designer.cs">
+      <DependentUpon>TextBoxToolTipWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Theming\BuiltinThemes\OfficeXPTheme.cs" />
+    <Compile Include="Theming\BuiltinThemes\VisualStudio2012Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\Office2007Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\VisualStudio2008Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\VisualStudio2010Theme.cs" />
+    <Compile Include="Theming\ColorTable.cs" />
+    <Compile Include="Theming\FontTable.cs" />
+    <Compile Include="Theming\MetricTable.cs" />
+    <Compile Include="Theming\RibbonColorScheme.cs" />
+    <Compile Include="Theming\Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\Office2000Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\Office2003Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\SystemTheme.cs" />
+    <Compile Include="Theming\BuiltinThemes\VisualStudio2005Theme.cs" />
+    <Compile Include="Theming\BuiltinThemes\ClassicTheme.cs" />
+    <Compile Include="..\..\..\Shared Code\Visual C#\Mirror.Methods.cs">
+      <Link>Mirror.Methods.cs</Link>
+    </Compile>
+    <Compile Include="Theming\Themes.cs" />
+    <Compile Include="Timeline\TimelineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Timeline\TimelineControl.Designer.cs">
+      <DependentUpon>TimelineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timeline\TimelineEntry.cs" />
+    <Compile Include="Timeline\TimelineGroup.cs" />
+    <Compile Include="Timeline\TimelineTrack.cs" />
+    <Compile Include="ToggleSwitch\ToggleSwitchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToggleSwitch\ToggleSwitchControl.Designer.cs">
+      <DependentUpon>ToggleSwitchControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Toolbox\ToolboxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toolbox\ToolboxControl.Designer.cs">
+      <DependentUpon>ToolboxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WizardDialog.cs" />
+    <Compile Include="Wizard\WizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\WizardForm.Designer.cs">
+      <DependentUpon>WizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WizardPanel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandBars\CBWindow.resx">
+      <DependentUpon>CBWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomizeCommandBarDialog.resx">
+      <DependentUpon>CustomizeCommandBarDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog.resx">
+      <DependentUpon>Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockingWindows\Dialogs\WindowListPopupDialog.resx">
+      <DependentUpon>WindowListPopupDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockingWindows\DockingContainerControl.resx">
+      <DependentUpon>DockingContainerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicContainer\DynamicContainerControl.resx">
+      <DependentUpon>DynamicContainerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicContainer\FloatingWindow.resx">
+      <DependentUpon>FloatingWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GanttChart\GanttChartControl.resx">
+      <DependentUpon>GanttChartControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListView\ListViewControl.resx">
+      <DependentUpon>ListViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultipleDocumentContainer\Dialogs\DocumentPreviewWindow.resx">
+      <DependentUpon>DocumentPreviewWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultipleDocumentContainer\Dialogs\WindowListDialog.resx">
+      <DependentUpon>WindowListDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultipleDocumentContainer\MultipleDocumentContainerControl.resx">
+      <DependentUpon>MultipleDocumentContainerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyGrid\PropertyGridControl.resx">
+      <DependentUpon>PropertyGridControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyGrid\PropertyGridDropDownWindow.resx">
+      <DependentUpon>PropertyGridDropDownWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyGrid\PropertyGridErrorDialog.resx">
+      <DependentUpon>PropertyGridErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyGrid\PropertyGridPanel.resx">
+      <DependentUpon>PropertyGridPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ribbon\RibbonForm.resx">
+      <DependentUpon>RibbonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemControls\ProgressBar.resx">
+      <DependentUpon>ProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBox\TextBoxAutoSuggestWindow.resx">
+      <DependentUpon>TextBoxAutoSuggestWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBox\TextBoxControl.resx">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBox\TextBoxToolTipWindow.resx">
+      <DependentUpon>TextBoxToolTipWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Timeline\TimelineControl.resx">
+      <DependentUpon>TimelineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToggleSwitch\ToggleSwitchControl.resx">
+      <DependentUpon>ToggleSwitchControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toolbox\ToolboxControl.resx">
+      <DependentUpon>ToolboxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WizardForm.resx">
+      <DependentUpon>WizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DropDown.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.Targets" />
+</Project>

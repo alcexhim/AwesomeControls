@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5670E542-11CA-4C89-AB70-67BE21BA48F9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AwesomeControls.TestProject</RootNamespace>
+    <AssemblyName>AwesomeControls.TestProject</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>DEBUG</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Shared Code\Visual C#\DrawingTools.cs">
+      <Link>DrawingTools.cs</Link>
+    </Compile>
+    <Compile Include="DesignerTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DesignerTest.Designer.cs">
+      <DependentUpon>DesignerTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListBoxTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListBoxTest.Designer.cs">
+      <DependentUpon>ListBoxTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindowTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindowTest.Designer.cs">
+      <DependentUpon>MainWindowTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGridTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyGridTest.Designer.cs">
+      <DependentUpon>PropertyGridTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimelineTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimelineTest.Designer.cs">
+      <DependentUpon>TimelineTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="RibbonFormTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBoxTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBoxTest.Designer.cs">
+      <DependentUpon>TextBoxTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToggleSwitchTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToggleSwitchTest.Designer.cs">
+      <DependentUpon>ToggleSwitchTest.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AwesomeControls\AwesomeControls.csproj">
+      <Project>{617D9EB5-CA93-45D6-AA6B-5A012B7698AC}</Project>
+      <Name>AwesomeControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DesignerTest.resx">
+      <DependentUpon>DesignerTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListBoxTest.resx">
+      <DependentUpon>ListBoxTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindowTest.resx">
+      <DependentUpon>MainWindowTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyGridTest.resx">
+      <DependentUpon>PropertyGridTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimelineTest.resx">
+      <DependentUpon>TimelineTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RibbonFormTest.resx">
+      <DependentUpon>RibbonFormTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBoxTest.resx">
+      <DependentUpon>TextBoxTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToggleSwitchTest.resx">
+      <DependentUpon>ToggleSwitchTest.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

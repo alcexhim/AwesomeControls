@@ -1,0 +1,90 @@
+﻿namespace AwesomeControls.PropertyGrid
+{
+    partial class PropertyGridPanel
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.vsc = new System.Windows.Forms.VScrollBar();
+            this.pnlProperties = new PropertyGrid.DBPanel();
+            this.txt = new System.Windows.Forms.TextBox();
+            this.pnlProperties.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // vsc
+            // 
+            this.vsc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vsc.Location = new System.Drawing.Point(297, 0);
+            this.vsc.Name = "vsc";
+            this.vsc.Size = new System.Drawing.Size(16, 224);
+            this.vsc.TabIndex = 2;
+            this.vsc.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vsc_Scroll);
+            // 
+            // pnlProperties
+            // 
+            this.pnlProperties.Controls.Add(this.txt);
+            this.pnlProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlProperties.Location = new System.Drawing.Point(0, 0);
+            this.pnlProperties.Name = "pnlProperties";
+            this.pnlProperties.Size = new System.Drawing.Size(297, 224);
+            this.pnlProperties.TabIndex = 3;
+            this.pnlProperties.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlProperties_Paint);
+            this.pnlProperties.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseDown);
+            this.pnlProperties.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseDoubleClick);
+            this.pnlProperties.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseWheel);
+            this.pnlProperties.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseUp);
+            // 
+            // txt
+            // 
+            this.txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt.Location = new System.Drawing.Point(140, 64);
+            this.txt.Name = "txt";
+            this.txt.Size = new System.Drawing.Size(70, 13);
+            this.txt.TabIndex = 0;
+            this.txt.Visible = false;
+            this.txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_KeyDown);
+            // 
+            // PropertyGridPanel
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pnlProperties);
+            this.Controls.Add(this.vsc);
+            this.Name = "PropertyGridPanel";
+            this.Size = new System.Drawing.Size(313, 224);
+            this.pnlProperties.ResumeLayout(false);
+            this.pnlProperties.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.VScrollBar vsc;
+        private DBPanel pnlProperties;
+        private System.Windows.Forms.TextBox txt;
+    }
+}
