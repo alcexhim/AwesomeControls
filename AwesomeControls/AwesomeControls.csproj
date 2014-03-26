@@ -97,12 +97,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Shared Code\Visual C#\DrawingTools.cs">
-      <Link>DrawingTools.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Shared Code\Visual C#\StringWrapper.cs">
-      <Link>StringWrapper.cs</Link>
-    </Compile>
     <Compile Include="Accordion\AccordionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -127,6 +121,9 @@
     <Compile Include="CommandBars\CBMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DrawingTools.cs" />
+    <Compile Include="Mirror.Methods.cs" />
+    <Compile Include="StringWrapper.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
     <Compile Include="CommandBars\CBPanel.cs">
@@ -402,9 +399,6 @@
     <Compile Include="Theming\BuiltinThemes\SystemTheme.cs" />
     <Compile Include="Theming\BuiltinThemes\VisualStudio2005Theme.cs" />
     <Compile Include="Theming\BuiltinThemes\ClassicTheme.cs" />
-    <Compile Include="..\..\..\Shared Code\Visual C#\Mirror.Methods.cs">
-      <Link>Mirror.Methods.cs</Link>
-    </Compile>
     <Compile Include="Theming\Themes.cs" />
     <Compile Include="Timeline\TimelineControl.cs">
       <SubType>UserControl</SubType>
