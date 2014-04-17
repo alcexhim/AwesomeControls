@@ -123,6 +123,14 @@
     </Compile>
     <Compile Include="DrawingTools.cs" />
     <Compile Include="Mirror.Methods.cs" />
+    <Compile Include="PieMenu\PieMenuItem.cs" />
+    <Compile Include="PieMenu\PieMenuItemGroup.cs" />
+    <Compile Include="PieMenu\PieMenuManager.cs" />
+    <Compile Include="PieMenu\PieMenuMessageFilter.cs" />
+    <Compile Include="PieMenu\PieMenuWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PieMenu\PieMenuWindow.Designer.cs" />
     <Compile Include="StringWrapper.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
