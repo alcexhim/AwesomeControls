@@ -77,6 +77,8 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			//bg.Render();
 		}
+
+		public override CommandBarMenuAnimationType CommandBarMenuAnimationType { get { return Theming.CommandBarMenuAnimationType.None; } }
 		
 		public VisualStudio2012Theme(ColorMode colorMode = ColorMode.Light)
 		{
