@@ -63,6 +63,7 @@ namespace AwesomeControls.CommandBars
 					ToolStripDropDownItem tsddi = (tsi as ToolStripDropDownItem);
 					if (!OpenedHandlerSetup.ContainsKey(tsi))
 					{
+                        tsddi.DropDownOpening += tsddi_DropDownOpening;
 						tsddi.DropDownOpened += tsddi_DropDownOpened;
 						tsddi.DropDownClosed += tsddi_DropDownClosed;
 						if (tsddi.DropDown.Visible) mvarCurrentDropDown = tsddi.DropDown;
@@ -79,31 +80,32 @@ namespace AwesomeControls.CommandBars
 
 		private bool mvarSpaceSaverMenusExpanded = false;
 
+        private void tsddi_DropDownOpening(object sender, EventArgs e)
+        {
+            mvarCurrentDropDown = (sender as ToolStripDropDownItem).DropDown;
+            if (CurrentDropDown == null) return;
+
+            #region SpaceSaver Menus
+            if (Theming.Theme.CurrentTheme.EnableSpaceSaverMenus)
+            {
+                foreach (ToolStripItem tsi in CurrentDropDown.Items)
+                {
+                    if (tsi is CBMenuItem)
+                    {
+                        CBMenuItem cbmi = (tsi as CBMenuItem);
+                        if (cbmi.Hidden) cbmi.Visible = DesignMode;
+                    }
+                }
+            }
+            #endregion
+        }
 		private void tsddi_DropDownOpened(object sender, EventArgs e)
 		{
-			if (mvarCurrentDropDown != null)
-			{
-				
-			}
 			mvarCurrentDropDown = (sender as ToolStripDropDownItem).DropDown;
-
 			if (CurrentDropDown == null) return;
 
-			#region SpaceSaver Menus
-			if (Theming.Theme.CurrentTheme.EnableSpaceSaverMenus)
-			{
-				foreach (ToolStripItem tsi in CurrentDropDown.Items)
-				{
-					if (tsi is CBMenuItem)
-					{
-						CBMenuItem cbmi = (tsi as CBMenuItem);
-						if (cbmi.Hidden) cbmi.Visible = false;
-					}
-				}
-			}
-			#endregion
 			#region Menu Animations
-			if (Theming.Theme.CurrentTheme.CommandBarMenuAnimationType == Theming.CommandBarMenuAnimationType.Fade)
+            if (Theming.Theme.CurrentTheme.CommandBarMenuAnimationType == Theming.CommandBarMenuAnimationType.Fade && !DesignMode)
 			{
 				mvarCurrentDropDown.AllowTransparency = true;
 				mvarCurrentDropDown.Opacity = 0.0;
@@ -117,7 +119,7 @@ namespace AwesomeControls.CommandBars
 			}
 			#endregion
 			#region SpaceSaver Menus
-			if (Theming.Theme.CurrentTheme.EnableSpaceSaverMenus)
+            if (Theming.Theme.CurrentTheme.EnableSpaceSaverMenus && !DesignMode)
 			{
 				if (mvarSpaceSaverMenusExpanded)
 				{
