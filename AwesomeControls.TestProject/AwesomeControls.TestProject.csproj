@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryDropDownTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BinaryDropDownTest.Designer.cs">
+      <DependentUpon>BinaryDropDownTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="DesignerTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BinaryDropDownTest.resx">
+      <DependentUpon>BinaryDropDownTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DesignerTest.resx">
       <DependentUpon>DesignerTest.cs</DependentUpon>
     </EmbeddedResource>

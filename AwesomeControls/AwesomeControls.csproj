@@ -108,6 +108,18 @@
     </Compile>
     <Compile Include="ActionBar\ActionBarItem.cs" />
     <Compile Include="ActionBar\DrawActionBarItemEvent.cs" />
+    <Compile Include="BinaryTextBox\BinaryTextBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BinaryTextBox\BinaryTextBoxControl.Designer.cs">
+      <DependentUpon>BinaryTextBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BinaryTextBox\BinaryTextBoxDropDownWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BinaryTextBox\BinaryTextBoxDropDownWindow.Designer.cs">
+      <DependentUpon>BinaryTextBoxDropDownWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Breadcrumb\BreadcrumbControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -445,6 +457,12 @@
     <Compile Include="Wizard\WizardPanel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BinaryTextBox\BinaryTextBoxControl.resx">
+      <DependentUpon>BinaryTextBoxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BinaryTextBox\BinaryTextBoxDropDownWindow.resx">
+      <DependentUpon>BinaryTextBoxDropDownWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CommandBars\CBWindow.resx">
       <DependentUpon>CBWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -548,6 +566,8 @@
   <ItemGroup>
     <None Include="Resources\DropDown.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\ArrowDown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.Targets" />
 </Project>

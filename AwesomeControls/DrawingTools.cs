@@ -388,9 +388,9 @@ internal sealed class DrawingTools
 			case Direction.Down:
 				graphics.FillPolygon(new SolidBrush(color), new Point[] 
 				{
-					new Point((int)(x + (double)(size / 2)), y - 1),
-					new Point((x - size), y + size),
-					new Point((x + size), y + size)
+					new Point((x - size), y),
+					new Point((x + size + size), y),
+					new Point((int)(x + (double)(size / 2)), y + size + 2)
 				});
 				break;
 			case Direction.Left:
