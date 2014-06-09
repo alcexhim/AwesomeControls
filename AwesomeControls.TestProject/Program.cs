@@ -19,9 +19,12 @@ namespace AwesomeControls.TestProject
 			AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.VisualStudio2012Theme(Theming.BuiltinThemes.VisualStudio2012Theme.ColorMode.Dark);
 
 			
+			MainWindowTest mwt = new MainWindowTest();
+			mwt.ShowDialog();
+			
+			/*
 			TimelineTest test = new TimelineTest();
 			test.ShowDialog();
-			/*
 			
 			PropertyGridTest test = new PropertyGridTest();
 			test.ShowDialog();
@@ -31,9 +34,6 @@ namespace AwesomeControls.TestProject
 
 			TextBoxTest test = new TextBoxTest();
 			test.ShowDialog();
-			
-			MainWindowTest mwt = new MainWindowTest();
-			mwt.ShowDialog();
 
 			*/
 		}

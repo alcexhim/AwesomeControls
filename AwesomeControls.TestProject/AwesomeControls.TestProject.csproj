@@ -55,15 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Shared Code\Visual C#\DrawingTools.cs">
-      <Link>DrawingTools.cs</Link>
-    </Compile>
     <Compile Include="DesignerTest.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DesignerTest.Designer.cs">
       <DependentUpon>DesignerTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="DrawingTools.cs" />
     <Compile Include="ListBoxTest.cs">
       <SubType>Form</SubType>
     </Compile>

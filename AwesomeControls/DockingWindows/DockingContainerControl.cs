@@ -774,6 +774,7 @@ namespace AwesomeControls.DockingWindows
 		internal void UpdateControlMetrics(DockingArea area, Rectangle rect)
 		{
 			if (area.Areas.Count == 0 && area.Windows.Count == 0) return;
+			// if (area.Areas.Count != 0 && area.Windows.Count != 0) throw new InvalidOperationException("Area cannot contain both areas and windows");
 
 			DockingArea.DockingAreaCollection parentAreas = mvarAreas;
 			if (area.ParentArea != null) parentAreas = area.ParentArea.Areas;
@@ -790,6 +791,23 @@ namespace AwesomeControls.DockingWindows
 						// Move the rectangle up to make room for the tabs, which are not visible when there is
 						// only one window in the container
 						rect2.Y -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
+					}
+
+					if (area.ParentArea != null)
+					{
+						if (area.ParentArea.Position == DockPosition.Center)
+						{
+							// Get rid of space on the top, left, bottom, and right sides of the window
+							if (mvarAreas[DockPosition.Left].Areas.Count > 0)
+							{
+								rect2.X += mvarAreas[DockPosition.Left].Size;
+								rect2.Width -= mvarAreas[DockPosition.Left].Size;
+							}
+							if (mvarAreas[DockPosition.Right].Areas.Count > 0)
+							{
+								rect2.Width -= mvarAreas[DockPosition.Right].Size;
+							}
+						}
 					}
 
 					// Add space for the gripper
