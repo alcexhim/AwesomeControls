@@ -800,12 +800,30 @@ namespace AwesomeControls.DockingWindows
 							// Get rid of space on the top, left, bottom, and right sides of the window
 							if (mvarAreas[DockPosition.Left].Areas.Count > 0)
 							{
-								rect2.X += mvarAreas[DockPosition.Left].Size;
-								rect2.Width -= mvarAreas[DockPosition.Left].Size;
+								int size = 0;
+								if (mvarAreas[DockPosition.Left].IsDocked)
+								{
+									size = mvarAreas[DockPosition.Left].Size;
+								}
+								else
+								{
+									size = Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
+								}
+								// rect2.X += size;
+								rect2.Width -= size;
 							}
 							if (mvarAreas[DockPosition.Right].Areas.Count > 0)
 							{
-								rect2.Width -= mvarAreas[DockPosition.Right].Size;
+								int size = 0;
+								if (mvarAreas[DockPosition.Right].IsDocked)
+								{
+									size = mvarAreas[DockPosition.Right].Size;
+								}
+								else
+								{
+									size = Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
+								}
+								rect2.Width -= size;
 							}
 						}
 					}
