@@ -35,11 +35,11 @@ namespace AwesomeControls.CommandBars
 			}
 			else if (item is ToolStripMenuItem)
 			{
-                tsi = new ToolStripMenuItem();
-                foreach (ToolStripItem tsmi in (item as ToolStripMenuItem).DropDownItems)
-                {
-                    (tsi as ToolStripMenuItem).DropDownItems.Add(tsmi.Clone());
-                }
+				tsi = new ToolStripMenuItem();
+				foreach (ToolStripItem tsmi in (item as ToolStripMenuItem).DropDownItems)
+				{
+					(tsi as ToolStripMenuItem).DropDownItems.Add(tsmi.Clone());
+				}
 			}
 			else if (item is ToolStripLabel)
 			{
