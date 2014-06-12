@@ -164,9 +164,9 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			mvarLightColorTable.DocumentTabBackgroundSelectedGradientMiddle = Color.FromArgb(255, 243, 207);
 			mvarLightColorTable.DocumentTabBackgroundSelectedGradientEnd = Color.FromArgb(255, 232, 166);
 
-			mvarLightColorTable.DockingWindowActiveTabBackgroundGradientBegin = Color.FromArgb(255, 252, 242);
-			mvarLightColorTable.DockingWindowActiveTabBackgroundGradientMiddle = Color.FromArgb(255, 238, 186);
-			mvarLightColorTable.DockingWindowActiveTabBackgroundGradientEnd = Color.FromArgb(255, 232, 166);
+			mvarLightColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin = Color.FromArgb(255, 252, 242);
+			mvarLightColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle = Color.FromArgb(255, 238, 186);
+			mvarLightColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd = Color.FromArgb(255, 232, 166);
 
 			mvarLightColorTable.DocumentTabInactiveBackgroundSelectedGradientBegin = Color.FromArgb(252, 252, 252);
 			mvarLightColorTable.DocumentTabInactiveBackgroundSelectedGradientMiddle = Color.FromArgb(215, 220, 229);
@@ -260,10 +260,20 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			#region Docking Windows
 			#region Tabs
-			mvarDarkColorTable.DockingWindowActiveTabBackgroundGradientBegin = Color.FromArgb(37, 37, 38);
-			mvarDarkColorTable.DockingWindowActiveTabBackgroundGradientMiddle = Color.FromArgb(37, 37, 38);
-			mvarDarkColorTable.DockingWindowActiveTabBackgroundGradientEnd = Color.FromArgb(37, 37, 38);
-			mvarDarkColorTable.DockingWindowActiveTabText = Color.FromArgb(14, 151, 221);
+			#region Active
+			#region Normal
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin = Color.FromArgb(37, 37, 38);
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle = Color.FromArgb(37, 37, 38);
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd = Color.FromArgb(37, 37, 38);
+			mvarDarkColorTable.DockingWindowActiveTabTextNormal = Color.FromArgb(14, 151, 221);
+			#endregion
+			#region Hover
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundHoverGradientBegin = Color.FromArgb(62, 62, 64);
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundHoverGradientMiddle = Color.FromArgb(62, 62, 64);
+			mvarDarkColorTable.DockingWindowActiveTabBackgroundHoverGradientEnd = Color.FromArgb(62, 62, 64);
+			mvarDarkColorTable.DockingWindowActiveTabTextHover = Color.FromArgb(77, 170, 228);
+			#endregion
+			#endregion
 
 			mvarDarkColorTable.DockingWindowInactiveTabBackgroundGradientBegin = Color.FromArgb(45, 45, 48);
 			mvarDarkColorTable.DockingWindowInactiveTabBackgroundGradientMiddle = Color.FromArgb(45, 45, 48);
@@ -382,10 +392,10 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			#region Docking Windows
 			#region Tabs
-			mvarBlueColorTable.DockingWindowActiveTabBackgroundGradientBegin = Color.FromArgb(37, 37, 38);
-			mvarBlueColorTable.DockingWindowActiveTabBackgroundGradientMiddle = Color.FromArgb(37, 37, 38);
-			mvarBlueColorTable.DockingWindowActiveTabBackgroundGradientEnd = Color.FromArgb(37, 37, 38);
-			mvarBlueColorTable.DockingWindowActiveTabText = Color.FromArgb(14, 151, 221);
+			mvarBlueColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin = Color.FromArgb(37, 37, 38);
+			mvarBlueColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle = Color.FromArgb(37, 37, 38);
+			mvarBlueColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd = Color.FromArgb(37, 37, 38);
+			mvarBlueColorTable.DockingWindowActiveTabTextNormal = Color.FromArgb(14, 151, 221);
 
 			mvarBlueColorTable.DockingWindowInactiveTabBackgroundGradientBegin = Color.FromArgb(45, 45, 48);
 			mvarBlueColorTable.DockingWindowInactiveTabBackgroundGradientMiddle = Color.FromArgb(45, 45, 48);

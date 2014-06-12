@@ -69,18 +69,18 @@ namespace AwesomeControls.Theming
 		}
 
 
-        private Color mvarCommandBarMenuControlBorderPressed;
-        public Color CommandBarMenuControlBorderPressed
-        {
-            get { return mvarCommandBarMenuControlBorderPressed; }
-            set { mvarCommandBarMenuControlBorderPressed = value; }
-        }
-        private Color mvarCommandBarMenuControlBackgroundPressed;
-        public Color CommandBarMenuControlBackgroundPressed
-        {
-            get { return mvarCommandBarMenuControlBackgroundPressed; }
-            set { mvarCommandBarMenuControlBackgroundPressed = value; }
-        }
+		private Color mvarCommandBarMenuControlBorderPressed;
+		public Color CommandBarMenuControlBorderPressed
+		{
+			get { return mvarCommandBarMenuControlBorderPressed; }
+			set { mvarCommandBarMenuControlBorderPressed = value; }
+		}
+		private Color mvarCommandBarMenuControlBackgroundPressed;
+		public Color CommandBarMenuControlBackgroundPressed
+		{
+			get { return mvarCommandBarMenuControlBackgroundPressed; }
+			set { mvarCommandBarMenuControlBackgroundPressed = value; }
+		}
 
 		private Color mvarCommandBarControlBackground;
 		public Color CommandBarControlBackground
@@ -687,24 +687,31 @@ namespace AwesomeControls.Theming
 		#endregion
 		#region Docking Windows
 		#region Tabs
-		private Color mvarDockingWindowActiveTabBackgroundGradientBegin = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
-		public Color DockingWindowActiveTabBackgroundGradientBegin { get { return mvarDockingWindowActiveTabBackgroundGradientBegin; } set { mvarDockingWindowActiveTabBackgroundGradientBegin = value; } }
-		private Color mvarDockingWindowActiveTabBackgroundGradientMiddle = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
-		public Color DockingWindowActiveTabBackgroundGradientMiddle { get { return mvarDockingWindowActiveTabBackgroundGradientMiddle; } set { mvarDockingWindowActiveTabBackgroundGradientMiddle = value; } }
-		private Color mvarDockingWindowActiveTabBackgroundGradientEnd = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
-		public Color DockingWindowActiveTabBackgroundGradientEnd { get { return mvarDockingWindowActiveTabBackgroundGradientEnd; } set { mvarDockingWindowActiveTabBackgroundGradientEnd = value; } }
-		private Color mvarDockingWindowActiveTabText = System.Drawing.Color.FromKnownColor(KnownColor.ActiveCaptionText);
-		public Color DockingWindowActiveTabText
-		{
-			get { return mvarDockingWindowActiveTabText; }
-			set { mvarDockingWindowActiveTabText = value; }
-		}
-		private Color mvarDWActiveTabTextDisabled;
-		public Color DockingWindowActiveTabTextDisabled
-		{
-			get { return mvarDWActiveTabTextDisabled; }
-			set { mvarDWActiveTabTextDisabled = value; }
-		}
+		private Color mvarDockingWindowActiveTabBackgroundNormalGradientBegin = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundNormalGradientBegin { get { return mvarDockingWindowActiveTabBackgroundNormalGradientBegin; } set { mvarDockingWindowActiveTabBackgroundNormalGradientBegin = value; } }
+		private Color mvarDockingWindowActiveTabBackgroundNormalGradientMiddle = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundNormalGradientMiddle { get { return mvarDockingWindowActiveTabBackgroundNormalGradientMiddle; } set { mvarDockingWindowActiveTabBackgroundNormalGradientMiddle = value; } }
+		private Color mvarDockingWindowActiveTabBackgroundNormalGradientEnd = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundNormalGradientEnd { get { return mvarDockingWindowActiveTabBackgroundNormalGradientEnd; } set { mvarDockingWindowActiveTabBackgroundNormalGradientEnd = value; } }
+
+		private Color mvarDockingWindowActiveTabBackgroundHoverGradientBegin = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundHoverGradientBegin { get { return mvarDockingWindowActiveTabBackgroundHoverGradientBegin; } set { mvarDockingWindowActiveTabBackgroundHoverGradientBegin = value; } }
+		private Color mvarDockingWindowActiveTabBackgroundHoverGradientMiddle = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundHoverGradientMiddle { get { return mvarDockingWindowActiveTabBackgroundHoverGradientMiddle; } set { mvarDockingWindowActiveTabBackgroundHoverGradientMiddle = value; } }
+		private Color mvarDockingWindowActiveTabBackgroundHoverGradientEnd = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.ActiveCaption);
+		public Color DockingWindowActiveTabBackgroundHoverGradientEnd { get { return mvarDockingWindowActiveTabBackgroundHoverGradientEnd; } set { mvarDockingWindowActiveTabBackgroundHoverGradientEnd = value; } }
+
+		#region Text
+		private Color mvarDockingWindowActiveTabTextNormal = System.Drawing.Color.FromKnownColor(KnownColor.ActiveCaptionText);
+		public Color DockingWindowActiveTabTextNormal { get { return mvarDockingWindowActiveTabTextNormal; } set { mvarDockingWindowActiveTabTextNormal = value; } }
+
+		private Color mvarDockingWindowActiveTabTextHover = System.Drawing.Color.FromKnownColor(KnownColor.ActiveCaptionText);
+		public Color DockingWindowActiveTabTextHover { get { return mvarDockingWindowActiveTabTextHover; } set { mvarDockingWindowActiveTabTextHover = value; } }
+
+		private Color mvarDockingWindowActiveTabTextDisabled = System.Drawing.Color.FromKnownColor(KnownColor.GrayText);
+		public Color DockingWindowActiveTabTextDisabled { get { return mvarDockingWindowActiveTabTextDisabled; } set { mvarDockingWindowActiveTabTextDisabled = value; } }
+		#endregion
+
 		private Color mvarDockingWindowInactiveTabBackgroundGradientBegin = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.InactiveCaption);
 		public Color DockingWindowInactiveTabBackgroundGradientBegin { get { return mvarDockingWindowInactiveTabBackgroundGradientBegin; } set { mvarDockingWindowInactiveTabBackgroundGradientBegin = value; } }
 		private Color mvarDockingWindowInactiveTabBackgroundGradientMiddle = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.InactiveCaption);
