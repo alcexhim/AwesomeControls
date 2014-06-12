@@ -130,6 +130,7 @@ namespace AwesomeControls.DockingWindows
 				{
 					if (area.IsDocked)
 					{
+						int bottom = rect.Bottom;
 						rect.Y = rect.Bottom - area.Size - 20;
 						rect.Height = area.Size + 20;
 
@@ -143,6 +144,7 @@ namespace AwesomeControls.DockingWindows
 						}
 
 						rectTitle = rect;
+						rectTitle.Y = rect.Bottom - 20;
 						rectTitle.Width = rect.Width;
 						rectTitle.Height = 20;
 					}
@@ -306,6 +308,8 @@ namespace AwesomeControls.DockingWindows
 					}
 					else if (!window.Selected)
 					{
+						BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabBackgroundGradientBegin;
+						ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabText;
 					}
 
 					Size sz = System.Windows.Forms.TextRenderer.MeasureText(window.TabTitle, Font);
@@ -790,7 +794,7 @@ namespace AwesomeControls.DockingWindows
 					{
 						// Move the rectangle up to make room for the tabs, which are not visible when there is
 						// only one window in the container
-						rect2.Y -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
+						// rect2.Height -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 					}
 
 					if (area.ParentArea != null)
