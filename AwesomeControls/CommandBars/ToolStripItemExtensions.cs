@@ -41,6 +41,10 @@ namespace AwesomeControls.CommandBars
                     (tsi as ToolStripMenuItem).DropDownItems.Add(tsmi.Clone());
                 }
 			}
+			else if (item is ToolStripLabel)
+			{
+				tsi = new ToolStripLabel();
+			}
 			tsi.Name = item.Name;
 			tsi.Text = item.Text;
 			tsi.Image = item.Image;
