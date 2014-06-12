@@ -97,9 +97,9 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.DocumentTabBackgroundSelectedGradientMiddle = Color.FromArgb(255, 243, 207);
 			ColorTable.DocumentTabBackgroundSelectedGradientEnd = Color.FromArgb(255, 232, 166);
 
-			ColorTable.DockingWindowActiveTabBackgroundGradientBegin = Color.FromArgb(255, 252, 242);
-			ColorTable.DockingWindowActiveTabBackgroundGradientMiddle = Color.FromArgb(255, 238, 186);
-			ColorTable.DockingWindowActiveTabBackgroundGradientEnd = Color.FromArgb(255, 232, 166);
+			ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin = Color.FromArgb(255, 252, 242);
+			ColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle = Color.FromArgb(255, 238, 186);
+			ColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd = Color.FromArgb(255, 232, 166);
 
 			ColorTable.DocumentTabInactiveBackgroundSelectedGradientBegin = Color.FromArgb(252, 252, 252);
 			ColorTable.DocumentTabInactiveBackgroundSelectedGradientMiddle = Color.FromArgb(215, 220, 229);
@@ -426,7 +426,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (focused)
 			{
-				DrawingTools.FillWithDoubleGradient(ColorTable.DockingWindowActiveTabBackgroundGradientBegin, ColorTable.DockingWindowActiveTabBackgroundGradientMiddle, ColorTable.DockingWindowActiveTabBackgroundGradientEnd, g, rect, rect.Height / 2, rect.Height / 2, LinearGradientMode.Horizontal, false);
+				DrawingTools.FillWithDoubleGradient(ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin, ColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle, ColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd, g, rect, rect.Height / 2, rect.Height / 2, LinearGradientMode.Horizontal, false);
 			}
 			else
 			{

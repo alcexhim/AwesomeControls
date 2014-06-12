@@ -116,7 +116,7 @@ namespace AwesomeControls.DockingWindows
 			Theming.Theme.CurrentTheme.DrawDockPanelTitleBarBackground(e.Graphics, rect, mvarHasFocus);
 
 			System.Drawing.Rectangle rectText = new System.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-			System.Windows.Forms.TextRenderer.DrawText(e.Graphics, Text, Font, rectText, mvarHasFocus ? Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabText : Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabText, System.Windows.Forms.TextFormatFlags.Left | System.Windows.Forms.TextFormatFlags.VerticalCenter);
+			System.Windows.Forms.TextRenderer.DrawText(e.Graphics, Text, Font, rectText, mvarHasFocus ? Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabTextNormal : Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabText, System.Windows.Forms.TextFormatFlags.Left | System.Windows.Forms.TextFormatFlags.VerticalCenter);
 
 		}
 

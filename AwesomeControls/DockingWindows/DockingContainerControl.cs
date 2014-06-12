@@ -275,8 +275,9 @@ namespace AwesomeControls.DockingWindows
 				
 				foreach (DockingWindow window in area.Windows)
 				{
-					Color BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabBackgroundGradientBegin;
-					Color ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabText;
+					Color BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin;
+					Color ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabTextNormal;
+
 					Font Font = Theming.Theme.CurrentTheme.FontTable.Default;
 					if (Font == null) Font = this.Font;
 
@@ -291,7 +292,7 @@ namespace AwesomeControls.DockingWindows
 						{
 							BackColor = Theming.Theme.CurrentTheme.ColorTable.DocumentTabBackgroundSelected;
 							ForeColor = Theming.Theme.CurrentTheme.ColorTable.DocumentTabTextSelected;
-							
+
 							Font = Theming.Theme.CurrentTheme.FontTable.DocumentTabTextSelected;
 							if (Font == null) Font = this.Font;
 						}
@@ -306,10 +307,22 @@ namespace AwesomeControls.DockingWindows
 							ForeColor = Theming.Theme.CurrentTheme.ColorTable.DocumentTabText;
 						}
 					}
-					else if (!window.Selected)
+					else
 					{
-						BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabBackgroundGradientBegin;
-						ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabText;
+						if (!window.Selected)
+						{
+							if (window.TabState == ControlState.Hover)
+							{
+								BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabBackgroundHoverGradientBegin;
+								ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabTextHover;
+							}
+
+							else
+							{
+								BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabBackgroundGradientBegin;
+								ForeColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowInactiveTabText;
+							}
+						}
 					}
 
 					Size sz = System.Windows.Forms.TextRenderer.MeasureText(window.TabTitle, Font);
@@ -362,6 +375,8 @@ namespace AwesomeControls.DockingWindows
 					}
 					else
 					{
+						g.FillRectangle(new SolidBrush(BackColor), rectTitle);
+
 						System.Windows.Forms.TextRenderer.DrawText(g, window.TabTitle, Font, rectTitleText, ForeColor);
 						rectTitle.X += rectTitleText.Width + 1;
 					}

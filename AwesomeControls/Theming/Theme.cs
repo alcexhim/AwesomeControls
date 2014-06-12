@@ -864,7 +864,7 @@ namespace AwesomeControls.Theming
 		{
 			if (focused)
 			{
-				DrawingTools.FillWithDoubleGradient(ColorTable.DockingWindowActiveTabBackgroundGradientBegin, ColorTable.DockingWindowActiveTabBackgroundGradientMiddle, ColorTable.DockingWindowActiveTabBackgroundGradientEnd, g, rect, rect.Height / 2, rect.Height / 2, LinearGradientMode.Vertical, false);
+				DrawingTools.FillWithDoubleGradient(ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin, ColorTable.DockingWindowActiveTabBackgroundNormalGradientMiddle, ColorTable.DockingWindowActiveTabBackgroundNormalGradientEnd, g, rect, rect.Height / 2, rect.Height / 2, LinearGradientMode.Vertical, false);
 			}
 			else
 			{

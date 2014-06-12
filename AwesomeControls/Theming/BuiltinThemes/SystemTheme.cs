@@ -603,7 +603,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (focused)
 			{
-				g.FillRectangle(new System.Drawing.SolidBrush(ColorTable.DockingWindowActiveTabBackgroundGradientBegin), rect);
+				g.FillRectangle(new System.Drawing.SolidBrush(ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin), rect);
 			}
 			else
 			{
