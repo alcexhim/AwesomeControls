@@ -834,6 +834,14 @@ namespace AwesomeControls.ListView
 					OnSelectionChanged(EventArgs.Empty);
 					break;
 				}
+                case Keys.Enter:
+                {
+                    if (SelectedItems.Count > 0)
+                    {
+                        OnItemActivate(EventArgs.Empty);
+                    }
+                    break;
+                }
 				default:
 				{
 					if ((e.KeyValue >= (int)'a' && e.KeyValue <= (int)'z') || (e.KeyValue >= (int)'A' && e.KeyValue <= (int)'Z') || (e.KeyValue >= (int)'0' && e.KeyValue <= (int)'9'))
