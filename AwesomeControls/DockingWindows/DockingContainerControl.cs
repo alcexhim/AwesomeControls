@@ -1156,6 +1156,7 @@ namespace AwesomeControls.DockingWindows
 				RecursiveSetTabState(dw0, ControlState.Normal);
 			}
 			Cursor = System.Windows.Forms.Cursors.Default;
+            Invalidate();
 		}
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
 		{
