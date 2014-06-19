@@ -255,6 +255,7 @@ namespace AwesomeControls.DockingWindows
 					{
 						rectTitle.Width = Width;
 						rectTitle.Height = 20;
+						rectTitle.Y = rectTitle.Bottom - Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 					}
 					else
 					{
@@ -1156,7 +1157,7 @@ namespace AwesomeControls.DockingWindows
 				RecursiveSetTabState(dw0, ControlState.Normal);
 			}
 			Cursor = System.Windows.Forms.Cursors.Default;
-            Invalidate();
+			Invalidate();
 		}
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
 		{
