@@ -105,7 +105,7 @@ namespace AwesomeControls.CommandBars
 		}
 		protected override void OnRenderStatusStripSizingGrip(System.Windows.Forms.ToolStripRenderEventArgs e)
 		{
-			// if (Theming.Theme.CurrentTheme != null) Theming.Theme.CurrentTheme.DrawStatusBarSizingGrip(e.ToolStrip
+			if (Theming.Theme.CurrentTheme != null) Theming.Theme.CurrentTheme.DrawSizingGrip(e.Graphics, e.AffectedBounds);
 		}
 		protected override void OnRenderToolStripBackground(System.Windows.Forms.ToolStripRenderEventArgs e)
 		{

@@ -387,6 +387,9 @@ namespace AwesomeControls.Theming
 		public virtual void DrawCommandBarPanelBackground(Graphics graphics, Rectangle rectangle)
 		{
 		}
+        public virtual void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
+        {
+        }
 		#endregion
 
 		#region Themed Colors
@@ -1025,5 +1028,5 @@ namespace AwesomeControls.Theming
 		{
 		}
 		#endregion
-	}
+    }
 }

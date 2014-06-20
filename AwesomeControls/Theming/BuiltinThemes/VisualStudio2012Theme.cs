@@ -43,8 +43,27 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			throw new ArgumentException("Invalid color mode");
 		}
 
+		public override void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
+		{
+			Rectangle rect = gripBounds;
+            rect = new Rectangle(rect.Width - 13, rect.Height - 13, 8, 8);
+
+            DrawingTools.HSLColor color = new DrawingTools.HSLColor(ColorTable.StatusBarBackground);
+            DrawingTools.HSLColor darkColor = new DrawingTools.HSLColor(color);
+            DrawingTools.HSLColor lightColor = new DrawingTools.HSLColor(color);
+            darkColor.Luminosity -= 20;
+            lightColor.Saturation -= 56;
+            lightColor.Luminosity += 10;
+
+			for (int i = 0; i < 4; i += 2)
+			{
+				// top line
+				graphics.DrawLine(new Pen(darkColor), rect.Right - (2 + i), rect.Y + (i - 1), rect.Left + (i - 1) + 1, rect.Bottom);
+			}
+		}
+
 		// TODO: Fix the toplevel window border drawing before enabling this feature!
-		// public override bool HasCustomToplevelWindowFrame { get { return true; } }
+		public override bool HasCustomToplevelWindowFrame { get { return false; } }
 
 		public override void DrawToplevelWindowBorder(Graphics eg, Rectangle rectangle, string titleText)
 		{
@@ -62,8 +81,8 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			Color c = ColorTable.StatusBarBackground;
 
-			g.DrawRectangle(new Pen(Color.Magenta, 16), rectangle);
-			// g.DrawRectangle(new Pen(c, 1), new Rectangle(rectangle.Left + 7, rectangle.Top + 7, rectangle.Width - 15, rectangle.Height - 15));
+			// g.DrawRectangle(new Pen(Color.Magenta, 16), rectangle);
+			g.DrawRectangle(new Pen(c, 1), new Rectangle(rectangle.Left + 7, rectangle.Top + 7, rectangle.Width - 15, rectangle.Height - 15));
 			
 			g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
 
