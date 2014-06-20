@@ -96,7 +96,7 @@ namespace AwesomeControls
 									Internal.Windows.Methods.ReleaseDC(m.HWnd, hdc);
 								}
 
-								// if (msg == Internal.Windows.Constants.WindowMessage.WM_NCACTIVATE) break;
+								if (msg == Internal.Windows.Constants.WindowMessage.WM_NCACTIVATE) break;
 								return;
 							}
 						}
