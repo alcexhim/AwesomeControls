@@ -43,6 +43,33 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			throw new ArgumentException("Invalid color mode");
 		}
 
+		public override void DrawSplitButtonBackground(Graphics graphics, ToolStripItem item, ToolStrip parent)
+		{
+			base.DrawSplitButtonBackground(graphics, item, parent);
+			if (item is ToolStripSplitButton)
+			{
+				ToolStripSplitButton tssb = (item as ToolStripSplitButton);
+				if (tssb.ButtonPressed)
+				{
+					graphics.FillRectangle(new SolidBrush(Color.FromArgb(0, 122, 204)), new Rectangle(0, 0, tssb.ButtonBounds.Width, tssb.ButtonBounds.Height));
+				}
+				else if (tssb.Pressed)
+				{
+					graphics.FillRectangle(new SolidBrush(Color.FromArgb(0, 122, 204)), new Rectangle(0, 0, tssb.Bounds.Width, tssb.Bounds.Height));
+					graphics.FillArrow(tssb.DropDownButtonBounds, ArrowDirection.Down, Brushes.White);
+				}
+				else if (tssb.Selected)
+				{
+					graphics.DrawLine(new Pen(ColorTable.CommandBarMenuBackground), tssb.DropDownButtonBounds.Left, tssb.DropDownButtonBounds.Top, tssb.DropDownButtonBounds.Left, tssb.DropDownButtonBounds.Bottom);
+					graphics.FillArrow(tssb.DropDownButtonBounds, ArrowDirection.Down, new SolidBrush(Color.FromArgb(0, 122, 204)));
+				}
+				else
+				{
+					graphics.FillArrow(tssb.DropDownButtonBounds, ArrowDirection.Down, new SolidBrush(Color.FromArgb(153, 153, 153)));
+				}
+			}
+		}
+
 		public override void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
 		{
 			Rectangle rect = gripBounds;
