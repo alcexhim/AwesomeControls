@@ -17,6 +17,36 @@ namespace AwesomeControls.ListView
 				Add(item);
 				return item;
 			}
+
+			public ListViewDetail this[int index]
+			{
+				get
+				{
+					ListViewDetail item = base[index];
+					if (item == null)
+					{
+						ListViewDetailEmpty item1 = new ListViewDetailEmpty();
+						Add(item1);
+						item = item1;
+					}
+					return item;
+				}
+				set
+				{
+					if (index < Count)
+					{
+						base[index] = value;
+					}
+					else
+					{
+						for (int i = Count - 1; i < index; i++)
+						{
+							base.Add(new ListViewDetailEmpty());
+						}
+						base.Add(value);
+					}
+				}
+			}
 		}
 		private Color mvarBackColor = Color.Empty;
 		public Color BackColor { get { return mvarBackColor; } set { mvarBackColor = value; } }
@@ -27,10 +57,22 @@ namespace AwesomeControls.ListView
         public abstract int CompareTo(object other);
     }
 
+	public class ListViewDetailEmpty : ListViewDetail
+	{
+	}
     public class ListViewDetailLabel : ListViewDetail
     {
 		private string mvarText = String.Empty;
 		public string Text { get { return mvarText; } set { mvarText = value; } }
+
+		public ListViewDetailLabel()
+			: this(String.Empty)
+		{
+		}
+		public ListViewDetailLabel(string text)
+		{
+			mvarText = text;
+		}
 
         public override int CompareTo(object other)
         {
