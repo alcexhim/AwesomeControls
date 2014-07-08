@@ -59,6 +59,10 @@ namespace AwesomeControls.ListView
 
 	public class ListViewDetailEmpty : ListViewDetail
 	{
+		public override int CompareTo(object other)
+		{
+			return 0;
+		}
 	}
     public class ListViewDetailLabel : ListViewDetail
     {
