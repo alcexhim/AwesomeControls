@@ -73,14 +73,14 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		public override void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
 		{
 			Rectangle rect = gripBounds;
-            rect = new Rectangle(rect.Width - 13, rect.Height - 13, 8, 8);
+			rect = new Rectangle(rect.Width - 13, rect.Height - 13, 8, 8);
 
-            DrawingTools.HSLColor color = new DrawingTools.HSLColor(ColorTable.StatusBarBackground);
-            DrawingTools.HSLColor darkColor = new DrawingTools.HSLColor(color);
-            DrawingTools.HSLColor lightColor = new DrawingTools.HSLColor(color);
-            darkColor.Luminosity -= 20;
-            lightColor.Saturation -= 56;
-            lightColor.Luminosity += 10;
+			DrawingTools.HSLColor color = new DrawingTools.HSLColor(ColorTable.StatusBarBackground);
+			DrawingTools.HSLColor darkColor = new DrawingTools.HSLColor(color);
+			DrawingTools.HSLColor lightColor = new DrawingTools.HSLColor(color);
+			darkColor.Luminosity -= 20;
+			lightColor.Saturation -= 56;
+			lightColor.Luminosity += 10;
 
 			for (int i = 0; i < 4; i += 2)
 			{
