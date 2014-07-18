@@ -12,7 +12,7 @@ namespace AwesomeControls.ListView
 		{
 			public ListViewDetail Add(string Text)
 			{
-                ListViewDetailLabel item = new ListViewDetailLabel();
+				ListViewDetailLabel item = new ListViewDetailLabel();
 				item.Text = Text;
 				Add(item);
 				return item;
@@ -54,8 +54,8 @@ namespace AwesomeControls.ListView
 		private Color mvarForeColor = Color.Empty;
 		public Color ForeColor { get { return mvarForeColor; } set { mvarForeColor = value; } }
 
-        public abstract int CompareTo(object other);
-    }
+		public abstract int CompareTo(object other);
+	}
 
 	public class ListViewDetailEmpty : ListViewDetail
 	{
@@ -65,8 +65,8 @@ namespace AwesomeControls.ListView
 			return 0;
 		}
 	}
-    public class ListViewDetailLabel : ListViewDetail
-    {
+	public class ListViewDetailLabel : ListViewDetail
+	{
 		private string mvarText = String.Empty;
 		public string Text { get { return mvarText; } set { mvarText = value; } }
 
@@ -79,90 +79,90 @@ namespace AwesomeControls.ListView
 			mvarText = text;
 		}
 
-        public override int CompareTo(object other)
-        {
-            if (other is ListViewDetailLabel) return mvarText.CompareTo((other as ListViewDetailLabel).Text);
-            return 0;
-        }
-    }
+		public override int CompareTo(object other)
+		{
+			if (other is ListViewDetailLabel) return mvarText.CompareTo((other as ListViewDetailLabel).Text);
+			return 0;
+		}
+	}
 
-    public class ListViewDetailChoice : ListViewDetail
-    {
-        private bool mvarRequireChoice = false;
-        public bool RequireChoice { get { return mvarRequireChoice; } set { mvarRequireChoice = value; } }
+	public class ListViewDetailChoice : ListViewDetail
+	{
+		private bool mvarRequireChoice = false;
+		public bool RequireChoice { get { return mvarRequireChoice; } set { mvarRequireChoice = value; } }
 
-        private ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection mvarOptions = new ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection();
-        public ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection Options { get { return mvarOptions; } }
+		private ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection mvarOptions = new ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection();
+		public ListViewDetailChoiceOption.ListViewDetailChoiceOptionCollection Options { get { return mvarOptions; } }
 
-        public ListViewDetailChoiceOption SelectedOption
-        {
-            get
-            {
-                foreach (ListViewDetailChoiceOption option in mvarOptions)
-                {
-                    if (option.Selected) return option;
-                }
-                return null;
-            }
-            set
-            {
-                foreach (ListViewDetailChoiceOption option in mvarOptions)
-                {
-                    if (option == value)
-                    {
-                        option.Selected = true;
-                        break;
-                    }
-                }
-            }
-        }
+		public ListViewDetailChoiceOption SelectedOption
+		{
+			get
+			{
+				foreach (ListViewDetailChoiceOption option in mvarOptions)
+				{
+					if (option.Selected) return option;
+				}
+				return null;
+			}
+			set
+			{
+				foreach (ListViewDetailChoiceOption option in mvarOptions)
+				{
+					if (option == value)
+					{
+						option.Selected = true;
+						break;
+					}
+				}
+			}
+		}
 
-        public override int CompareTo(object other)
-        {
-            return 0;
-        }
-    }
+		public override int CompareTo(object other)
+		{
+			return 0;
+		}
+	}
 
-    public class ListViewDetailChoiceOption
-    {
-        public class ListViewDetailChoiceOptionCollection
-            : System.Collections.ObjectModel.Collection<ListViewDetailChoiceOption>
-        {
-            public ListViewDetailChoiceOption Add(string text)
-            {
-                return Add(text, text);
-            }
-            public ListViewDetailChoiceOption Add(string text, object value)
-            {
-                ListViewDetailChoiceOption option = new ListViewDetailChoiceOption(text, value);
-                Add(option);
-                return option;
-            }
-        }
+	public class ListViewDetailChoiceOption
+	{
+		public class ListViewDetailChoiceOptionCollection
+			: System.Collections.ObjectModel.Collection<ListViewDetailChoiceOption>
+		{
+			public ListViewDetailChoiceOption Add(string text)
+			{
+				return Add(text, text);
+			}
+			public ListViewDetailChoiceOption Add(string text, object value)
+			{
+				ListViewDetailChoiceOption option = new ListViewDetailChoiceOption(text, value);
+				Add(option);
+				return option;
+			}
+		}
 
-        public ListViewDetailChoiceOption(string text)
-        {
-            mvarText = text;
-            mvarValue = text;
-        }
-        public ListViewDetailChoiceOption(string text, object value)
-        {
-            mvarText = text;
-            mvarValue = value;
-        }
+		public ListViewDetailChoiceOption(string text)
+		{
+			mvarText = text;
+			mvarValue = text;
+		}
+		public ListViewDetailChoiceOption(string text, object value)
+		{
+			mvarText = text;
+			mvarValue = value;
+		}
 
-        private string mvarText = String.Empty;
-        public string Text { get { return mvarText; } set { mvarText = value; } }
+		private string mvarText = String.Empty;
+		public string Text { get { return mvarText; } set { mvarText = value; } }
 
-        private object mvarValue = null;
-        public object Value { get { return mvarValue; } set { mvarValue = value; } }
+		private object mvarValue = null;
+		public object Value { get { return mvarValue; } set { mvarValue = value; } }
 
-        private bool mvarSelected = false;
-        public bool Selected { get { return mvarSelected; } set { mvarSelected = value; } }
+		private bool mvarSelected = false;
+		public bool Selected { get { return mvarSelected; } set { mvarSelected = value; } }
 
-        public override string ToString()
-        {
-            return mvarText;
-        }
-    }
+		public override string ToString()
+		{
+			return mvarText;
+		}
+	}
 }
