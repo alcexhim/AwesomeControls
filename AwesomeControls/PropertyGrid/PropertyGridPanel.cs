@@ -373,7 +373,11 @@ namespace AwesomeControls.PropertyGrid
         }
 
         private void pnlProperties_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
+		{
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				RotateSelectedProperty();
+			}
 
         }
         private void pnlProperties_MouseWheel(object sender, MouseEventArgs e)
@@ -394,5 +398,41 @@ namespace AwesomeControls.PropertyGrid
                 }
             }
         }
+
+		private void txt_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				RotateSelectedProperty();
+			}
+		}
+
+		private void RotateSelectedProperty()
+		{
+			if (mvarSelectedPropertyIndex > -1)
+			{
+				Property prop = mvarGroup.Properties[mvarSelectedPropertyIndex];
+				if (prop.DataType.Choices.Count > 0)
+				{
+					int idx = prop.DataType.Choices.IndexOf(prop.Value);
+					if (idx > -1)
+					{
+						if (idx + 1 < prop.DataType.Choices.Count)
+						{
+							prop.Value = prop.DataType.Choices[idx + 1].Value;
+						}
+						else
+						{
+							prop.Value = prop.DataType.Choices[0].Value;
+						}
+					}
+					else
+					{
+						prop.Value = prop.DataType.Choices[0].Value;
+					}
+					txt.Text = prop.Value.ToString();
+				}
+			}
+		}
     }
 }

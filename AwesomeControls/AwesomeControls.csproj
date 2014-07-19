@@ -149,6 +149,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PieMenu\PieMenuWindow.Designer.cs" />
+    <Compile Include="PropertyGrid\PropertyDataTypeChoice.cs" />
     <Compile Include="PropertyGrid\PropertyEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

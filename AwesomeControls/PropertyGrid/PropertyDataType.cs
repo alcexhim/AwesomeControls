@@ -12,18 +12,31 @@ namespace AwesomeControls.PropertyGrid
 		private PropertyEditor mvarEditor = null;
 		public PropertyEditor Editor { get { return mvarEditor; } set { mvarEditor = value; } }
 
-		private List<object> mvarChoices = new List<object>();
-		public List<object> Choices { get { return mvarChoices; } }
+		private PropertyDataTypeChoice.PropertyDataTypeChoiceCollection mvarChoices = new PropertyDataTypeChoice.PropertyDataTypeChoiceCollection();
+		public PropertyDataTypeChoice.PropertyDataTypeChoiceCollection Choices { get { return mvarChoices; } }
 
 		private bool mvarRequireSelectionFromChoices = false;
 		public bool RequireSelectionFromChoices { get { return mvarRequireSelectionFromChoices; } set { mvarRequireSelectionFromChoices = value; } }
 
-		public PropertyDataType(string title, object[] choices = null, bool requireSelectionFromChoices = false)
+		public PropertyDataType(string title)
+		{
+			mvarTitle = title;
+		}
+		public PropertyDataType(string title, object[] choices, bool requireSelectionFromChoices = false)
+		{
+			mvarTitle = title;
+			foreach (object choice in choices)
+			{
+				mvarChoices.Add(new PropertyDataTypeChoice(choice));
+			}
+			mvarRequireSelectionFromChoices = requireSelectionFromChoices;
+		}
+		public PropertyDataType(string title, PropertyDataTypeChoice[] choices, bool requireSelectionFromChoices = false)
 		{
 			mvarTitle = title;
 			if (choices != null)
 			{
-				foreach (object choice in choices)
+				foreach (PropertyDataTypeChoice choice in choices)
 				{
 					mvarChoices.Add(choice);
 				}
