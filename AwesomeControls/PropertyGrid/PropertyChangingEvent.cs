@@ -11,10 +11,10 @@ namespace AwesomeControls.PropertyGrid
 		private Property mvarProperty = null;
 		public Property Property { get { return mvarProperty; } }
 
-		private string mvarNewValue = String.Empty;
-		public string NewValue { get { return mvarNewValue; } set { mvarNewValue = value; } }
+		private object mvarNewValue = String.Empty;
+		public object NewValue { get { return mvarNewValue; } set { mvarNewValue = value; } }
 
-		public PropertyChangingEventArgs(Property property, string newValue)
+		public PropertyChangingEventArgs(Property property, object newValue)
 		{
 			mvarProperty = property;
 			mvarNewValue = newValue;

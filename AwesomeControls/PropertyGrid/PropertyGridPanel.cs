@@ -77,7 +77,7 @@ namespace AwesomeControls.PropertyGrid
             base.Refresh();
             if (mvarGroup == null) return;
 
-            if (SelectedProperty != null) txt.Text = SelectedProperty.Value;
+            if (SelectedProperty != null) txt.Text = SelectedProperty.Value.ToString();
             pnlProperties.Refresh();
             vsc.Minimum = 0;
 
@@ -184,7 +184,7 @@ namespace AwesomeControls.PropertyGrid
                                 e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
                             }
 
-                            if (mvarGroup.Properties[i].Type == PropertyDataType.Choice || mvarGroup.Properties[i].Type == PropertyDataType.Boolean || mvarGroup.Properties[i].Type == PropertyDataType.Custom)
+                            if (mvarGroup.Properties[i].DataType == PropertyDataType.Choice || mvarGroup.Properties[i].DataType == PropertyDataType.Boolean || mvarGroup.Properties[i].DataType == PropertyDataType.Custom)
                             {
                                 Rectangle rect = new Rectangle(pnlProperties.Width - 16 - 1, mvarItemHeight * (i - s), 16, mvarItemHeight);
                                 e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rect);
@@ -215,12 +215,12 @@ namespace AwesomeControls.PropertyGrid
                         {
                             if (mvarGroup.Properties[i].DefaultValue != null)
                             {
-                                e.Graphics.DrawString(mvarGroup.Properties[i].DefaultValue, base.Font, new SolidBrush(fc), new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight));
+                                TextRenderer.DrawText(e.Graphics, mvarGroup.Properties[i].DefaultValue, base.Font, new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight), fc, TextFormatFlags.Left);
                             }
                         }
                         else
                         {
-                            e.Graphics.DrawString(mvarGroup.Properties[i].Value, base.Font, new SolidBrush(fc), new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight));
+							TextRenderer.DrawText(e.Graphics, mvarGroup.Properties[i].Value.ToString(), base.Font, new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight), fc, TextFormatFlags.Left);
                         }
                         e.Graphics.DrawLine(new Pen(mvarGridColor), mvarMarginWidth, mvarItemHeight * ((i - s) + 1), pnlProperties.Width - 2, mvarItemHeight * ((i - s) + 1));
                     }
@@ -261,7 +261,7 @@ namespace AwesomeControls.PropertyGrid
                     txt.Left = leftWidth + 4;
                     txt.Width = rightWidth - 6;
 
-                    txt.Text = mvarGroup.Properties[i].Value;
+                    txt.Text = mvarGroup.Properties[i].Value.ToString();
                     txt.Top = (mvarItemHeight * (i - s)) + 1;
 
                     if (mvarGroup.Properties[i].ReadOnly)
@@ -277,7 +277,7 @@ namespace AwesomeControls.PropertyGrid
                         txt.ForeColor = base.ForeColor;
                     }
 
-                    if (mvarGroup.Properties[i].Type == PropertyDataType.Choice || mvarGroup.Properties[i].Type == PropertyDataType.Boolean || mvarGroup.Properties[i].Type == PropertyDataType.Custom)
+                    if (mvarGroup.Properties[i].DataType == PropertyDataType.Choice || mvarGroup.Properties[i].DataType == PropertyDataType.Boolean || mvarGroup.Properties[i].DataType == PropertyDataType.Custom)
                     {
                         txt.Width -= 16;
                         
@@ -316,11 +316,11 @@ namespace AwesomeControls.PropertyGrid
                                     wnd.StartPosition = FormStartPosition.Manual;
                                     wnd.Width = txt.Width + 6;
                                     int hhh = 0;
-                                    if (mvarGroup.Properties[i].Type == PropertyDataType.Custom || mvarGroup.Properties[i].Type == PropertyDataType.Choice)
+                                    if (mvarGroup.Properties[i].DataType == PropertyDataType.Custom || mvarGroup.Properties[i].DataType == PropertyDataType.Choice)
                                     {
                                         hhh = (mvarItemHeight * mvarGroup.Properties[i].ValidValues.Count);
                                     }
-                                    else if (mvarGroup.Properties[i].Type == PropertyDataType.Boolean)
+                                    else if (mvarGroup.Properties[i].DataType == PropertyDataType.Boolean)
                                     {
                                         hhh = (mvarItemHeight * PropertyPredefinedType.BooleanValues.Length);
                                     }

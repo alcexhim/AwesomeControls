@@ -24,7 +24,7 @@ namespace AwesomeControls.PropertyGrid
 			{
 				return Add(Name, Value, false);
 			}
-			public Property Add(string Name, string Value, bool ReadOnly)
+			public Property Add(string Name, object Value, bool ReadOnly)
 			{
 				Property p = new Property();
 				p.Name = Name;
@@ -97,8 +97,8 @@ namespace AwesomeControls.PropertyGrid
 
 		private PropertyGridControl mvarParentControl = null;
 		
-		private string mvarValue = null;
-		public string Value
+		private object mvarValue = null;
+		public object Value
 		{
 			get { return mvarValue; }
 			set

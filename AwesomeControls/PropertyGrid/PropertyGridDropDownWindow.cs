@@ -20,7 +20,7 @@ namespace AwesomeControls.PropertyGrid
             {
                 base.Font = _parent.Font;
                 
-                switch (_parent.SelectedProperty.Type)
+                switch (_parent.SelectedProperty.DataType)
                 {
                 	case PropertyDataType.Boolean:
                 		_validValues.Add("True");
@@ -48,7 +48,7 @@ namespace AwesomeControls.PropertyGrid
             if (e.Button == MouseButtons.Left)
             {
                 if (_parent.SelectedProperty == null) return;
-                switch (_parent.SelectedProperty.Type)
+                switch (_parent.SelectedProperty.DataType)
                 {
 					case PropertyDataType.Boolean:
                     case PropertyDataType.Choice:
@@ -76,7 +76,7 @@ namespace AwesomeControls.PropertyGrid
             if (e.Button == MouseButtons.Left)
             {
                 if (_parent.SelectedProperty == null) return;
-                switch (_parent.SelectedProperty.Type)
+                switch (_parent.SelectedProperty.DataType)
                 {
                     case PropertyDataType.Boolean:
                     case PropertyDataType.Choice:
@@ -108,7 +108,7 @@ namespace AwesomeControls.PropertyGrid
 
             DrawingTools.PrepareGraphics(e.Graphics);
             if (_parent.SelectedProperty == null) return;
-            switch (_parent.SelectedProperty.Type)
+            switch (_parent.SelectedProperty.DataType)
             {
             	case PropertyDataType.Boolean:
                 case PropertyDataType.Choice:
