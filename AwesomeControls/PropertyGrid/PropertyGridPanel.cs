@@ -272,6 +272,7 @@ namespace AwesomeControls.PropertyGrid
                     }
                     else
                     {
+						txt.ReadOnly = false;
                         txt.BackColor = base.BackColor;
                         txt.ForeColor = base.ForeColor;
                     }
