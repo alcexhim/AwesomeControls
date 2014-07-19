@@ -239,7 +239,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			mvarDarkColorTable.CommandBarMenuBackground = Color.FromArgb(45, 45, 48);
 			mvarDarkColorTable.CommandBarMenuBorder = Color.FromArgb(51, 51, 55);
-			
+
 			mvarDarkColorTable.CommandBarGradientMenuBarBackgroundBegin = Color.FromArgb(45, 45, 48);
 			mvarDarkColorTable.CommandBarGradientMenuBarBackgroundEnd = Color.FromArgb(45, 45, 48);
 
@@ -266,7 +266,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			mvarDarkColorTable.CommandBarControlBackgroundHoverGradientBegin = Color.FromArgb(62, 62, 64);
 			mvarDarkColorTable.CommandBarControlBackgroundHoverGradientMiddle = Color.FromArgb(62, 62, 64);
 			mvarDarkColorTable.CommandBarControlBackgroundHoverGradientEnd = Color.FromArgb(62, 62, 64);
-			
+
 			mvarDarkColorTable.CommandBarControlBackgroundPressed = Color.FromArgb(27, 27, 28);
 			mvarDarkColorTable.CommandBarControlBackgroundPressedGradientBegin = Color.FromArgb(27, 27, 28);
 			// mvarDarkColorTable.CommandBarControlBackgroundPressedGradientMiddle = Color.FromArgb(27, 27, 28);
@@ -281,7 +281,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			mvarDarkColorTable.CommandBarControlTextPressed = Color.FromArgb(255, 255, 255);
 
 			mvarDarkColorTable.WindowTitlebarForeground = Color.FromArgb(153, 153, 153);
-			
+
 			mvarDarkColorTable.StatusBarText = Color.FromArgb(255, 255, 255);
 			mvarDarkColorTable.StatusBarBackground = Color.FromArgb(0, 122, 204);
 
@@ -291,7 +291,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			mvarDarkColorTable.WindowBackground = Color.FromArgb(37, 37, 38);
 			mvarDarkColorTable.WindowForeground = Color.FromArgb(255, 255, 255);
-			
+
 			// TODO: this should be Hover background, not Selected!
 			mvarDarkColorTable.ListViewItemSelectedBackground = Color.FromArgb(63, 63, 64);
 			mvarDarkColorTable.ListViewItemHoverBackgroundGradientBegin = Color.FromArgb(63, 63, 64);
@@ -353,6 +353,16 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			mvarDarkColorTable.DocumentSwitcherSelectionBackground = Color.FromArgb(51, 153, 255);
 			mvarDarkColorTable.DocumentSwitcherSelectionBorder = Color.FromArgb(63, 63, 70);
 			mvarDarkColorTable.DocumentSwitcherSelectionText = Color.FromArgb(255, 255, 255);
+			#endregion
+
+			#region Property Grid
+			{
+				mvarDarkColorTable.PropertyGridBackgroundColor = Color.FromArgb(37, 37, 38);
+				mvarDarkColorTable.PropertyGridBorderColor = Color.FromArgb(45, 45, 48);
+				mvarDarkColorTable.PropertyGridDisabledForegroundColor = Color.FromArgb(153, 153, 153);
+				mvarDarkColorTable.PropertyGridForegroundColor = Color.FromArgb(241, 241, 241);
+				mvarDarkColorTable.PropertyGridItemHighlightBackgroundColor = Color.FromArgb(51, 153, 255);
+			}
 			#endregion
 		}
 		protected virtual void InitializeBlueColorTable()

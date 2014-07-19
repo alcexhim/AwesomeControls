@@ -88,6 +88,7 @@ namespace AwesomeControls.PropertyGrid
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+			e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor);
 
             DrawingTools.PrepareGraphics(e.Graphics);
             if (_parent.SelectedProperty == null) return;
@@ -96,10 +97,10 @@ namespace AwesomeControls.PropertyGrid
             foreach (PropertyDataTypeChoice s in _validValues)
             {
                 Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
-                Color fc = base.ForeColor;
+				Color fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
                 if (_parent.SelectedProperty.Value == s.Value)
                 {
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Highlight)), rect);
+					e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightBackgroundColor), rect);
                     fc = Color.FromKnownColor(KnownColor.HighlightText);
                     rect.Height--;
                     DrawingTools.DrawFocusRectangle(e.Graphics, rect);

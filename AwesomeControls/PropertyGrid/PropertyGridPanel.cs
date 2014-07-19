@@ -15,7 +15,7 @@ namespace AwesomeControls.PropertyGrid
         public PropertyGridPanel()
         {
             InitializeComponent();
-            base.BackColor = Color.FromKnownColor(KnownColor.Window);
+			txt.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
         }
 
         protected override void OnCreateControl()
@@ -146,12 +146,12 @@ namespace AwesomeControls.PropertyGrid
 
         private void pnlProperties_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(base.BackColor);
+            e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor);
 
             DrawingTools.PrepareGraphics(e.Graphics);
 
-            e.Graphics.FillRectangle(new SolidBrush(mvarGridColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
-            e.Graphics.DrawRectangle(new Pen(mvarBorderColor), new Rectangle(0, 0, pnlProperties.Width - 1, pnlProperties.Height - 1));
+            e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
+            e.Graphics.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, pnlProperties.Width - 1, pnlProperties.Height - 1));
             
             int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
             int rightWidth = pnlProperties.Width - leftWidth;
@@ -170,21 +170,21 @@ namespace AwesomeControls.PropertyGrid
                     if (vsc.Maximum > 0) s = vsc.Value;
                     for (int i = s; i < mvarGroup.Properties.Count; i++)
                     {
-                        Color fc = base.ForeColor;
+                        Color fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
                         if (mvarGroup.Properties[i].ReadOnly)
                         {
-                            fc = Color.FromKnownColor(KnownColor.GrayText);
+							fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridDisabledForegroundColor;
                         }
                         if (mvarSelectedPropertyIndex == i)
                         {
                             if (_hasFocus)
                             {
-                                e.Graphics.FillRectangle(new SolidBrush(mvarHighlightBackColor), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
+								e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightBackgroundColor), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
                                 fc = mvarHighlightForeColor;
                             }
                             else
                             {
-                                e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
+								e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
                             }
 
 							PropertyEditor editor = mvarGroup.Properties[i].DataType.Editor;
@@ -210,7 +210,7 @@ namespace AwesomeControls.PropertyGrid
                         }
                         else
                         {
-                            fc = base.ForeColor;
+                            fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
                         }
                         if (mvarGroup.Properties[i].Value == null)
                         {
@@ -223,11 +223,11 @@ namespace AwesomeControls.PropertyGrid
                         {
 							TextRenderer.DrawText(e.Graphics, mvarGroup.Properties[i].Value.ToString(), base.Font, new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight), fc, TextFormatFlags.Left);
                         }
-                        e.Graphics.DrawLine(new Pen(mvarGridColor), mvarMarginWidth, mvarItemHeight * ((i - s) + 1), pnlProperties.Width - 2, mvarItemHeight * ((i - s) + 1));
+                        e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), mvarMarginWidth, mvarItemHeight * ((i - s) + 1), pnlProperties.Width - 2, mvarItemHeight * ((i - s) + 1));
                     }
                 }
             }
-            e.Graphics.DrawLine(new Pen(mvarGridColor), leftWidth, 1, leftWidth, pnlProperties.Height - 2);
+			e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), leftWidth, 1, leftWidth, pnlProperties.Height - 2);
         }
 
 		private void DrawDropDownArrow(Graphics graphics, Rectangle rect, bool buttonDown)
@@ -282,14 +282,14 @@ namespace AwesomeControls.PropertyGrid
                     if (mvarGroup.Properties[i].ReadOnly)
                     {
                         txt.ReadOnly = true;
-                        txt.BackColor = base.BackColor;
-                        txt.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+						txt.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
+						txt.ForeColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridDisabledForegroundColor;
                     }
                     else
                     {
 						txt.ReadOnly = false;
-                        txt.BackColor = base.BackColor;
-                        txt.ForeColor = base.ForeColor;
+						txt.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
+						txt.ForeColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
                     }
 
 					PropertyEditor editor = mvarGroup.Properties[i].DataType.Editor;

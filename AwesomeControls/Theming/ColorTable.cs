@@ -2006,5 +2006,16 @@ namespace AwesomeControls.Theming
 		public Color DocumentSwitcherSelectionBackground { get { return mvarDocumentSwitcherSelectionBackground; } set { mvarDocumentSwitcherSelectionBackground = value; } }
 		private Color mvarDocumentSwitcherSelectionText;
 		public Color DocumentSwitcherSelectionText { get { return mvarDocumentSwitcherSelectionText; } set { mvarDocumentSwitcherSelectionText = value; } }
+
+		private Color mvarPropertyGridBackgroundColor;
+		public Color PropertyGridBackgroundColor { get { return mvarPropertyGridBackgroundColor; } set { mvarPropertyGridBackgroundColor = value; } }
+		private Color mvarPropertyGridForegroundColor;
+		public Color PropertyGridForegroundColor { get { return mvarPropertyGridForegroundColor; } set { mvarPropertyGridForegroundColor = value; } }
+		private Color mvarPropertyGridBorderColor;
+		public Color PropertyGridBorderColor { get { return mvarPropertyGridBorderColor; } set { mvarPropertyGridBorderColor = value; } }
+		private Color mvarPropertyGridDisabledForegroundColor;
+		public Color PropertyGridDisabledForegroundColor { get { return mvarPropertyGridDisabledForegroundColor; } set { mvarPropertyGridDisabledForegroundColor = value; } }
+		private Color mvarPropertyGridItemHighlightBackgroundColor;
+		public Color PropertyGridItemHighlightBackgroundColor { get { return mvarPropertyGridItemHighlightBackgroundColor; } set { mvarPropertyGridItemHighlightBackgroundColor = value; } }
 	}
 }
