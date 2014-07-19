@@ -81,7 +81,7 @@ namespace AwesomeControls.PropertyGrid
 		public string Name { get { return mvarName; } set { mvarName = value; } }
 		
 		private PropertyDataType mvarType = PropertyDataType.String;
-		public PropertyDataType Type { get { return mvarType; } set { mvarType = value; } }
+		public PropertyDataType DataType { get { return mvarType; } set { mvarType = value; } }
 		
 		private bool mvarExpanded = false;
 		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }
