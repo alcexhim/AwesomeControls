@@ -105,13 +105,16 @@ namespace AwesomeControls.PropertyGrid
             int h = 0;
             h++;
             h += mvarItemHeight;
-            if (property.Expanded)
-            {
-                for (int i = 0; i < property.Properties.Count; i++)
-                {
-                    h += CalculatePropertyHeight(property.Properties[i]);
-                }
-            }
+			if (property is GroupProperty)
+			{
+				if ((property as GroupProperty).Expanded)
+				{
+					for (int i = 0; i < (property as GroupProperty).Properties.Count; i++)
+					{
+						h += CalculatePropertyHeight((property as GroupProperty).Properties[i]);
+					}
+				}
+			}
             h++;
             return h;
         }
@@ -184,21 +187,19 @@ namespace AwesomeControls.PropertyGrid
                                 e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
                             }
 
-                            if (mvarGroup.Properties[i].DataType == PropertyDataType.Choice || mvarGroup.Properties[i].DataType == PropertyDataType.Boolean || mvarGroup.Properties[i].DataType == PropertyDataType.Custom)
+							PropertyEditor editor = mvarGroup.Properties[i].DataType.Editor;
+                            if (editor != null)
                             {
-                                Rectangle rect = new Rectangle(pnlProperties.Width - 16 - 1, mvarItemHeight * (i - s), 16, mvarItemHeight);
+								Rectangle rect = new Rectangle(pnlProperties.Width - editor.ButtonWidth - 1, mvarItemHeight * (i - s), editor.ButtonWidth, mvarItemHeight);
                                 e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rect);
-                                DrawingTools.DrawArrow(e.Graphics, ArrowDirection.Down, rect.Left + 5, rect.Top + 6, 5);
-
-                                if (buttonDown)
-                                {
-                                    DrawingTools.DrawSunkenBorder(e.Graphics, rect);
-                                }
-                                else
-                                {
-                                    DrawingTools.DrawRaisedBorder(e.Graphics, rect);
-                                }
+								editor.DrawButton(e.Graphics, rect, buttonDown);
                             }
+							else if (mvarGroup.Properties[i].DataType.Choices.Count > 0)
+							{
+								Rectangle rect = new Rectangle(pnlProperties.Width - 16 - 1, mvarItemHeight * (i - s), 16, mvarItemHeight);
+								e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rect);
+								DrawDropDownArrow(e.Graphics, rect, buttonDown);
+							}
                         }
                         e.Graphics.DrawString(mvarGroup.Properties[i].Name, base.Font, new SolidBrush(fc), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s) + 1, leftWidth - mvarMarginWidth, mvarItemHeight));
 
@@ -213,9 +214,9 @@ namespace AwesomeControls.PropertyGrid
                         }
                         if (mvarGroup.Properties[i].Value == null)
                         {
-                            if (mvarGroup.Properties[i].DefaultValue != null)
+                            if (mvarGroup.Properties[i].GetDefaultValue() != null)
                             {
-                                TextRenderer.DrawText(e.Graphics, mvarGroup.Properties[i].DefaultValue, base.Font, new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight), fc, TextFormatFlags.Left);
+                                TextRenderer.DrawText(e.Graphics, mvarGroup.Properties[i].GetDefaultValueDisplayString(), base.Font, new Rectangle(leftWidth + 2, mvarItemHeight * (i - s) + 1, rightWidth, mvarItemHeight), fc, TextFormatFlags.Left);
                             }
                         }
                         else
@@ -228,6 +229,20 @@ namespace AwesomeControls.PropertyGrid
             }
             e.Graphics.DrawLine(new Pen(mvarGridColor), leftWidth, 1, leftWidth, pnlProperties.Height - 2);
         }
+
+		private void DrawDropDownArrow(Graphics graphics, Rectangle rect, bool buttonDown)
+		{
+			DrawingTools.DrawArrow(graphics, ArrowDirection.Down, rect.Left + 5, rect.Top + 6, 5);
+
+			if (buttonDown)
+			{
+				DrawingTools.DrawSunkenBorder(graphics, rect);
+			}
+			else
+			{
+				DrawingTools.DrawRaisedBorder(graphics, rect);
+			}
+		}
 
         private void vsc_Scroll(object sender, ScrollEventArgs e)
         {
@@ -277,15 +292,23 @@ namespace AwesomeControls.PropertyGrid
                         txt.ForeColor = base.ForeColor;
                     }
 
-                    if (mvarGroup.Properties[i].DataType == PropertyDataType.Choice || mvarGroup.Properties[i].DataType == PropertyDataType.Boolean || mvarGroup.Properties[i].DataType == PropertyDataType.Custom)
+					PropertyEditor editor = mvarGroup.Properties[i].DataType.Editor;
+					if (editor != null)
                     {
-                        txt.Width -= 16;
-                        
-                        if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - 16)
+						txt.Width -= editor.ButtonWidth;
+                        if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - editor.ButtonWidth)
                         {
                             buttonDown = true;
                         }
                     }
+					else if (mvarGroup.Properties[i].DataType.Choices.Count > 0)
+					{
+						txt.Width -= 16;
+						if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - 16)
+						{
+							buttonDown = true;
+						}
+					}
                     txt.SelectAll();
 
                     pnlProperties.Refresh();
@@ -316,13 +339,9 @@ namespace AwesomeControls.PropertyGrid
                                     wnd.StartPosition = FormStartPosition.Manual;
                                     wnd.Width = txt.Width + 6;
                                     int hhh = 0;
-                                    if (mvarGroup.Properties[i].DataType == PropertyDataType.Custom || mvarGroup.Properties[i].DataType == PropertyDataType.Choice)
+                                    if (mvarGroup.Properties[i].DataType.Choices.Count > 0)
                                     {
-                                        hhh = (mvarItemHeight * mvarGroup.Properties[i].ValidValues.Count);
-                                    }
-                                    else if (mvarGroup.Properties[i].DataType == PropertyDataType.Boolean)
-                                    {
-                                        hhh = (mvarItemHeight * PropertyPredefinedType.BooleanValues.Length);
+										hhh = (mvarItemHeight * mvarGroup.Properties[i].DataType.Choices.Count);
                                     }
 
                                     Point pt = new Point(txt.Left + base.Left - 3, txt.Top + txt.Height + base.Top + 3);

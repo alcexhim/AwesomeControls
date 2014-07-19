@@ -10,7 +10,7 @@ namespace AwesomeControls.PropertyGrid
     public partial class PropertyGridDropDownWindow : Form
     {
         private PropertyGridPanel _parent = null;
-        private System.Collections.Specialized.StringCollection _validValues = new System.Collections.Specialized.StringCollection();
+		private List<object> _validValues = new List<object>();
 
         public PropertyGridDropDownWindow(PropertyGridPanel parent)
         {
@@ -20,18 +20,9 @@ namespace AwesomeControls.PropertyGrid
             {
                 base.Font = _parent.Font;
                 
-                switch (_parent.SelectedProperty.DataType)
+                foreach (object s in _parent.SelectedProperty.DataType.Choices)
                 {
-                	case PropertyDataType.Boolean:
-                		_validValues.Add("True");
-                		_validValues.Add("False");
-                		break;
-                	case PropertyDataType.Choice:
-                		foreach (string s in _parent.SelectedProperty.ValidValues)
-                		{
-                			_validValues.Add(s);
-                		}
-                		break;
+                	_validValues.Add(s);
                 }
             }
         }
@@ -48,25 +39,20 @@ namespace AwesomeControls.PropertyGrid
             if (e.Button == MouseButtons.Left)
             {
                 if (_parent.SelectedProperty == null) return;
-                switch (_parent.SelectedProperty.DataType)
+                if (_parent.SelectedProperty.DataType.Choices.Count > 0)
                 {
-					case PropertyDataType.Boolean:
-                    case PropertyDataType.Choice:
+                    int i = 0;
+                    foreach (object s in _validValues)
+                    {
+                        Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
+                        if (e.Y >= rect.Top && e.Y <= rect.Bottom)
                         {
-                            int i = 0;
-                            foreach (string s in _validValues)
-                            {
-                                Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
-                                if (e.Y >= rect.Top && e.Y <= rect.Bottom)
-                                {
-                                    _parent.SelectedProperty.Value = s;
-                                    base.Refresh();
-                                    return;
-                                }
-                                i += _parent.ItemHeight;
-                            }
+                            _parent.SelectedProperty.Value = s;
+                            base.Refresh();
+                            return;
                         }
-                        break;
+                        i += _parent.ItemHeight;
+                    }
                 }
             }
         }
@@ -76,23 +62,20 @@ namespace AwesomeControls.PropertyGrid
             if (e.Button == MouseButtons.Left)
             {
                 if (_parent.SelectedProperty == null) return;
-                switch (_parent.SelectedProperty.DataType)
+                if (_validValues.Count > 0)
                 {
-                    case PropertyDataType.Boolean:
-                    case PropertyDataType.Choice:
-                        int i = 0;
-                        foreach (string s in _validValues)
+                    int i = 0;
+                    foreach (object s in _validValues)
+                    {
+                        Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
+                        if (e.Y >= rect.Top && e.Y <= rect.Bottom)
                         {
-                            Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
-                            if (e.Y >= rect.Top && e.Y <= rect.Bottom)
-                            {
-                                _parent.SelectedProperty.Value = s;
-                                base.Refresh();
-                                return;
-                            }
-                            i += _parent.ItemHeight;
+                            _parent.SelectedProperty.Value = s;
+                            base.Refresh();
+                            return;
                         }
-                        break;
+                        i += _parent.ItemHeight;
+                    }
                 }
             }
         }
@@ -108,29 +91,22 @@ namespace AwesomeControls.PropertyGrid
 
             DrawingTools.PrepareGraphics(e.Graphics);
             if (_parent.SelectedProperty == null) return;
-            switch (_parent.SelectedProperty.DataType)
+
+            int i = 0;
+            foreach (object s in _validValues)
             {
-            	case PropertyDataType.Boolean:
-                case PropertyDataType.Choice:
-                    {
-                        int i = 0;
-                        foreach (string s in _validValues)
-                        {
-                            Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
-                            Color fc = base.ForeColor;
-                            if (_parent.SelectedProperty.Value == s)
-                            {
-                                e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Highlight)), rect);
-                                fc = Color.FromKnownColor(KnownColor.HighlightText);
-                                rect.Height--;
-                                DrawingTools.DrawFocusRectangle(e.Graphics, rect);
-                            }
-                            Rectangle rect1 = new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 2, rect.Height - 2);
-                            e.Graphics.DrawString(s, base.Font, new SolidBrush(fc), rect1);
-                            i += _parent.ItemHeight;
-                        }
-                    }
-                    break;
+                Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
+                Color fc = base.ForeColor;
+                if (_parent.SelectedProperty.Value == s)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Highlight)), rect);
+                    fc = Color.FromKnownColor(KnownColor.HighlightText);
+                    rect.Height--;
+                    DrawingTools.DrawFocusRectangle(e.Graphics, rect);
+                }
+                Rectangle rect1 = new Rectangle(rect.Left + 1, rect.Top + 1, rect.Width - 2, rect.Height - 2);
+                e.Graphics.DrawString(s.ToString(), base.Font, new SolidBrush(fc), rect1);
+                i += _parent.ItemHeight;
             }
         }
     }

@@ -16,24 +16,6 @@ namespace AwesomeControls.PropertyGrid
 				_parent = parent;
 			}
 
-			public Property Add(string Name)
-			{
-				return Add(Name, "", false);
-			}
-			public Property Add(string Name, string Value)
-			{
-				return Add(Name, Value, false);
-			}
-			public Property Add(string Name, object Value, bool ReadOnly)
-			{
-				Property p = new Property();
-				p.Name = Name;
-				p.Value = Value;
-				p.ReadOnly = ReadOnly;
-				Add(p);
-				return p;
-			}
-
 			protected override void InsertItem(int index, Property item)
 			{
 				base.InsertItem(index, item);
@@ -53,22 +35,24 @@ namespace AwesomeControls.PropertyGrid
 				base.ClearItems();
 			}
 
-			public Property Add(string Name, string Value, params string[] ValidValues)
-			{
-				return Add(Name, Value, false, ValidValues);
-			}
-			public Property Add(string Name, string Value, bool ReadOnly, params string[] ValidValues)
-			{
-				Property p = new Property();
-				p.Name = Name;
-				p.Value = Value;
-				foreach (string s in ValidValues)
-				{
-					p.ValidValues.Add(s);
-				}
-				base.Add(p);
-				return p;
-			}
+		}
+
+		public Property(string name, object defaultValue = null, Image image = null, bool readOnly = false)
+		{
+			mvarName = name;
+			mvarDefaultValue = defaultValue;
+			mvarValue = defaultValue;
+
+			mvarImage = image;
+			mvarReadOnly = readOnly;
+		}
+
+		private PropertyDataType mvarDataType = PropertyDataTypes.String;
+		public PropertyDataType DataType { get { return mvarDataType; } set { mvarDataType = value; } }
+
+		public virtual object GetDefaultValue()
+		{
+			return null;
 		}
 
 		private bool mvarReadOnly = false;
@@ -80,22 +64,10 @@ namespace AwesomeControls.PropertyGrid
 		private string mvarName = "";
 		public string Name { get { return mvarName; } set { mvarName = value; } }
 		
-		private PropertyDataType mvarType = PropertyDataType.String;
-		public PropertyDataType DataType { get { return mvarType; } set { mvarType = value; } }
-		
-		private bool mvarExpanded = false;
-		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }
-		
-		private PropertyCollection mvarProperties = new PropertyCollection();
-		public PropertyCollection Properties { get { return mvarProperties; } }
-		
-		private string mvarPropertyCustomTypeName = "";
-		public string PropertyCustomTypeName { get { return mvarPropertyCustomTypeName; } set { mvarPropertyCustomTypeName = value; } }
-		
-		private System.Collections.Specialized.StringCollection mvarValidValues = new System.Collections.Specialized.StringCollection();
-		public System.Collections.Specialized.StringCollection ValidValues { get { return mvarValidValues; } }
-
 		private PropertyGridControl mvarParentControl = null;
+
+		private object mvarDefaultValue = null;
+		public object DefaultValue { get { return mvarDefaultValue; } set { mvarDefaultValue = value; } }
 		
 		private object mvarValue = null;
 		public object Value
@@ -117,8 +89,38 @@ namespace AwesomeControls.PropertyGrid
 				}
 			}
 		}
+
+		public virtual string GetDefaultValueDisplayString()
+		{
+			object defaultValue = GetDefaultValue();
+			if (defaultValue == null) return String.Empty;
+			return defaultValue.ToString();
+		}
+	}
+	public class GroupProperty : Property
+	{
+		private string mvarDisplayString = String.Empty;
+		public string DisplayString { get { return mvarDisplayString; } set { mvarDisplayString = value; } }
+
+		private bool mvarExpanded = false;
+		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }
+
+		private Property.PropertyCollection mvarProperties = new Property.PropertyCollection();
+		public Property.PropertyCollection Properties { get { return mvarProperties; } set { mvarProperties = value; } }
 		
-		private string mvarDefaultValue = null;
-		public string DefaultValue { get { return mvarDefaultValue; } set { mvarDefaultValue = value; } }
+		public GroupProperty(string name, Image image = null, bool readOnly = false, Property[] properties = null)
+			: base(name, null, image, readOnly)
+		{
+			base.Name = name;
+			base.Image = image;
+			base.ReadOnly = readOnly;
+			if (properties != null)
+			{
+				foreach (Property property in properties)
+				{
+					mvarProperties.Add(property);
+				}
+			}
+		}
 	}
 }
