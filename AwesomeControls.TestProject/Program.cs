@@ -19,17 +19,17 @@ namespace AwesomeControls.TestProject
 			AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.VisualStudio2012Theme(Theming.BuiltinThemes.VisualStudio2012Theme.ColorMode.Dark);
 
 
-			BinaryDropDownTest mwt = new BinaryDropDownTest();
-			mwt.ShowDialog();
+			PropertyGridTest test = new PropertyGridTest();
+			test.ShowDialog();
 
 			/*
+			BinaryDropDownTest mwt = new BinaryDropDownTest();
+			mwt.ShowDialog();
+			
 			MainWindowTest mwt = new MainWindowTest();
 			mwt.ShowDialog();
 			
 			TimelineTest test = new TimelineTest();
-			test.ShowDialog();
-			
-			PropertyGridTest test = new PropertyGridTest();
 			test.ShowDialog();
 			
 			DesignerTest test = new DesignerTest();

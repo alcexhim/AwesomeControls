@@ -16,15 +16,42 @@ namespace AwesomeControls.TestProject
 		{
 			InitializeComponent();
 
-			PropertyGrid.PropertyGroup grpTestGroup = new PropertyGrid.PropertyGroup("Test Group", "IGroupTestObj");
-			grpTestGroup.Properties.Add("AJAXName", "Media Manager", true);
-			grpTestGroup.Properties.Add("PropertyType", "Testing", false, "Testing", "Implementation", "Debugging");
-			pg.Groups.Add(grpTestGroup);
-
-			PropertyGrid.PropertyGroup grpTestGroup1 = new PropertyGrid.PropertyGroup("mms01PDHFmNu7324YzO", "Media Manager Surrogate");
-			grpTestGroup1.Properties.Add("Object", "Test Group", true);
-			grpTestGroup1.Properties.Add("PropertyType", "Testing", false, "Testing", "Implementation", "Debugging");
-			pg.Groups.Add(grpTestGroup1);
+			{
+				PropertyGrid.PropertyGroup grp = new PropertyGrid.PropertyGroup("Hatsune Miku", "Character");
+				grp.Properties.Add("ClassName", "Character", true);
+				grp.Properties.Add("Name", "Hatsune Miku", false);
+				grp.Properties.Add("Costumes", "", false);
+				grp.Properties.Add("IsAvailable", true, false);
+				grp.Properties[grp.Properties.Count - 1].DataType = PropertyGrid.PropertyDataType.Boolean;
+				pg.Groups.Add(grp);
+			}
+			{
+				PropertyGrid.PropertyGroup grp = new PropertyGrid.PropertyGroup("Kagamine Rin", "Character");
+				grp.Properties.Add("ClassName", "Character", true);
+				grp.Properties.Add("Name", "Kagamine Rin", false);
+				grp.Properties.Add("Costumes", "", false);
+				grp.Properties.Add("IsAvailable", true, false);
+				grp.Properties[grp.Properties.Count - 1].DataType = PropertyGrid.PropertyDataType.Boolean;
+				pg.Groups.Add(grp);
+			}
+			{
+				PropertyGrid.PropertyGroup grp = new PropertyGrid.PropertyGroup("Kagamine Len", "Character");
+				grp.Properties.Add("ClassName", "Character", true);
+				grp.Properties.Add("Name", "Kagamine Len", false);
+				grp.Properties.Add("Costumes", "", false);
+				grp.Properties.Add("IsAvailable", true, false);
+				grp.Properties[grp.Properties.Count - 1].DataType = PropertyGrid.PropertyDataType.Boolean;
+				pg.Groups.Add(grp);
+			}
+			{
+				PropertyGrid.PropertyGroup grp = new PropertyGrid.PropertyGroup("Megurine Luka", "Character");
+				grp.Properties.Add("ClassName", "Character", true);
+				grp.Properties.Add("Name", "Megurine Luka", false);
+				grp.Properties.Add("Costumes", "", false);
+				grp.Properties.Add("IsAvailable", true, false);
+				grp.Properties[grp.Properties.Count - 1].DataType = PropertyGrid.PropertyDataType.Boolean;
+				pg.Groups.Add(grp);
+			}
 		}
 	}
 }
