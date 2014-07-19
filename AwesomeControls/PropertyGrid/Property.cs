@@ -104,14 +104,14 @@ namespace AwesomeControls.PropertyGrid
 			set
 			{
 				PropertyChangingEventArgs e = new PropertyChangingEventArgs(this, value);
-				if (mvarParentControl == null)
+				if (mvarParentControl != null)
 				{
 					mvarParentControl.OnPropertyChanging(e);
 					if (e.Cancel) return;
 				}
 
 				mvarValue = value;
-				if (mvarParentControl == null)
+				if (mvarParentControl != null)
 				{
 					mvarParentControl.OnPropertyChanged(new PropertyChangedEventArgs(this));
 				}
