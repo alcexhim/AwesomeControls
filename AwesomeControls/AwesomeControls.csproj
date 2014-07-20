@@ -139,6 +139,29 @@
     <Compile Include="CommandBars\CBMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.Designer.cs">
+      <DependentUpon>WindowListPopupDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockingWindows\DockBehavior.cs" />
+    <Compile Include="DockingWindows\DockingArea.cs" />
+    <Compile Include="DockingWindows\DockingContainerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\DockingContainerControl.designer.cs">
+      <DependentUpon>DockingContainerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockingWindows\DockingContainerMessageFilter.cs" />
+    <Compile Include="DockingWindows\DockingWindow.cs" />
+    <Compile Include="DockingWindows\DockPosition.cs" />
+    <Compile Include="DockingWindows\IDockingContainerObject.cs" />
+    <Compile Include="DockingWindows\PopoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\WindowClosedEvent.cs" />
+    <Compile Include="DockingWindows\WindowClosingEvent.cs" />
     <Compile Include="DrawingTools.cs" />
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="PieMenu\PieMenuItem.cs" />
@@ -210,29 +233,6 @@
     <Compile Include="Dialog.Designer.cs">
       <DependentUpon>Dialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.Designer.cs">
-      <DependentUpon>WindowListPopupDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockingWindows\DockBehavior.cs" />
-    <Compile Include="DockingWindows\DockingArea.cs" />
-    <Compile Include="DockingWindows\DockingContainerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DockingWindows\DockingContainerControl.Designer.cs">
-      <DependentUpon>DockingContainerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DockingWindows\DockingContainerMessageFilter.cs" />
-    <Compile Include="DockingWindows\DockingWindow.cs" />
-    <Compile Include="DockingWindows\DockPosition.cs" />
-    <Compile Include="DockingWindows\IDockingContainerObject.cs" />
-    <Compile Include="DockingWindows\PopoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="DockingWindows\WindowClosedEvent.cs" />
-    <Compile Include="DockingWindows\WindowClosingEvent.cs" />
     <Compile Include="DynamicContainer\DynamicContainerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

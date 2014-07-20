@@ -66,30 +66,35 @@ namespace AwesomeControls.DockingWindows
 			if (areas.Count == 0) return;
 
 			#region Bottom
+			if (areas.Contains(DockPosition.Bottom))
 			{
 				Rectangle rect = new Rectangle(rectParent.Left, rectParent.Top, rectParent.Width, rectParent.Height);
 				DrawDockPanelArea(g, areas[DockPosition.Bottom], rect);
 			}
 			#endregion
 			#region Center
+			if (areas.Contains(DockPosition.Center))
 			{
 				Rectangle rect = new Rectangle(rectParent.Left, rectParent.Top, rectParent.Width, rectParent.Height);
 				DrawDockPanelArea(g, areas[DockPosition.Center], rect);
 			}
 			#endregion
 			#region Left
+			if (areas.Contains(DockPosition.Left))
 			{
 				Rectangle rect = new Rectangle(rectParent.Left, rectParent.Top, rectParent.Width, rectParent.Height);
 				DrawDockPanelArea(g, areas[DockPosition.Left], rect);
 			}
 			#endregion
 			#region Right
+			if (areas.Contains(DockPosition.Right))
 			{
 				Rectangle rect = new Rectangle(rectParent.Left, rectParent.Top, rectParent.Width, rectParent.Height);
 				DrawDockPanelArea(g, areas[DockPosition.Right], rect);
 			}
 			#endregion
 			#region Top
+			if (areas.Contains(DockPosition.Top))
 			{
 				Rectangle rect = new Rectangle(rectParent.Left, rectParent.Top, rectParent.Width, rectParent.Height);
 				DrawDockPanelArea(g, areas[DockPosition.Top], rect);
@@ -253,8 +258,12 @@ namespace AwesomeControls.DockingWindows
 				{
 					if (area.IsDocked)
 					{
-						rectTitle.Width = Width;
-						rectTitle.Height = 20;
+						// rectTitle.Width = Width;
+						// rectTitle.Height = 20;
+						if (area.Windows.Count > 0)
+						{
+							rectTitle.Height = area.Size;
+						}
 						rectTitle.Y = rectTitle.Bottom - Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 					}
 					else
@@ -284,7 +293,7 @@ namespace AwesomeControls.DockingWindows
 
 					if (area.IsDocked && area.Position != DockPosition.Center)
 					{
-						Theming.Theme.CurrentTheme.DrawDockPanelTitleBarBackground(g, new Rectangle(rect.X, rect.Y, rect.Width, 20), true);
+						Theming.Theme.CurrentTheme.DrawDockPanelTitleBarBackground(g, new Rectangle(rect.X, rect.Y, rect.Width, Theming.Theme.CurrentTheme.MetricTable.DockingWindowTitlebarSize), true);
 					}
 
 					if (area.Position == DockPosition.Center)
@@ -330,8 +339,8 @@ namespace AwesomeControls.DockingWindows
 					Rectangle rectTitleText = rectTitle;
 					rectTitleText.Y += 3;
 					rectTitleText.Size = sz;
-
 					rectTitle.Width = sz.Width;
+					rectTitle.Height = Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 
 					if (area.Position == DockPosition.Center)
 					{
@@ -339,7 +348,7 @@ namespace AwesomeControls.DockingWindows
 					}
 					else
 					{
-						Theming.Theme.CurrentTheme.DrawDockPanelTabBackground(g, rectTitle, ControlState.Normal, area.Position, window.Selected, Focused);
+						Theming.Theme.CurrentTheme.DrawDockPanelTabBackground(g, rectTitle, window.TabState, area.Position, window.Selected, Focused);
 					}
 
 					if (area.Position == DockPosition.Top || area.Position == DockPosition.Bottom || area.Position == DockPosition.Center)
@@ -355,31 +364,21 @@ namespace AwesomeControls.DockingWindows
 
 					TabBounds[window] = rectTitle;
 
-					if (area.Position == DockPosition.Left || area.Position == DockPosition.Right)
+					if (area.IsDocked)
 					{
-						if (area.IsDocked)
-						{
-							System.Windows.Forms.TextRenderer.DrawText(g, window.TabTitle, Font, rectTitleText, ForeColor);
-							rectTitle.X += rectTitleText.Width + 1;
-						}
-						else
-						{
-							// TODO: figure out how to understand this...
-							// http://stackoverflow.com/questions/4460258/c-rotated-text-align
-							g.TranslateTransform(rectTitleText.X, rectTitleText.Y + (sz.Height * 4));
-							g.RotateTransform(270);
-							g.DrawString(window.TabTitle, Font, new SolidBrush(ForeColor), new RectangleF(0, 0, sz.Width, sz.Height));
-							g.ResetTransform();
-
-							rectTitle.Y += rectTitleText.Width + 1;
-						}
+						System.Windows.Forms.TextRenderer.DrawText(g, window.TabTitle, Font, rectTitleText, ForeColor);
+						rectTitle.X += rectTitleText.Width + 1;
 					}
 					else
 					{
-						g.FillRectangle(new SolidBrush(BackColor), rectTitle);
+						// TODO: figure out how to understand this...
+						// http://stackoverflow.com/questions/4460258/c-rotated-text-align
+						g.TranslateTransform(rectTitleText.X, rectTitleText.Y + (sz.Height * 4));
+						g.RotateTransform(270);
+						g.DrawString(window.TabTitle, Font, new SolidBrush(ForeColor), new RectangleF(0, 0, sz.Width, sz.Height));
+						g.ResetTransform();
 
-						System.Windows.Forms.TextRenderer.DrawText(g, window.TabTitle, Font, rectTitleText, ForeColor);
-						rectTitle.X += rectTitleText.Width + 1;
+						rectTitle.Y += rectTitleText.Width + 1;
 					}
 				}
 			}
@@ -806,7 +805,7 @@ namespace AwesomeControls.DockingWindows
 				{
 					// Bottom docking panel snaps to left, bottom, right areas
 					rect2 = new Rectangle(rect.X, rect.Bottom - area.Size, Width, area.Size - Theming.Theme.CurrentTheme.MetricTable.DockingWindowTitlebarSize);
-					if (area.Windows.Count > 1)
+					if (area.Windows.Count > 0)
 					{
 						// Move the rectangle up to make room for the tabs, which are not visible when there is
 						// only one window in the container
@@ -942,16 +941,11 @@ namespace AwesomeControls.DockingWindows
 					rect2 = new Rectangle(rect.X, rect.Y, rect.Width, area.Size);
 					if (area.IsDocked)
 					{
+						rect2.Y -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 						rect2.Y += Theming.Theme.CurrentTheme.MetricTable.DockingWindowTitlebarSize;
+						rect2.Height -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
 						rect2.Height -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTitlebarSize;
 					}
-					if (area.Windows.Count > 1)
-					{
-						// Move the rectangle up to make room for the tabs, which are not visible when there is
-						// only one window in the container
-						rect2.Y -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize;
-					}
-
 
 					// Add space for the gripper
 					rect2.Height -= Theming.Theme.CurrentTheme.MetricTable.DockingWindowSplitterSize;
@@ -1249,7 +1243,7 @@ namespace AwesomeControls.DockingWindows
 					{
 						case DockPosition.Top:
 						{
-							if (e.Y >= dw0.Control.Bounds.Bottom && e.Y <= dw0.Control.Bounds.Bottom + Theming.Theme.CurrentTheme.MetricTable.DockingWindowSplitterSize)
+							if (e.Y >= dw0.Control.Bounds.Bottom + Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize && e.Y <= dw0.Control.Bounds.Bottom + Theming.Theme.CurrentTheme.MetricTable.DockingWindowSplitterSize + Theming.Theme.CurrentTheme.MetricTable.DockingWindowTabSize)
 							{
 								Cursor = System.Windows.Forms.Cursors.SizeNS;
 							}

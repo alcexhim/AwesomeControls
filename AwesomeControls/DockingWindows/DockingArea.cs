@@ -33,6 +33,11 @@ namespace AwesomeControls.DockingWindows
 			}
 
 			public int Count { get { return areasByPosition.Count; } }
+
+			public bool Contains(DockPosition position)
+			{
+				return areasByPosition.ContainsKey(position);
+			}
 		}
 
 		public DockingArea()
