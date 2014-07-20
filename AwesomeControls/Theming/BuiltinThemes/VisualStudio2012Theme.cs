@@ -765,6 +765,29 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				g.FillRectangle(new System.Drawing.SolidBrush(ColorTable.DockingWindowInactiveTitlebarBackgroundGradientBegin), rect);
 			}
 		}
+		public override void DrawDockPanelTabBackground(Graphics g, Rectangle rectTab, ControlState controlState, DockingWindows.DockPosition position, bool selected, bool focused)
+		{
+			if (selected)
+			{
+				g.FillRectangle(new SolidBrush(Color.FromArgb(37, 37, 38)), rectTab);
+			}
+			else
+			{
+				switch (controlState)
+				{
+					case ControlState.Normal:
+					{
+						g.FillRectangle(new SolidBrush(Color.FromArgb(45, 45, 48)), rectTab);
+						break;
+					}
+					case ControlState.Hover:
+					{
+						g.FillRectangle(new SolidBrush(Color.FromArgb(62, 62, 64)), rectTab);
+						break;
+					}
+				}
+			}
+		}
 		#endregion
 		#region Accordion
 		public override void DrawAccordionBackground(Graphics graphics, Rectangle rectangle)
