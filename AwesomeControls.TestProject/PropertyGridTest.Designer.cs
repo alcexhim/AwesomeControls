@@ -43,7 +43,6 @@
 			this.pg.SelectedPropertyIndex = 0;
 			this.pg.Size = new System.Drawing.Size(345, 319);
 			this.pg.TabIndex = 0;
-			this.pg.WindowBorderColor = System.Drawing.SystemColors.Control;
 			// 
 			// PropertyGridTest
 			// 

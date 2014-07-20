@@ -355,6 +355,22 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			mvarDarkColorTable.DocumentSwitcherSelectionText = Color.FromArgb(255, 255, 255);
 			#endregion
 
+			#region DropDown
+			{
+				mvarDarkColorTable.DropDownBackgroundColorNormal = Color.FromArgb(51, 51, 55);
+				mvarDarkColorTable.DropDownForegroundColorNormal = Color.FromArgb(241, 241, 241);
+				mvarDarkColorTable.DropDownBorderColorNormal = Color.FromArgb(67, 67, 70);
+
+				mvarDarkColorTable.DropDownBackgroundColorHover = Color.FromArgb(63, 63, 70);
+				mvarDarkColorTable.DropDownForegroundColorHover = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.DropDownBorderColorHover = Color.FromArgb(67, 67, 70);
+
+				mvarDarkColorTable.DropDownBackgroundColorPressed = Color.FromArgb(63, 63, 70);
+				mvarDarkColorTable.DropDownForegroundColorPressed = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.DropDownBorderColorPressed = Color.FromArgb(67, 67, 70);
+			}
+			#endregion
+
 			#region Property Grid
 			{
 				mvarDarkColorTable.PropertyGridBackgroundColor = Color.FromArgb(37, 37, 38);
@@ -362,6 +378,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.PropertyGridDisabledForegroundColor = Color.FromArgb(153, 153, 153);
 				mvarDarkColorTable.PropertyGridForegroundColor = Color.FromArgb(241, 241, 241);
 				mvarDarkColorTable.PropertyGridItemHighlightBackgroundColor = Color.FromArgb(51, 153, 255);
+				mvarDarkColorTable.PropertyGridItemHighlightForegroundColor = Color.FromArgb(255, 255, 255);
 			}
 			#endregion
 		}

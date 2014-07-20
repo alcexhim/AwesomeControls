@@ -12,6 +12,13 @@ namespace AwesomeControls.PropertyGrid
 		{
 			InitializeComponent();
 			mvarGroups = new PropertyGroup.PropertyGroupCollection(this);
+			this.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor);
 		}
 
 		private PropertyGridView mvarView = PropertyGridView.Unsorted;
@@ -59,12 +66,9 @@ namespace AwesomeControls.PropertyGrid
 
 		public int ItemHeight { get { return propertyGridPanel1.ItemHeight; } set { propertyGridPanel1.ItemHeight = value; } }
 
-		private Color mvarWindowBorderColor = Color.FromKnownColor(KnownColor.Control);
-		public Color WindowBorderColor { get { return mvarWindowBorderColor; } set { mvarWindowBorderColor = value; propertyGridPanel1.BorderColor = mvarWindowBorderColor; } }
-
 		private void scPropertiesDescription_Paint(object sender, PaintEventArgs e)
 		{
-			e.Graphics.DrawRectangle(new Pen(mvarWindowBorderColor), new Rectangle(0, 0, scPropertiesDescription.Width - 1, scPropertiesDescription.Height - 1));
+			e.Graphics.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, scPropertiesDescription.Width - 1, scPropertiesDescription.Height - 1));
 		}
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,6 +80,34 @@ namespace AwesomeControls.PropertyGrid
 		{
 			Panel panel = (sender as Panel);
 			e.Graphics.DrawRectangle(new Pen(Color.FromKnownColor(KnownColor.ControlDark)), new Rectangle(0, 0, panel.Width - 1, panel.Height - 1));
+		}
+
+		public bool ShowCommands
+		{
+			get { return !scPropertiesCommands.Panel2Collapsed; }
+			set
+			{
+				scPropertiesCommands.Panel2Collapsed = !value;
+				mnuContextCommands.Checked = !scPropertiesCommands.Panel2Collapsed;
+			}
+		}
+		public bool ShowDescription
+		{
+			get { return !scPropertiesDescription.Panel2Collapsed; }
+			set
+			{
+				scPropertiesDescription.Panel2Collapsed = !value;
+				mnuContextDescription.Checked = !scPropertiesDescription.Panel2Collapsed;
+			}
+		}
+
+		private void mnuContextCommands_Click(object sender, EventArgs e)
+		{
+			ShowCommands = !ShowCommands;
+		}
+		private void mnuContextDescription_Click(object sender, EventArgs e)
+		{
+			ShowDescription = !ShowDescription;
 		}
 
 	}

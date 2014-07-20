@@ -2017,5 +2017,26 @@ namespace AwesomeControls.Theming
 		public Color PropertyGridDisabledForegroundColor { get { return mvarPropertyGridDisabledForegroundColor; } set { mvarPropertyGridDisabledForegroundColor = value; } }
 		private Color mvarPropertyGridItemHighlightBackgroundColor;
 		public Color PropertyGridItemHighlightBackgroundColor { get { return mvarPropertyGridItemHighlightBackgroundColor; } set { mvarPropertyGridItemHighlightBackgroundColor = value; } }
+		private Color mvarPropertyGridItemHighlightForegroundColor;
+		public Color PropertyGridItemHighlightForegroundColor { get { return mvarPropertyGridItemHighlightForegroundColor; } set { mvarPropertyGridItemHighlightForegroundColor = value; } }
+
+		private Color mvarDropDownBackgroundColorNormal;
+		public Color DropDownBackgroundColorNormal { get { return mvarDropDownBackgroundColorNormal; } set { mvarDropDownBackgroundColorNormal = value; } }
+		private Color mvarDropDownForegroundColorNormal;
+		public Color DropDownForegroundColorNormal { get { return mvarDropDownForegroundColorNormal; } set { mvarDropDownForegroundColorNormal = value; } }
+		private Color mvarDropDownBorderColorNormal;
+		public Color DropDownBorderColorNormal { get { return mvarDropDownBorderColorNormal; } set { mvarDropDownBorderColorNormal = value; } }
+		private Color mvarDropDownBackgroundColorHover;
+		public Color DropDownBackgroundColorHover { get { return mvarDropDownBackgroundColorHover; } set { mvarDropDownBackgroundColorHover = value; } }
+		private Color mvarDropDownForegroundColorHover;
+		public Color DropDownForegroundColorHover { get { return mvarDropDownForegroundColorHover; } set { mvarDropDownForegroundColorHover = value; } }
+		private Color mvarDropDownBorderColorHover;
+		public Color DropDownBorderColorHover { get { return mvarDropDownBorderColorHover; } set { mvarDropDownBorderColorHover = value; } }
+		private Color mvarDropDownBackgroundColorPressed;
+		public Color DropDownBackgroundColorPressed { get { return mvarDropDownBackgroundColorPressed; } set { mvarDropDownBackgroundColorPressed = value; } }
+		private Color mvarDropDownForegroundColorPressed;
+		public Color DropDownForegroundColorPressed { get { return mvarDropDownForegroundColorPressed; } set { mvarDropDownForegroundColorPressed = value; } }
+		private Color mvarDropDownBorderColorPressed;
+		public Color DropDownBorderColorPressed { get { return mvarDropDownBorderColorPressed; } set { mvarDropDownBorderColorPressed = value; } }
 	}
 }

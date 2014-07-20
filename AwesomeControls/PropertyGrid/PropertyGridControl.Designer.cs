@@ -28,25 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyGridControl));
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.cboObject = new System.Windows.Forms.ComboBox();
+			this.tb = new AwesomeControls.CommandBars.CBToolBar();
+			this.tsbCategorized = new System.Windows.Forms.ToolStripButton();
+			this.tsbAlphabetical = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbProperties = new System.Windows.Forms.ToolStripButton();
+			this.tsbEvents = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbPropertyPages = new System.Windows.Forms.ToolStripButton();
 			this.scPropertiesDescription = new System.Windows.Forms.SplitContainer();
 			this.scPropertiesCommands = new System.Windows.Forms.SplitContainer();
+			this.propertyGridPanel1 = new AwesomeControls.PropertyGrid.PropertyGridPanel();
 			this.pnlCommands = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblPropertyName = new System.Windows.Forms.Label();
-			this.tb = new AwesomeControls.CommandBars.CBToolBar();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.propertyGridPanel1 = new AwesomeControls.PropertyGrid.PropertyGridPanel();
-			this.tsbCategorized = new System.Windows.Forms.ToolStripButton();
-			this.tsbAlphabetical = new System.Windows.Forms.ToolStripButton();
-			this.tsbProperties = new System.Windows.Forms.ToolStripButton();
-			this.tsbEvents = new System.Windows.Forms.ToolStripButton();
-			this.tsbPropertyPages = new System.Windows.Forms.ToolStripButton();
+			this.mnuContext = new AwesomeControls.CommandBars.CBContextMenu(this.components);
+			this.mnuContextReset = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.mnuContextCommands = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuContextDescription = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel1.SuspendLayout();
+			this.tb.SuspendLayout();
 			this.scPropertiesDescription.Panel1.SuspendLayout();
 			this.scPropertiesDescription.Panel2.SuspendLayout();
 			this.scPropertiesDescription.SuspendLayout();
@@ -54,7 +61,7 @@
 			this.scPropertiesCommands.Panel2.SuspendLayout();
 			this.scPropertiesCommands.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
-			this.tb.SuspendLayout();
+			this.mnuContext.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -87,6 +94,78 @@
 			this.cboObject.TabIndex = 1;
 			this.cboObject.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cboObject_DrawItem);
 			this.cboObject.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
+			// 
+			// tb
+			// 
+			this.tb.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.tb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbCategorized,
+            this.tsbAlphabetical,
+            this.toolStripSeparator1,
+            this.tsbProperties,
+            this.tsbEvents,
+            this.toolStripSeparator2,
+            this.tsbPropertyPages});
+			this.tb.Location = new System.Drawing.Point(0, 26);
+			this.tb.Name = "tb";
+			this.tb.Size = new System.Drawing.Size(297, 25);
+			this.tb.TabIndex = 2;
+			this.tb.Text = "toolStrip1";
+			// 
+			// tsbCategorized
+			// 
+			this.tsbCategorized.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbCategorized.Image = ((System.Drawing.Image)(resources.GetObject("tsbCategorized.Image")));
+			this.tsbCategorized.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbCategorized.Name = "tsbCategorized";
+			this.tsbCategorized.Size = new System.Drawing.Size(23, 22);
+			this.tsbCategorized.Text = "Categorized";
+			// 
+			// tsbAlphabetical
+			// 
+			this.tsbAlphabetical.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbAlphabetical.Image = ((System.Drawing.Image)(resources.GetObject("tsbAlphabetical.Image")));
+			this.tsbAlphabetical.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbAlphabetical.Name = "tsbAlphabetical";
+			this.tsbAlphabetical.Size = new System.Drawing.Size(23, 22);
+			this.tsbAlphabetical.Text = "Alphabetical";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// tsbProperties
+			// 
+			this.tsbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbProperties.Image = ((System.Drawing.Image)(resources.GetObject("tsbProperties.Image")));
+			this.tsbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbProperties.Name = "tsbProperties";
+			this.tsbProperties.Size = new System.Drawing.Size(23, 22);
+			this.tsbProperties.Text = "Properties";
+			// 
+			// tsbEvents
+			// 
+			this.tsbEvents.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbEvents.Image = ((System.Drawing.Image)(resources.GetObject("tsbEvents.Image")));
+			this.tsbEvents.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbEvents.Name = "tsbEvents";
+			this.tsbEvents.Size = new System.Drawing.Size(23, 22);
+			this.tsbEvents.Text = "Events";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// tsbPropertyPages
+			// 
+			this.tsbPropertyPages.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbPropertyPages.Image = ((System.Drawing.Image)(resources.GetObject("tsbPropertyPages.Image")));
+			this.tsbPropertyPages.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbPropertyPages.Name = "tsbPropertyPages";
+			this.tsbPropertyPages.Size = new System.Drawing.Size(23, 22);
+			this.tsbPropertyPages.Text = "Property Pages";
 			// 
 			// scPropertiesDescription
 			// 
@@ -129,6 +208,22 @@
 			this.scPropertiesCommands.Size = new System.Drawing.Size(291, 190);
 			this.scPropertiesCommands.SplitterDistance = 148;
 			this.scPropertiesCommands.TabIndex = 0;
+			// 
+			// propertyGridPanel1
+			// 
+			this.propertyGridPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.propertyGridPanel1.BackColor = System.Drawing.SystemColors.Window;
+			this.propertyGridPanel1.Group = null;
+			this.propertyGridPanel1.ItemHeight = 16;
+			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
+			this.propertyGridPanel1.Name = "propertyGridPanel1";
+			this.propertyGridPanel1.SelectedPropertyIndex = 0;
+			this.propertyGridPanel1.Size = new System.Drawing.Size(291, 148);
+			this.propertyGridPanel1.SplitterPosition = 0.4D;
+			this.propertyGridPanel1.TabIndex = 0;
+			this.propertyGridPanel1.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
 			// 
 			// pnlCommands
 			// 
@@ -178,106 +273,59 @@
 			this.lblPropertyName.TabIndex = 0;
 			this.lblPropertyName.Text = "Property Name";
 			// 
-			// tb
+			// mnuContext
 			// 
-			this.tb.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.tb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbCategorized,
-            this.tsbAlphabetical,
-            this.toolStripSeparator1,
-            this.tsbProperties,
-            this.tsbEvents,
-            this.toolStripSeparator2,
-            this.tsbPropertyPages});
-			this.tb.Location = new System.Drawing.Point(0, 26);
-			this.tb.Name = "tb";
-			this.tb.Size = new System.Drawing.Size(297, 25);
-			this.tb.TabIndex = 2;
-			this.tb.Text = "toolStrip1";
+			this.mnuContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuContextReset,
+            this.toolStripMenuItem1,
+            this.mnuContextCommands,
+            this.mnuContextDescription});
+			this.mnuContext.Name = "mnuContext";
+			this.mnuContext.Size = new System.Drawing.Size(153, 98);
 			// 
-			// toolStripSeparator1
+			// mnuContextReset
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			this.mnuContextReset.Enabled = false;
+			this.mnuContextReset.Name = "mnuContextReset";
+			this.mnuContextReset.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextReset.Text = "&Reset";
 			// 
-			// toolStripSeparator2
+			// toolStripMenuItem1
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
 			// 
-			// propertyGridPanel1
+			// mnuContextCommands
 			// 
-			this.propertyGridPanel1.BackColor = System.Drawing.SystemColors.Window;
-			this.propertyGridPanel1.BorderColor = System.Drawing.SystemColors.ControlDark;
-			this.propertyGridPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.propertyGridPanel1.GridColor = System.Drawing.SystemColors.Control;
-			this.propertyGridPanel1.Group = null;
-			this.propertyGridPanel1.HighlightBackColor = System.Drawing.SystemColors.Highlight;
-			this.propertyGridPanel1.HighlightForeColor = System.Drawing.SystemColors.HighlightText;
-			this.propertyGridPanel1.ItemHeight = 16;
-			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
-			this.propertyGridPanel1.Name = "propertyGridPanel1";
-			this.propertyGridPanel1.SelectedPropertyIndex = 0;
-			this.propertyGridPanel1.Size = new System.Drawing.Size(291, 148);
-			this.propertyGridPanel1.SplitterPosition = 0.4D;
-			this.propertyGridPanel1.TabIndex = 0;
-			this.propertyGridPanel1.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
+			this.mnuContextCommands.Checked = true;
+			this.mnuContextCommands.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.mnuContextCommands.Name = "mnuContextCommands";
+			this.mnuContextCommands.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextCommands.Text = "&Commands";
+			this.mnuContextCommands.Click += new System.EventHandler(this.mnuContextCommands_Click);
 			// 
-			// tsbCategorized
+			// mnuContextDescription
 			// 
-			this.tsbCategorized.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbCategorized.Image = ((System.Drawing.Image)(resources.GetObject("tsbCategorized.Image")));
-			this.tsbCategorized.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbCategorized.Name = "tsbCategorized";
-			this.tsbCategorized.Size = new System.Drawing.Size(23, 22);
-			this.tsbCategorized.Text = "Categorized";
-			// 
-			// tsbAlphabetical
-			// 
-			this.tsbAlphabetical.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbAlphabetical.Image = ((System.Drawing.Image)(resources.GetObject("tsbAlphabetical.Image")));
-			this.tsbAlphabetical.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbAlphabetical.Name = "tsbAlphabetical";
-			this.tsbAlphabetical.Size = new System.Drawing.Size(23, 22);
-			this.tsbAlphabetical.Text = "Alphabetical";
-			// 
-			// tsbProperties
-			// 
-			this.tsbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbProperties.Image = ((System.Drawing.Image)(resources.GetObject("tsbProperties.Image")));
-			this.tsbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbProperties.Name = "tsbProperties";
-			this.tsbProperties.Size = new System.Drawing.Size(23, 22);
-			this.tsbProperties.Text = "Properties";
-			// 
-			// tsbEvents
-			// 
-			this.tsbEvents.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbEvents.Image = ((System.Drawing.Image)(resources.GetObject("tsbEvents.Image")));
-			this.tsbEvents.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbEvents.Name = "tsbEvents";
-			this.tsbEvents.Size = new System.Drawing.Size(23, 22);
-			this.tsbEvents.Text = "Events";
-			// 
-			// tsbPropertyPages
-			// 
-			this.tsbPropertyPages.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbPropertyPages.Image = ((System.Drawing.Image)(resources.GetObject("tsbPropertyPages.Image")));
-			this.tsbPropertyPages.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbPropertyPages.Name = "tsbPropertyPages";
-			this.tsbPropertyPages.Size = new System.Drawing.Size(23, 22);
-			this.tsbPropertyPages.Text = "Property Pages";
+			this.mnuContextDescription.Checked = true;
+			this.mnuContextDescription.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.mnuContextDescription.Name = "mnuContextDescription";
+			this.mnuContextDescription.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextDescription.Text = "&Description";
+			this.mnuContextDescription.Click += new System.EventHandler(this.mnuContextDescription_Click);
 			// 
 			// PropertyGridControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ContextMenuStrip = this.mnuContext;
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.Name = "PropertyGridControl";
 			this.Size = new System.Drawing.Size(297, 302);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			this.tb.ResumeLayout(false);
+			this.tb.PerformLayout();
 			this.scPropertiesDescription.Panel1.ResumeLayout(false);
 			this.scPropertiesDescription.Panel2.ResumeLayout(false);
 			this.scPropertiesDescription.ResumeLayout(false);
@@ -286,8 +334,7 @@
 			this.scPropertiesCommands.ResumeLayout(false);
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
-			this.tb.ResumeLayout(false);
-			this.tb.PerformLayout();
+			this.mnuContext.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -311,6 +358,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsbPropertyPages;
         private PropertyGridPanel propertyGridPanel1;
+		private CommandBars.CBContextMenu mnuContext;
+		private System.Windows.Forms.ToolStripMenuItem mnuContextReset;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem mnuContextCommands;
+		private System.Windows.Forms.ToolStripMenuItem mnuContextDescription;
 
     }
 }

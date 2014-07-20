@@ -119,23 +119,11 @@ namespace AwesomeControls.PropertyGrid
             return h;
         }
 
-        private Color mvarBorderColor = Color.FromKnownColor(KnownColor.ControlDark);
-        public Color BorderColor { get { return mvarBorderColor; } set { mvarBorderColor = value; } }
-
-        private Color mvarGridColor  = Color.FromKnownColor(KnownColor.Control);
-        public Color GridColor { get { return mvarGridColor; } set { mvarGridColor = value; } }
-
         private double mvarSplitterPosition = 0.40;
         public double SplitterPosition { get { return mvarSplitterPosition; } set { mvarSplitterPosition = value; } }
 
         private int mvarSelectedPropertyIndex = -1;
         public int SelectedPropertyIndex { get { return mvarSelectedPropertyIndex; } set { mvarSelectedPropertyIndex = value; m_previdx = value; m_clicked = 2; } }
-
-        private Color mvarHighlightBackColor = Color.FromKnownColor(KnownColor.Highlight);
-        public Color HighlightBackColor { get { return mvarHighlightBackColor; } set { mvarHighlightBackColor = value; } }
-
-        private Color mvarHighlightForeColor = Color.FromKnownColor(KnownColor.HighlightText);
-        public Color HighlightForeColor { get { return mvarHighlightForeColor; } set { mvarHighlightForeColor = value; } }
 
         protected override void OnResize(EventArgs e)
         {
@@ -150,7 +138,7 @@ namespace AwesomeControls.PropertyGrid
 
             DrawingTools.PrepareGraphics(e.Graphics);
 
-            e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
+			e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
             e.Graphics.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, pnlProperties.Width - 1, pnlProperties.Height - 1));
             
             int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
@@ -180,7 +168,7 @@ namespace AwesomeControls.PropertyGrid
                             if (_hasFocus)
                             {
 								e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightBackgroundColor), new Rectangle(mvarMarginWidth, mvarItemHeight * (i - s), leftWidth - mvarMarginWidth, mvarItemHeight));
-                                fc = mvarHighlightForeColor;
+                                fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightForegroundColor;
                             }
                             else
                             {
