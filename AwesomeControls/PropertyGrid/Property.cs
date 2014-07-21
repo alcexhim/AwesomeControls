@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace AwesomeControls.PropertyGrid
 {
-	public class Property
+	public class Property : ICloneable
 	{
 		public class PropertyCollection
 			: System.Collections.ObjectModel.Collection<Property>
@@ -16,14 +16,34 @@ namespace AwesomeControls.PropertyGrid
 				_parent = parent;
 			}
 
+			private Property _parentProperty = null;
+			public PropertyCollection(Property parent)
+			{
+				_parentProperty = parent;
+			}
+
+			public Property this[string name]
+			{
+				get
+				{
+					foreach (Property p in this)
+					{
+						if (p.Name == name) return p;
+					}
+					return null;
+				}
+			}
+
 			protected override void InsertItem(int index, Property item)
 			{
 				base.InsertItem(index, item);
 				item.mvarParentControl = _parent;
+				item.mvarParent = _parentProperty;
 			}
 			protected override void RemoveItem(int index)
 			{
 				this[index].mvarParentControl = null;
+				this[index].mvarParent = null;
 				base.RemoveItem(index);
 			}
 			protected override void ClearItems()
@@ -31,12 +51,17 @@ namespace AwesomeControls.PropertyGrid
 				foreach (Property p in this)
 				{
 					p.mvarParentControl = null;
+					p.mvarParent = null;
 				}
 				base.ClearItems();
 			}
 
 		}
 
+		private Property()
+		{
+			mvarProperties = new PropertyCollection(this);
+		}
 		public Property(string name, object defaultValue = null, Image image = null, bool readOnly = false)
 		{
 			mvarName = name;
@@ -45,14 +70,32 @@ namespace AwesomeControls.PropertyGrid
 
 			mvarImage = image;
 			mvarReadOnly = readOnly;
+			mvarProperties = new PropertyCollection(this);
 		}
 
-		private PropertyDataType mvarDataType = PropertyDataTypes.String;
-		public PropertyDataType DataType { get { return mvarDataType; } set { mvarDataType = value; } }
+		private bool mvarExpanded = false;
+		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }	
 
-		public virtual object GetDefaultValue()
+		private Property.PropertyCollection mvarProperties = null;
+		public Property.PropertyCollection Properties { get { return mvarProperties; } set { mvarProperties = value; } }
+
+		private PropertyDataType mvarDataType = PropertyDataTypes.String;
+		public PropertyDataType DataType
 		{
-			return null;
+			get { return mvarDataType; }
+			set
+			{
+				bool changed = (mvarDataType != value);
+				mvarDataType = value;
+				if (changed)
+				{
+					mvarProperties.Clear();
+					foreach (Property prop in mvarDataType.Properties)
+					{
+						mvarProperties.Add(prop.Clone() as Property);
+					}
+				}
+			}
 		}
 
 		private bool mvarReadOnly = false;
@@ -66,8 +109,11 @@ namespace AwesomeControls.PropertyGrid
 		
 		private PropertyGridControl mvarParentControl = null;
 
+		private bool mvarDefaultValueSet = false;
+		public bool DefaultValueSet { get { return mvarDefaultValueSet; } set { mvarDefaultValueSet = value; if (!mvarDefaultValueSet) mvarDefaultValue = null; } }
+
 		private object mvarDefaultValue = null;
-		public object DefaultValue { get { return mvarDefaultValue; } set { mvarDefaultValue = value; } }
+		public object DefaultValue { get { return mvarDefaultValue; } set { mvarDefaultValue = value; mvarDefaultValueSet = true; } }
 		
 		private object mvarValue = null;
 		public object Value
@@ -90,37 +136,28 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
-		public virtual string GetDefaultValueDisplayString()
+		public object Clone()
 		{
-			object defaultValue = GetDefaultValue();
-			if (defaultValue == null) return String.Empty;
-			return defaultValue.ToString();
-		}
-	}
-	public class GroupProperty : Property
-	{
-		private string mvarDisplayString = String.Empty;
-		public string DisplayString { get { return mvarDisplayString; } set { mvarDisplayString = value; } }
-
-		private bool mvarExpanded = false;
-		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }
-
-		private Property.PropertyCollection mvarProperties = new Property.PropertyCollection();
-		public Property.PropertyCollection Properties { get { return mvarProperties; } set { mvarProperties = value; } }
-		
-		public GroupProperty(string name, Image image = null, bool readOnly = false, Property[] properties = null)
-			: base(name, null, image, readOnly)
-		{
-			base.Name = name;
-			base.Image = image;
-			base.ReadOnly = readOnly;
-			if (properties != null)
+			Property clone = new Property();
+			clone.DataType = mvarDataType;
+			clone.DefaultValue = mvarDefaultValue;
+			clone.Expanded = mvarExpanded;
+			clone.Image = mvarImage;
+			clone.Name = (mvarName.Clone() as string);
+			/*
+			 * DON'T DO THIS - THIS IS WHAT DUPLICATES PROPERTIES
+			foreach (Property prop in mvarProperties)
 			{
-				foreach (Property property in properties)
-				{
-					mvarProperties.Add(property);
-				}
+				clone.Properties.Add(prop.Clone() as Property);
 			}
+			 * PROPERTIES ARE SET WHEN clone.DataType IS SET
+			*/
+			clone.ReadOnly = mvarReadOnly;
+			clone.Value = mvarValue;
+			return clone;
 		}
+
+		private Property mvarParent = null;
+		public Property Parent { get { return mvarParent; } }
 	}
 }

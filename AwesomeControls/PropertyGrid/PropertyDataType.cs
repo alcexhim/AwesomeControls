@@ -4,8 +4,30 @@ using System.Text;
 
 namespace AwesomeControls.PropertyGrid
 {
-    public class PropertyDataType
-    {
+	public class PropertyDataType
+	{
+		public event PropertyValueRenderingEventHandler PropertyValueRendering;
+		public event PropertyValueParsingEventHandler PropertyValueParsing;
+
+		internal bool TriggerPropertyValueRendering(PropertyValueRenderingEventArgs e)
+		{
+			if (PropertyValueRendering != null)
+			{
+				PropertyValueRendering(this, e);
+				return true;
+			}
+			return false;
+		}
+		internal bool TriggerPropertyValueParsing(PropertyValueParsingEventArgs e)
+		{
+			if (PropertyValueParsing != null)
+			{
+				PropertyValueParsing(this, e);
+				return true;
+			}
+			return false;
+		}
+
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
 
@@ -17,6 +39,9 @@ namespace AwesomeControls.PropertyGrid
 
 		private bool mvarRequireSelectionFromChoices = false;
 		public bool RequireSelectionFromChoices { get { return mvarRequireSelectionFromChoices; } set { mvarRequireSelectionFromChoices = value; } }
+
+		private Property.PropertyCollection mvarProperties = new Property.PropertyCollection();
+		public Property.PropertyCollection Properties { get { return mvarProperties; } }
 
 		public PropertyDataType(string title)
 		{
@@ -43,7 +68,10 @@ namespace AwesomeControls.PropertyGrid
 			}
 			mvarRequireSelectionFromChoices = requireSelectionFromChoices;
 		}
-    }
+
+		private static PropertyDataType mvarEmpty = new PropertyDataType(String.Empty);
+		public static PropertyDataType Empty { get { return mvarEmpty; } }
+	}
 	public static class PropertyDataTypes
 	{
 		private static PropertyDataType mvarString = new PropertyDataType("String");

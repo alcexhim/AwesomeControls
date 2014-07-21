@@ -13,17 +13,33 @@ namespace AwesomeControls.PropertyGrid
 		{
 			mvarName = Name;
 		}
-		public PropertyGroup(string Name, string TypeName)
+		public PropertyGroup(string Name, PropertyDataType DataType)
 		{
 			mvarName = Name;
-			mvarTypeName = TypeName;
+			this.DataType = DataType;
 		}
 
 		private string mvarName = "";
 		public string Name { get { return mvarName; } set { mvarName = value; } }
 
-		private string mvarTypeName = "";
-		public string TypeName { get { return mvarTypeName; } set { mvarTypeName = value; } }
+		private PropertyDataType mvarDataType = null;
+		public PropertyDataType DataType
+		{
+			get { return mvarDataType; }
+			set
+			{
+				bool changed = (mvarDataType != value);
+				mvarDataType = value;
+				if (changed)
+				{
+					mvarProperties.Clear();
+					foreach (Property p in mvarDataType.Properties)
+					{
+						mvarProperties.Add(p.Clone() as Property);
+					}
+				}
+			}
+		}
 
 		private Property.PropertyCollection mvarProperties = new Property.PropertyCollection();
 		public Property.PropertyCollection Properties { get { return mvarProperties; } }
@@ -55,13 +71,13 @@ namespace AwesomeControls.PropertyGrid
 
 			public PropertyGroup Add(string Name)
 			{
-				return Add(Name, "");
+				return Add(Name, PropertyDataType.Empty);
 			}
-			public PropertyGroup Add(string Name, string TypeName)
+			public PropertyGroup Add(string Name, PropertyDataType DataType)
 			{
 				PropertyGroup pg = new PropertyGroup();
 				pg.Name = Name;
-				pg.TypeName = TypeName;
+				pg.DataType = DataType;
 				Add(pg);
 				return pg;
 			}

@@ -86,7 +86,7 @@
 			this.cboObject.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cboObject.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.cboObject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboObject.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.cboObject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.cboObject.FormattingEnabled = true;
 			this.cboObject.Location = new System.Drawing.Point(3, 3);
 			this.cboObject.Name = "cboObject";
@@ -219,7 +219,7 @@
 			this.propertyGridPanel1.ItemHeight = 16;
 			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
 			this.propertyGridPanel1.Name = "propertyGridPanel1";
-			this.propertyGridPanel1.SelectedPropertyIndex = 0;
+			this.propertyGridPanel1.SelectedProperty = null;
 			this.propertyGridPanel1.Size = new System.Drawing.Size(291, 148);
 			this.propertyGridPanel1.SplitterPosition = 0.4D;
 			this.propertyGridPanel1.TabIndex = 0;
@@ -281,26 +281,28 @@
             this.mnuContextCommands,
             this.mnuContextDescription});
 			this.mnuContext.Name = "mnuContext";
-			this.mnuContext.Size = new System.Drawing.Size(153, 98);
+			this.mnuContext.Size = new System.Drawing.Size(137, 76);
+			this.mnuContext.Opening += new System.ComponentModel.CancelEventHandler(this.mnuContext_Opening);
 			// 
 			// mnuContextReset
 			// 
 			this.mnuContextReset.Enabled = false;
 			this.mnuContextReset.Name = "mnuContextReset";
-			this.mnuContextReset.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextReset.Size = new System.Drawing.Size(136, 22);
 			this.mnuContextReset.Text = "&Reset";
+			this.mnuContextReset.Click += new System.EventHandler(this.mnuContextReset_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
 			// 
 			// mnuContextCommands
 			// 
 			this.mnuContextCommands.Checked = true;
 			this.mnuContextCommands.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.mnuContextCommands.Name = "mnuContextCommands";
-			this.mnuContextCommands.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextCommands.Size = new System.Drawing.Size(136, 22);
 			this.mnuContextCommands.Text = "&Commands";
 			this.mnuContextCommands.Click += new System.EventHandler(this.mnuContextCommands_Click);
 			// 
@@ -309,7 +311,7 @@
 			this.mnuContextDescription.Checked = true;
 			this.mnuContextDescription.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.mnuContextDescription.Name = "mnuContextDescription";
-			this.mnuContextDescription.Size = new System.Drawing.Size(152, 22);
+			this.mnuContextDescription.Size = new System.Drawing.Size(136, 22);
 			this.mnuContextDescription.Text = "&Description";
 			this.mnuContextDescription.Click += new System.EventHandler(this.mnuContextDescription_Click);
 			// 

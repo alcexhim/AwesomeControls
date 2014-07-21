@@ -31,6 +31,7 @@
 			this.vsc = new System.Windows.Forms.VScrollBar();
 			this.pnlProperties = new AwesomeControls.PropertyGrid.DBPanel();
 			this.txt = new System.Windows.Forms.TextBox();
+			this.dummy = new System.Windows.Forms.Button();
 			this.pnlProperties.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -45,6 +46,7 @@
 			// 
 			// pnlProperties
 			// 
+			this.pnlProperties.Controls.Add(this.dummy);
 			this.pnlProperties.Controls.Add(this.txt);
 			this.pnlProperties.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlProperties.Location = new System.Drawing.Point(0, 0);
@@ -68,6 +70,15 @@
 			this.txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_KeyDown);
 			this.txt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txt_MouseDoubleClick);
 			// 
+			// dummy
+			// 
+			this.dummy.Location = new System.Drawing.Point(-180, 65);
+			this.dummy.Name = "dummy";
+			this.dummy.Size = new System.Drawing.Size(21, 10);
+			this.dummy.TabIndex = 1;
+			this.dummy.Text = "button1";
+			this.dummy.UseVisualStyleBackColor = true;
+			// 
 			// PropertyGridPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -87,5 +98,6 @@
         private System.Windows.Forms.VScrollBar vsc;
         private DBPanel pnlProperties;
         private System.Windows.Forms.TextBox txt;
+		private System.Windows.Forms.Button dummy;
     }
 }

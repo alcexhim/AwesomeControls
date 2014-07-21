@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.pg = new AwesomeControls.PropertyGrid.PropertyGridControl();
 			this.SuspendLayout();
 			// 
@@ -40,7 +41,8 @@
 			this.pg.Name = "pg";
 			this.pg.PropertyListBackColor = System.Drawing.SystemColors.Window;
 			this.pg.SelectedGroupIndex = -1;
-			this.pg.SelectedPropertyIndex = 0;
+			this.pg.ShowCommands = true;
+			this.pg.ShowDescription = true;
 			this.pg.Size = new System.Drawing.Size(345, 319);
 			this.pg.TabIndex = 0;
 			// 
@@ -51,7 +53,7 @@
 			this.ClientSize = new System.Drawing.Size(345, 319);
 			this.Controls.Add(this.pg);
 			this.Name = "PropertyGridTest";
-			this.Text = "PropertyGridTest";
+			this.Text = "Properties";
 			this.ResumeLayout(false);
 
 		}

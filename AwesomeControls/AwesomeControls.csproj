@@ -179,6 +179,8 @@
     <Compile Include="PropertyGrid\PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
+    <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />
     <Compile Include="StringWrapper.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />

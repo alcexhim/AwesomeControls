@@ -14,7 +14,10 @@ namespace AwesomeControls.PropertyGrid
 			{
 				for (int i = 0; i < Count; i++)
 				{
-					if (this[i].Value == value) return i;
+					if (((this[i].Value != null) && this[i].Value.Equals(value)) || this[i].Value == value)
+					{
+						return i;
+					}
 				}
 				return -1;
 			}
