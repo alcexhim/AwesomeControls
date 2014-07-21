@@ -41,8 +41,8 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			ColorTable.CommandBarControlBorderHover = Color.FromArgb(249, 186, 113);
 
-            ColorTable.CommandBarControlBackgroundHoverGradientBegin = Color.FromArgb(255, 243, 199);
-            ColorTable.CommandBarControlBackgroundHoverGradientEnd = Color.FromArgb(255, 217, 123);
+			ColorTable.CommandBarControlBackgroundHoverGradientBegin = Color.FromArgb(255, 243, 199);
+			ColorTable.CommandBarControlBackgroundHoverGradientEnd = Color.FromArgb(255, 217, 123);
 
 			ColorTable.CommandBarGradientVerticalBegin = Color.FromArgb(231, 239, 255);
 			ColorTable.CommandBarGradientVerticalEnd = Color.FromArgb(181, 214, 255);
