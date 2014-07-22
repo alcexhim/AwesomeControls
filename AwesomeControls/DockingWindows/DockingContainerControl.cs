@@ -282,7 +282,12 @@ namespace AwesomeControls.DockingWindows
 			if (area.Windows.Count > 0)
 			{
 				// Theming.Theme.CurrentTheme.DrawDockPanelTitleBarBackground(g, rectTitle, true);
-				
+
+				if (area.ParentArea != null && area.ParentArea.Areas.Contains(DockPosition.Right))
+				{
+					rect.Width -= area.ParentArea.Areas[DockPosition.Right].Size; 
+				}
+
 				foreach (DockingWindow window in area.Windows)
 				{
 					Color BackColor = Theming.Theme.CurrentTheme.ColorTable.DockingWindowActiveTabBackgroundNormalGradientBegin;
@@ -648,7 +653,7 @@ namespace AwesomeControls.DockingWindows
 				// pop up the context menu
 				ShowContextMenu(dw, e.Location);
 			}
-			Refresh();
+			Invalidate();
 		}
 
 		private void ShowContextMenu(DockingWindow dw, Point location)
@@ -752,7 +757,7 @@ namespace AwesomeControls.DockingWindows
 			mvarSelectedWindow = dw;
 
 			OnSelectedWindowChanged(EventArgs.Empty);
-			Refresh();
+			Invalidate();
 			dw.Control.Focus();
 		}
 
@@ -1135,7 +1140,7 @@ namespace AwesomeControls.DockingWindows
 					}
 				}
 			}
-			Refresh();
+			Invalidate();
 
 			if (parentArea.Windows.Count == 0) mvarSelectedWindow = null;
 			OnWindowClosed(new WindowClosedEventArgs(dw));
@@ -1348,7 +1353,7 @@ namespace AwesomeControls.DockingWindows
 			base.OnResize(e);
 
 			UpdateControlMetrics();
-			Refresh();
+			Invalidate();
 		}
 
 		private System.Windows.Forms.ToolTip tip;
@@ -1401,7 +1406,7 @@ namespace AwesomeControls.DockingWindows
 			}
 			UpdateControlMetrics();
 
-			Refresh();
+			Invalidate();
 		}
 
 		private void LoadPopoutPanel(DockingWindow dw)
