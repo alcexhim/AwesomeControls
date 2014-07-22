@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace AwesomeControls.PropertyGrid
 {
+	[DefaultEvent("PropertyChanged")]
 	public partial class PropertyGridPanel : UserControl
 	{
 		private bool _hasFocus = false;
@@ -43,6 +44,19 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
+		public event PropertyChangingEventHandler PropertyChanging;
+		protected internal virtual void OnPropertyChanging(PropertyChangingEventArgs e)
+		{
+			if (PropertyChanging != null) PropertyChanging(this, e);
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		protected internal virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+		{
+			if (PropertyChanged != null) PropertyChanged(this, e);
+		}
+
+
 		private PropertyGridView mvarView = PropertyGridView.Unsorted;
 		public PropertyGridView View { get { return mvarView; } set { mvarView = value; } }
 
@@ -56,6 +70,7 @@ namespace AwesomeControls.PropertyGrid
 
 				if (mvarGroup != null)
 				{
+					mvarGroup.ParentControl = this;
 					if (mvarSelectedProperty != null)
 					{
 						Property p = mvarGroup.Properties[mvarSelectedProperty.Name];
@@ -216,6 +231,7 @@ namespace AwesomeControls.PropertyGrid
 			}
 			if (SelectedProperty == property)
 			{
+				txt.ForeColor = fc;
 				if (_hasFocus)
 				{
 					g.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightBackgroundColor), new Rectangle(mvarMarginWidth, y, leftWidth - mvarMarginWidth, mvarItemHeight));
@@ -285,22 +301,9 @@ namespace AwesomeControls.PropertyGrid
 			else
 			{
 				Font font = base.Font;
-				if (property.DefaultValueSet)
+				if (property.IsChanged)
 				{
-					if (property.DefaultValue == null)
-					{
-						if (property.Value == null)
-						{
-							font = new Font(font, FontStyle.Bold);
-						}
-					}
-					else
-					{
-						if (!property.DefaultValue.Equals(property.Value))
-						{
-							font = new Font(font, FontStyle.Bold);
-						}
-					}
+					font = new Font(font, FontStyle.Bold);
 				}
 				if (SelectedProperty == property)
 				{
@@ -342,7 +345,7 @@ namespace AwesomeControls.PropertyGrid
 		}
 
 		private Dictionary<Property, Rectangle> propBounds = new Dictionary<Property, Rectangle>();
-		private void UpdatePropertyBounds()
+		public void UpdatePropertyBounds()
 		{
 			propBounds.Clear();
 
@@ -377,7 +380,7 @@ namespace AwesomeControls.PropertyGrid
 			}
 			return propBounds[p];
 		}
-		public Property HitTest(int x, int y)
+		public Property HitTest(int x, int y, bool includeMargin = false)
 		{
 			if (propBounds.Count == 0)
 			{
@@ -386,7 +389,13 @@ namespace AwesomeControls.PropertyGrid
 
 			foreach (KeyValuePair<Property, Rectangle> kvp in propBounds)
 			{
-				if (kvp.Value.Contains(x, y)) return kvp.Key;
+				Rectangle rect = kvp.Value;
+				if (includeMargin)
+				{
+					rect.X -= mvarMarginWidth;
+					rect.Width += mvarMarginWidth;
+				}
+				if (rect.Contains(x, y)) return kvp.Key;
 			}
 			return null;
 		}
@@ -397,11 +406,23 @@ namespace AwesomeControls.PropertyGrid
 		{
 			Property p = HitTest(e.X, e.Y);
 
+			Property pMargin = HitTest(e.X, e.Y, true);
+
+
+			if (pMargin != null && pMargin.Properties.Count > 0 && e.X <= mvarMarginWidth)
+			{
+				pMargin.Expanded = !pMargin.Expanded;
+				SelectedProperty = pMargin;
+				Refresh();
+				return;
+			}
+
 			if (p == null)
 			{
 				SelectedProperty = null;
 				return;
 			}
+
 			Rectangle bounds = GetPropertyBounds(p);
 
 			if (p != SelectedProperty)
@@ -476,7 +497,7 @@ namespace AwesomeControls.PropertyGrid
 					if (e.X >= (pnlProperties.Width - 16))
 					{
 						Property p = SelectedProperty;
-						if (!p.ReadOnly)
+						if (p != null && !p.ReadOnly)
 						{
 							// Dropdown open
 							PropertyGridDropDownWindow wnd = new PropertyGridDropDownWindow(this);
@@ -552,14 +573,22 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (SelectedProperty != null)
 			{
+				PropertyDataType dt = SelectedProperty.DataType;
 				if (SelectedProperty.ReadOnly)
 				{
-					txt.Focus();
-					txt.SelectAll();
+					if (dt.Properties.Count > 0)
+					{
+						SelectedProperty.Expanded = !SelectedProperty.Expanded;
+						UpdatePropertyBounds();
+					}
+					else
+					{
+						txt.Focus();
+						txt.SelectAll();
+					}
 				}
 				else
 				{
-					PropertyDataType dt = SelectedProperty.DataType;
 					if (dt.Choices.Count > 0)
 					{
 						int idx = dt.Choices.IndexOf(SelectedProperty.Value);

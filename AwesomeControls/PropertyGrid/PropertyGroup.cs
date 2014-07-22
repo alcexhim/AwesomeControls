@@ -82,5 +82,16 @@ namespace AwesomeControls.PropertyGrid
 				return pg;
 			}
 		}
+
+		private PropertyGridPanel mvarParentControl = null;
+		public PropertyGridPanel ParentControl
+		{
+			get { return mvarParentControl; }
+			set
+			{
+				mvarParentControl = value;
+				mvarProperties.Parent = value;
+			}
+		}
 	}
 }

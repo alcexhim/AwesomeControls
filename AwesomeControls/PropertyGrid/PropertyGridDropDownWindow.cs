@@ -29,6 +29,32 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
+		private int mvarSelectedIndex = 0;
+
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+			foreach (PropertyDataTypeChoice choice in _validValues)
+			{
+				if (choice.Value == null)
+				{
+					if (_parent.SelectedProperty.Value == null)
+					{
+						mvarSelectedIndex = _validValues.IndexOf(choice);
+						return;
+					}
+				}
+				else
+				{
+					if (choice.Value.Equals(_parent.SelectedProperty.Value))
+					{
+						mvarSelectedIndex = _validValues.IndexOf(choice);
+						return;
+					}
+				}
+			}
+		}
+
 		protected override void OnLostFocus(EventArgs e)
 		{
 			base.OnLostFocus(e);
@@ -44,13 +70,13 @@ namespace AwesomeControls.PropertyGrid
 				if (_parent.SelectedProperty.DataType.Choices.Count > 0)
 				{
 					int i = 0;
-					foreach (PropertyDataTypeChoice s in _validValues)
+					for (int j = 0; j < _validValues.Count; j++)
 					{
 						Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
 						if (e.Y >= rect.Top && e.Y <= rect.Bottom)
 						{
-							_parent.SelectedProperty.Value = s.Value;
-							base.Refresh();
+							mvarSelectedIndex = j;
+							Refresh();
 							return;
 						}
 						i += _parent.ItemHeight;
@@ -67,14 +93,13 @@ namespace AwesomeControls.PropertyGrid
 				if (_validValues.Count > 0)
 				{
 					int i = 0;
-					foreach (PropertyDataTypeChoice s in _validValues)
+					for (int j = 0; j < _validValues.Count; j++)
 					{
 						Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
 						if (e.Y >= rect.Top && e.Y <= rect.Bottom)
 						{
-							_parent.SelectedProperty.Value = s.Value;
+							mvarSelectedIndex = j;
 							base.Refresh();
-							return;
 						}
 						i += _parent.ItemHeight;
 					}
@@ -84,8 +109,13 @@ namespace AwesomeControls.PropertyGrid
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			base.OnMouseUp(e);
-			_parent.Refresh();
 			base.Close();
+
+			if (mvarSelectedIndex > -1 && mvarSelectedIndex < _validValues.Count)
+			{
+				_parent.SelectedProperty.Value = _validValues[mvarSelectedIndex].Value;
+				_parent.Refresh();
+			}
 		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -100,7 +130,7 @@ namespace AwesomeControls.PropertyGrid
 			{
 				Rectangle rect = new Rectangle(0, i, base.Width, _parent.ItemHeight);
 				Color fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
-				if (_parent.SelectedProperty.Value == s.Value)
+				if (_validValues.IndexOf(s) == mvarSelectedIndex)
 				{
 					e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridItemHighlightBackgroundColor), rect);
 					fc = Color.FromKnownColor(KnownColor.HighlightText);

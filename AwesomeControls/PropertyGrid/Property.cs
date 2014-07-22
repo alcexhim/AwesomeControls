@@ -10,8 +10,19 @@ namespace AwesomeControls.PropertyGrid
 		public class PropertyCollection
 			: System.Collections.ObjectModel.Collection<Property>
 		{
-			private PropertyGridControl _parent = null;
-			public PropertyCollection(PropertyGridControl parent = null)
+			private PropertyGridPanel _parent = null;
+			public PropertyGridPanel Parent { get { return _parent; } 
+				internal set 
+				{
+					_parent = value;
+					foreach (Property p in this)
+					{
+						p.ParentControl = _parent;
+					}
+				} 
+			}
+
+			public PropertyCollection(PropertyGridPanel parent = null)
 			{
 				_parent = parent;
 			}
@@ -74,7 +85,7 @@ namespace AwesomeControls.PropertyGrid
 		}
 
 		private bool mvarExpanded = false;
-		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }	
+		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; if (mvarParentControl != null) mvarParentControl.UpdatePropertyBounds(); } }	
 
 		private Property.PropertyCollection mvarProperties = null;
 		public Property.PropertyCollection Properties { get { return mvarProperties; } set { mvarProperties = value; } }
@@ -98,16 +109,62 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
+		private bool mvarSetLastReadOnly = true;
+		private bool mvarLastReadOnly = false;
+
 		private bool mvarReadOnly = false;
-		public bool ReadOnly { get { return mvarReadOnly; } set { mvarReadOnly = value; } }
+		public bool ReadOnly
+		{
+			get { return mvarReadOnly; }
+			set
+			{
+				mvarReadOnly = value;
+				if (mvarSetLastReadOnly)
+				{
+					mvarLastReadOnly = value;
+				}
+
+				if (mvarReadOnly)
+				{
+					foreach (Property p in mvarProperties)
+					{
+						p.mvarSetLastReadOnly = false;
+						p.mvarLastReadOnly = p.ReadOnly;
+						p.ReadOnly = true;
+						p.mvarSetLastReadOnly = true;
+					}
+				}
+				else
+				{
+					foreach (Property p in mvarProperties)
+					{
+						p.mvarSetLastReadOnly = false;
+						p.ReadOnly = p.mvarLastReadOnly;
+						p.mvarSetLastReadOnly = true;
+					}
+				}
+			}
+		}
 		
 		private Image mvarImage = null;
 		public Image Image { get { return mvarImage; } set { mvarImage = value; } }
 		
 		private string mvarName = "";
 		public string Name { get { return mvarName; } set { mvarName = value; } }
-		
-		private PropertyGridControl mvarParentControl = null;
+
+		private PropertyGridPanel mvarParentControl = null;
+		public PropertyGridPanel ParentControl 
+		{
+			get { return mvarParentControl; }
+			internal set 
+			{
+				mvarParentControl = value;
+				foreach (Property p in mvarProperties)
+				{
+					p.ParentControl = mvarParentControl;
+				}
+			}
+		}
 
 		private bool mvarDefaultValueSet = false;
 		public bool DefaultValueSet { get { return mvarDefaultValueSet; } set { mvarDefaultValueSet = value; if (!mvarDefaultValueSet) mvarDefaultValue = null; } }
@@ -131,6 +188,7 @@ namespace AwesomeControls.PropertyGrid
 				mvarValue = value;
 				if (mvarParentControl != null)
 				{
+					mvarParentControl.Refresh();
 					mvarParentControl.OnPropertyChanged(new PropertyChangedEventArgs(this));
 				}
 			}
@@ -159,5 +217,38 @@ namespace AwesomeControls.PropertyGrid
 
 		private Property mvarParent = null;
 		public Property Parent { get { return mvarParent; } }
+
+		public bool IsChanged
+		{
+			get
+			{
+				if (mvarDefaultValueSet)
+				{
+					if (mvarDefaultValue == null)
+					{
+						if (mvarValue != null) return true;
+					}
+					else
+					{
+						return (!mvarDefaultValue.Equals(mvarValue));
+					}
+				}
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Resets the property to its default value, if set.
+		/// </summary>
+		/// <returns>True if the property has been reset, false if it has no default value to reset to.</returns>
+		public bool Reset()
+		{
+			if (mvarDefaultValueSet)
+			{
+				Value = mvarDefaultValue;
+				return true;
+			}
+			return false;
+		}
 	}
 }

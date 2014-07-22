@@ -224,6 +224,8 @@
 			this.propertyGridPanel1.SplitterPosition = 0.4D;
 			this.propertyGridPanel1.TabIndex = 0;
 			this.propertyGridPanel1.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
+			this.propertyGridPanel1.PropertyChanging += new AwesomeControls.PropertyGrid.PropertyChangingEventHandler(this.propertyGridPanel1_PropertyChanging);
+			this.propertyGridPanel1.PropertyChanged += new AwesomeControls.PropertyGrid.PropertyChangedEventHandler(this.propertyGridPanel1_PropertyChanged);
 			// 
 			// pnlCommands
 			// 

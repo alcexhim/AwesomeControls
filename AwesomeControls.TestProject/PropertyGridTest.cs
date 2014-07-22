@@ -14,10 +14,30 @@ namespace AwesomeControls.TestProject
 {
 	public partial class PropertyGridTest : Form
 	{
+
+		private bool mvarF5 = false;
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+			if (e.KeyCode == Keys.F5)
+			{
+				mvarF5 = !mvarF5;
+				foreach (PropertyGroup grp in pg.Groups)
+				{
+					foreach (Property p in grp.Properties)
+					{
+						p.ReadOnly = mvarF5;
+					}
+				}
+				pg.Refresh();
+			}
+		}
+
 		public PropertyGridTest()
 		{
 			InitializeComponent();
 
+			base.KeyPreview = true;
 			pg.Font = SystemFonts.MenuFont;
 
 			PropertyDataType BuildActionDataType = new PropertyDataType("BuildAction",
@@ -102,6 +122,11 @@ namespace AwesomeControls.TestProject
 			pg.Groups.Add(new PropertyGrid.PropertyGroup("Megurine Luka", CharacterDataType));
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Megurine Luka";
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Megurine Luka";
+		}
+
+		private void pg_PropertyChanged(object sender, PropertyGrid.PropertyChangedEventArgs e)
+		{
+			MessageBox.Show("Property '" + e.Property.Name + "' changed to '" + e.Property.Value + "'!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

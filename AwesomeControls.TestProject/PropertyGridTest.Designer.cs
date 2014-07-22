@@ -45,6 +45,7 @@
 			this.pg.ShowDescription = true;
 			this.pg.Size = new System.Drawing.Size(345, 319);
 			this.pg.TabIndex = 0;
+			this.pg.PropertyChanged += new AwesomeControls.PropertyGrid.PropertyChangedEventHandler(this.pg_PropertyChanged);
 			// 
 			// PropertyGridTest
 			// 

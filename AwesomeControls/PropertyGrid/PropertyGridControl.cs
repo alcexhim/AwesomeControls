@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
 namespace AwesomeControls.PropertyGrid
 {
+	[DefaultEvent("PropertyChanged")]
 	public partial class PropertyGridControl : UserControl
 	{
 		public PropertyGridControl()
@@ -119,8 +121,7 @@ namespace AwesomeControls.PropertyGrid
 			{
 				if (p.DefaultValueSet)
 				{
-					mnuContextReset.Enabled = (p.DefaultValue != null && !p.DefaultValue.Equals(p.Value))
-						|| (p.DefaultValue == null && p.Value != p.DefaultValue);
+					mnuContextReset.Enabled = p.IsChanged;
 				}
 				else
 				{
@@ -131,12 +132,25 @@ namespace AwesomeControls.PropertyGrid
 
 		private void mnuContextReset_Click(object sender, EventArgs e)
 		{
-			if (propertyGridPanel1.SelectedProperty != null && propertyGridPanel1.SelectedProperty.DefaultValueSet)
+			if (propertyGridPanel1.SelectedProperty != null)
 			{
-				propertyGridPanel1.SelectedProperty.Value = propertyGridPanel1.SelectedProperty.DefaultValue;
-				propertyGridPanel1.Refresh();
+				propertyGridPanel1.SelectedProperty.Reset();
 			}
 		}
 
+		public void UpdatePropertyBounds()
+		{
+			propertyGridPanel1.UpdatePropertyBounds();
+		}
+
+		private void propertyGridPanel1_PropertyChanging(object sender, PropertyChangingEventArgs e)
+		{
+			OnPropertyChanging(e);
+		}
+
+		private void propertyGridPanel1_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(e);
+		}
 	}
 }
