@@ -61,10 +61,7 @@ namespace AwesomeControls.ListView
 	{
 		public override int CompareTo(object other)
 		{
-<<<<<<< HEAD
-=======
 			// always equal, since they're both empty
->>>>>>> e63b5f15f1ebbbaf26f45aee819d3bbd8916f597
 			return 0;
 		}
 	}
