@@ -59,28 +59,14 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
     <WarningLevel>2</WarningLevel>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -150,7 +136,7 @@
     <Compile Include="DockingWindows\DockingContainerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockingWindows\DockingContainerControl.designer.cs">
+    <Compile Include="DockingWindows\DockingContainerControl.Designer.cs">
       <DependentUpon>DockingContainerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DockingWindows\DockingContainerMessageFilter.cs" />
@@ -179,6 +165,8 @@
     <Compile Include="PropertyGrid\PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
+    <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />
     <Compile Include="StringWrapper.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />

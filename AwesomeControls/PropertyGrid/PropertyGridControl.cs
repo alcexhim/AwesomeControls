@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
 namespace AwesomeControls.PropertyGrid
 {
+	[DefaultEvent("PropertyChanged")]
 	public partial class PropertyGridControl : UserControl
 	{
 		public PropertyGridControl()
@@ -13,6 +15,9 @@ namespace AwesomeControls.PropertyGrid
 			InitializeComponent();
 			mvarGroups = new PropertyGroup.PropertyGroupCollection(this);
 			this.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
+
+			cboObject.BackColor = Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorNormal;
+			cboObject.ForeColor = Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -54,14 +59,13 @@ namespace AwesomeControls.PropertyGrid
 				Font boldFont = new Font(base.Font, FontStyle.Bold);
 				Font regularFont = base.Font;
 				float w = e.Graphics.MeasureString(g.Name, boldFont).Width;
+				w -= 3;
 
-				e.Graphics.DrawString(g.Name, new Font(base.Font, FontStyle.Bold), new SolidBrush(e.ForeColor), new Rectangle(e.Bounds.Left, e.Bounds.Top, (int)(w + 10), cboObject.ItemHeight), sf);
-				e.Graphics.DrawString(g.TypeName, base.Font, new SolidBrush(e.ForeColor), new Rectangle(e.Bounds.Left + (int)(w + 10), e.Bounds.Top, cboObject.Width - 1 - ((int)(w - 10)), cboObject.ItemHeight), sf);
-				e.DrawFocusRectangle();
+				TextRenderer.DrawText(e.Graphics, g.Name, new Font(base.Font, FontStyle.Bold), new Rectangle(e.Bounds.Left, e.Bounds.Top + 1, (int)w, cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);
+				TextRenderer.DrawText(e.Graphics, g.DataType.Title, base.Font, new Rectangle(e.Bounds.Left + (int)w, e.Bounds.Top + 1, cboObject.Width - 1 - ((int)w), cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);
 			}
 		}
 
-		public int SelectedPropertyIndex { get { return propertyGridPanel1.SelectedPropertyIndex; } set { propertyGridPanel1.SelectedPropertyIndex = value; } }
 		public int SelectedGroupIndex { get { return cboObject.SelectedIndex; } set { cboObject.SelectedIndex = value; } }
 
 		public int ItemHeight { get { return propertyGridPanel1.ItemHeight; } set { propertyGridPanel1.ItemHeight = value; } }
@@ -110,5 +114,43 @@ namespace AwesomeControls.PropertyGrid
 			ShowDescription = !ShowDescription;
 		}
 
+		private void mnuContext_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			Property p = propertyGridPanel1.SelectedProperty;
+			if (p != null)
+			{
+				if (p.DefaultValueSet)
+				{
+					mnuContextReset.Enabled = p.IsChanged;
+				}
+				else
+				{
+					mnuContextReset.Enabled = false;
+				}
+			}
+		}
+
+		private void mnuContextReset_Click(object sender, EventArgs e)
+		{
+			if (propertyGridPanel1.SelectedProperty != null)
+			{
+				propertyGridPanel1.SelectedProperty.Reset();
+			}
+		}
+
+		public void UpdatePropertyBounds()
+		{
+			propertyGridPanel1.UpdatePropertyBounds();
+		}
+
+		private void propertyGridPanel1_PropertyChanging(object sender, PropertyChangingEventArgs e)
+		{
+			OnPropertyChanging(e);
+		}
+
+		private void propertyGridPanel1_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(e);
+		}
 	}
 }
