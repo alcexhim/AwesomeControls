@@ -99,19 +99,23 @@ namespace AwesomeControls.TestProject
 			CharacterDataType.Properties.Add(new Property("ClassName", "Character", null, true));
 			CharacterDataType.Properties.Add(new Property("Name", "Kagamine Len", null, false));
 			CharacterDataType.Properties.Add(new Property("Costumes", "", null, false));
+
+			PropertyCategory catAppearance = new PropertyCategory("Appearance");
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Category = catAppearance;
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].DataType = CostumesDataType;
 
 			CharacterDataType.Properties.Add(new Property("Location", null, null, false));
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].DataType = Vector3DataType;
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Category = catAppearance;
 			CharacterDataType.Properties.Add(new Property("Build Action", "Compile", null, false));
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].DataType = BuildActionDataType;
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Category = new PropertyCategory("Build");
 
 			CharacterDataType.Properties.Add(new Property("IsAvailable", true, null, false));
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].DataType = PropertyDataTypes.Boolean;
 
 
 			pg.Groups.Add(new PropertyGrid.PropertyGroup("Hatsune Miku", CharacterDataType));
-			pg.Groups[pg.Groups.Count - 1].Properties["Build Action"].Category = new PropertyCategory("Build");
 
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Hatsune Miku";
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Hatsune Miku";
