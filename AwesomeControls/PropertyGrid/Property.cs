@@ -224,6 +224,7 @@ namespace AwesomeControls.PropertyGrid
 		public object Clone()
 		{
 			Property clone = new Property();
+			clone.Category = mvarCategory;
 			clone.DataType = mvarDataType;
 			clone.DefaultValue = mvarDefaultValue;
 			clone.Expanded = mvarExpanded;
