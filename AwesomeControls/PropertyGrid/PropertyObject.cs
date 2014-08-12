@@ -4,16 +4,16 @@ using System.Text;
 
 namespace AwesomeControls.PropertyGrid
 {
-	public class PropertyGroup
+	public class PropertyObject
 	{
-		public PropertyGroup()
+		public PropertyObject()
 		{
 		}
-		public PropertyGroup(string Name)
+		public PropertyObject(string Name)
 		{
 			mvarName = Name;
 		}
-		public PropertyGroup(string Name, PropertyDataType DataType)
+		public PropertyObject(string Name, PropertyDataType DataType)
 		{
 			mvarName = Name;
 			this.DataType = DataType;
@@ -44,16 +44,16 @@ namespace AwesomeControls.PropertyGrid
 		private Property.PropertyCollection mvarProperties = new Property.PropertyCollection();
 		public Property.PropertyCollection Properties { get { return mvarProperties; } }
 
-		public class PropertyGroupCollection
-			: System.Collections.ObjectModel.Collection<PropertyGroup>
+		public class PropertyObjectCollection
+			: System.Collections.ObjectModel.Collection<PropertyObject>
 		{
 			private PropertyGridControl _parent = null;
-			public PropertyGroupCollection(PropertyGridControl parent)
+			public PropertyObjectCollection(PropertyGridControl parent)
 			{
 				_parent = parent;
 			}
 
-			protected override void InsertItem(int index, PropertyGroup item)
+			protected override void InsertItem(int index, PropertyObject item)
 			{
 				base.InsertItem(index, item);
 				if (_parent != null) _parent.cboObject.Items.Add(item);
@@ -69,13 +69,13 @@ namespace AwesomeControls.PropertyGrid
 				base.RemoveItem(index);
 			}
 
-			public PropertyGroup Add(string Name)
+			public PropertyObject Add(string Name)
 			{
 				return Add(Name, PropertyDataType.Empty);
 			}
-			public PropertyGroup Add(string Name, PropertyDataType DataType)
+			public PropertyObject Add(string Name, PropertyDataType DataType)
 			{
-				PropertyGroup pg = new PropertyGroup();
+				PropertyObject pg = new PropertyObject();
 				pg.Name = Name;
 				pg.DataType = DataType;
 				Add(pg);

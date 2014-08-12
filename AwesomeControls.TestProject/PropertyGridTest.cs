@@ -22,7 +22,7 @@ namespace AwesomeControls.TestProject
 			if (e.KeyCode == Keys.F5)
 			{
 				mvarF5 = !mvarF5;
-				foreach (PropertyGroup grp in pg.Groups)
+				foreach (PropertyObject grp in pg.Objects)
 				{
 					foreach (Property p in grp.Properties)
 					{
@@ -110,18 +110,18 @@ namespace AwesomeControls.TestProject
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].DataType = PropertyDataTypes.Boolean;
 
 
-			pg.Groups.Add(new PropertyGrid.PropertyGroup("Hatsune Miku", CharacterDataType));
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Hatsune Miku";
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Hatsune Miku";
-			pg.Groups.Add(new PropertyGrid.PropertyGroup("Kagamine Rin", CharacterDataType));
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Kagamine Rin";
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Kagamine Rin";
-			pg.Groups.Add(new PropertyGrid.PropertyGroup("Kagamine Len", CharacterDataType));
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Kagamine Len";
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Kagamine Len";
-			pg.Groups.Add(new PropertyGrid.PropertyGroup("Megurine Luka", CharacterDataType));
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Megurine Luka";
-			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Megurine Luka";
+			pg.Objects.Add(new PropertyGrid.PropertyObject("Hatsune Miku", CharacterDataType));
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].DefaultValue = "Hatsune Miku";
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].Value = "Hatsune Miku";
+			pg.Objects.Add(new PropertyGrid.PropertyObject("Kagamine Rin", CharacterDataType));
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].DefaultValue = "Kagamine Rin";
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].Value = "Kagamine Rin";
+			pg.Objects.Add(new PropertyGrid.PropertyObject("Kagamine Len", CharacterDataType));
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].DefaultValue = "Kagamine Len";
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].Value = "Kagamine Len";
+			pg.Objects.Add(new PropertyGrid.PropertyObject("Megurine Luka", CharacterDataType));
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].DefaultValue = "Megurine Luka";
+			pg.Objects[pg.Objects.Count - 1].Properties["Name"].Value = "Megurine Luka";
 		}
 
 		private void pg_PropertyChanged(object sender, PropertyGrid.PropertyChangedEventArgs e)
