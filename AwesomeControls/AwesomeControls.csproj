@@ -151,10 +151,13 @@
     <Compile Include="DrawingTools.cs" />
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
-    <Compile Include="NativeDialogs\Internal\Constants.cs" />
-    <Compile Include="NativeDialogs\Internal\Delegates.cs" />
-    <Compile Include="NativeDialogs\Internal\Methods.cs" />
-    <Compile Include="NativeDialogs\Internal\Structures.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Constants.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Delegates.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Methods.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Structures.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\FolderSelectDialog.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\Reflector.cs" />
     <Compile Include="PieMenu\PieMenuItem.cs" />
     <Compile Include="PieMenu\PieMenuItemGroup.cs" />
     <Compile Include="PieMenu\PieMenuManager.cs" />
