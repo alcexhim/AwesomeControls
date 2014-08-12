@@ -59,7 +59,7 @@ namespace AwesomeControls.PropertyGrid
 				Font boldFont = new Font(base.Font, FontStyle.Bold);
 				Font regularFont = base.Font;
 				float w = e.Graphics.MeasureString(g.Name, boldFont).Width;
-				w -= 3;
+				w += 2;
 
 				TextRenderer.DrawText(e.Graphics, g.Name, new Font(base.Font, FontStyle.Bold), new Rectangle(e.Bounds.Left, e.Bounds.Top + 1, (int)w, cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);
 				TextRenderer.DrawText(e.Graphics, g.DataType.Title, base.Font, new Rectangle(e.Bounds.Left + (int)w, e.Bounds.Top + 1, cboObject.Width - 1 - ((int)w), cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);

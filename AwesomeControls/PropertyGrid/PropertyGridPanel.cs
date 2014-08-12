@@ -309,6 +309,14 @@ namespace AwesomeControls.PropertyGrid
 				{
 					txt.Font = font;
 				}
+				if (txt.Font.Bold)
+				{
+					txt.Left = leftWidth + 5;
+				}
+				else
+				{
+					txt.Left = leftWidth + 2;
+				}
 				TextRenderer.DrawText(g, property.Value.ToString(), font, rectValue, fc, TextFormatFlags.Left);
 			}
 
@@ -435,7 +443,6 @@ namespace AwesomeControls.PropertyGrid
 			int rightWidth = pnlProperties.Width - leftWidth;
 
 			txt.Visible = true;
-			txt.Left = leftWidth + 2;
 			txt.Multiline = true;
 			txt.Height = mvarItemHeight - 1;
 			txt.Width = rightWidth - 6;
@@ -555,8 +562,8 @@ namespace AwesomeControls.PropertyGrid
 			{
 				if (SelectedProperty != null)
 				{
-					SelectedProperty.Value = txt.Text;
 					txt.Visible = false;
+					SelectedProperty.Value = txt.Text;
 				}
 			}
 		}
