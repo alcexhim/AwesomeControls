@@ -422,6 +422,7 @@ namespace AwesomeControls.PropertyGrid
 				{
 					txt.Left = leftWidth + 2;
 				}
+
 				TextRenderer.DrawText(g, property.Value.ToString(), font, rectValue, fc, TextFormatFlags.Left);
 			}
 
@@ -477,6 +478,7 @@ namespace AwesomeControls.PropertyGrid
 						{
 							h += 18;
 							processedCategory = true;
+							lastCategory = SortedProperties[i].Category;
 						}
 					}
 					UpdatePropertyBounds(SortedProperties[i], ref h);
@@ -536,7 +538,6 @@ namespace AwesomeControls.PropertyGrid
 			Property p = HitTest(e.X, e.Y);
 
 			Property pMargin = HitTest(e.X, e.Y, true);
-
 
 			if (pMargin != null && pMargin.Properties.Count > 0 && e.X <= mvarMarginWidth)
 			{
