@@ -13,7 +13,7 @@ namespace AwesomeControls.PropertyGrid
 		public PropertyGridControl()
 		{
 			InitializeComponent();
-			mvarObjects = new PropertyObject.PropertyObjectCollection(this);
+			mvarGroups = new PropertyGroup.PropertyGroupCollection(this);
 			this.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
 
 			cboObject.BackColor = Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorNormal;
@@ -31,8 +31,8 @@ namespace AwesomeControls.PropertyGrid
 
 		public Color PropertyListBackColor { get { return propertyGridPanel1.BackColor; } set { propertyGridPanel1.BackColor = value; } }
 
-		private PropertyObject.PropertyObjectCollection mvarObjects = null;
-		public PropertyObject.PropertyObjectCollection Objects { get { return mvarObjects; } }
+		private PropertyGroup.PropertyGroupCollection mvarGroups = null;
+		public PropertyGroup.PropertyGroupCollection Groups { get { return mvarGroups; } }
 
 		public event PropertyChangingEventHandler PropertyChanging;
 		protected internal virtual void OnPropertyChanging(PropertyChangingEventArgs e)
@@ -51,7 +51,7 @@ namespace AwesomeControls.PropertyGrid
 			if (e.Index > -1)
 			{
 				e.DrawBackground();
-				PropertyObject g = (cboObject.Items[e.Index] as PropertyObject);
+				PropertyGroup g = (cboObject.Items[e.Index] as PropertyGroup);
 				StringFormat sf = new StringFormat();
 				DrawingTools.PrepareGraphics(e.Graphics);
 
@@ -76,7 +76,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			propertyGridPanel1.SelectedObject = mvarObjects[cboObject.SelectedIndex];
+			propertyGridPanel1.SelectedGroup = mvarGroups[cboObject.SelectedIndex];
 		}
 
 		private void sc_Panel_Paint(object sender, PaintEventArgs e)

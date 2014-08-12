@@ -215,7 +215,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.propertyGridPanel1.BackColor = System.Drawing.SystemColors.Window;
-			this.propertyGridPanel1.SelectedObject = null;
+			this.propertyGridPanel1.SelectedGroup = null;
 			this.propertyGridPanel1.ItemHeight = 16;
 			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
 			this.propertyGridPanel1.Name = "propertyGridPanel1";

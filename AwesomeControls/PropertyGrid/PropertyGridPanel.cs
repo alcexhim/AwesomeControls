@@ -60,32 +60,32 @@ namespace AwesomeControls.PropertyGrid
 		private PropertyGridView mvarView = PropertyGridView.Unsorted;
 		public PropertyGridView View { get { return mvarView; } set { mvarView = value; } }
 
-		private PropertyObject mvarSelectedObject = null;
-		public PropertyObject SelectedObject
+		private PropertyGroup mvarSelectedGroup = null;
+		public PropertyGroup SelectedGroup
 		{
-			get { return mvarSelectedObject; }
+			get { return mvarSelectedGroup; }
 			set
 			{
-				mvarSelectedObject = value;
+				mvarSelectedGroup = value;
 
-				if (mvarSelectedObject != null)
+				if (mvarSelectedGroup != null)
 				{
-					mvarSelectedObject.ParentControl = this;
+					mvarSelectedGroup.ParentControl = this;
 					if (mvarSelectedProperty != null)
 					{
-						Property p = mvarSelectedObject.Properties[mvarSelectedProperty.Name];
+						Property p = mvarSelectedGroup.Properties[mvarSelectedProperty.Name];
 						if (p != null)
 						{
 							SelectedProperty = p;
 						}
 						else
 						{
-							SelectedProperty = mvarSelectedObject.Properties[0];
+							SelectedProperty = mvarSelectedGroup.Properties[0];
 						}
 					}
 					else
 					{
-						SelectedProperty = mvarSelectedObject.Properties[0];
+						SelectedProperty = mvarSelectedGroup.Properties[0];
 					}
 				}
 
@@ -109,7 +109,7 @@ namespace AwesomeControls.PropertyGrid
 		public override void Refresh()
 		{
 			base.Refresh();
-			if (mvarSelectedObject == null) return;
+			if (mvarSelectedGroup == null) return;
 
 			if (SelectedProperty != null)
 			{
@@ -130,18 +130,18 @@ namespace AwesomeControls.PropertyGrid
 
 		private void RecalculateVisibleProperties()
 		{
-			if (mvarSelectedObject == null) return;
+			if (mvarSelectedGroup == null) return;
 			int visibleProperties = 0, h = 0;
-			for (int i = 0; i < mvarSelectedObject.Properties.Count; i++)
+			for (int i = 0; i < mvarSelectedGroup.Properties.Count; i++)
 			{
-				h += CalculatePropertyHeight(mvarSelectedObject.Properties[i]);
+				h += CalculatePropertyHeight(mvarSelectedGroup.Properties[i]);
 				if (h <= pnlProperties.Height)
 				{
 					visibleProperties++;
 				}
 			}
 			visibleProperties--;
-			vsc.Maximum = (mvarSelectedObject.Properties.Count - visibleProperties) + 7;
+			vsc.Maximum = (mvarSelectedGroup.Properties.Count - visibleProperties) + 7;
 			if (vsc.Value > vsc.Maximum)
 			{
 				vsc.Value = 0;
@@ -190,7 +190,7 @@ namespace AwesomeControls.PropertyGrid
 			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
 			int rightWidth = pnlProperties.Width - leftWidth;
 
-			if (mvarSelectedObject != null)
+			if (mvarSelectedGroup != null)
 			{
 				if (mvarView == PropertyGridView.Alphabetical)
 				{
@@ -203,10 +203,10 @@ namespace AwesomeControls.PropertyGrid
 					int s = 0;
 					if (vsc.Maximum > 0) s = vsc.Value;
 					int y = 0;
-					for (int i = s; i < mvarSelectedObject.Properties.Count; i++)
+					for (int i = s; i < mvarSelectedGroup.Properties.Count; i++)
 					{
-						RenderProperty(e.Graphics, mvarSelectedObject.Properties[i], ref y, 0);
-						if (i < mvarSelectedObject.Properties.Count - 1)
+						RenderProperty(e.Graphics, mvarSelectedGroup.Properties[i], ref y, 0);
+						if (i < mvarSelectedGroup.Properties.Count - 1)
 						{
 							e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), mvarMarginWidth, y + mvarItemHeight, pnlProperties.Width - 2, y + mvarItemHeight);
 						}
@@ -358,11 +358,11 @@ namespace AwesomeControls.PropertyGrid
 			propBounds.Clear();
 
 			int h = 0;
-			if (mvarSelectedObject != null)
+			if (mvarSelectedGroup != null)
 			{
-				for (int i = 0; i < mvarSelectedObject.Properties.Count; i++)
+				for (int i = 0; i < mvarSelectedGroup.Properties.Count; i++)
 				{
-					UpdatePropertyBounds(mvarSelectedObject.Properties[i], ref h);
+					UpdatePropertyBounds(mvarSelectedGroup.Properties[i], ref h);
 				}
 			}
 		}
@@ -496,7 +496,7 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				if (mvarSelectedObject == null) return;
+				if (mvarSelectedGroup == null) return;
 				int h = 0, s = 0;
 				if (vsc.Maximum > 0) s = vsc.Value;
 				if (m_clicked > 1)
@@ -557,7 +557,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void txt_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (mvarSelectedObject == null) return;
+			if (mvarSelectedGroup == null) return;
 			if (e.KeyCode == Keys.Enter)
 			{
 				if (SelectedProperty != null)
