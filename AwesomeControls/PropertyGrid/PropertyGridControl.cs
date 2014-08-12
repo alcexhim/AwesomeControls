@@ -31,6 +31,13 @@ namespace AwesomeControls.PropertyGrid
 
 		public Color PropertyListBackColor { get { return propertyGridPanel1.BackColor; } set { propertyGridPanel1.BackColor = value; } }
 
+		/// <summary>
+		/// The name of the <see cref="PropertyCategory" /> in which to
+		/// place uncategorized properties.
+		/// </summary>
+		[DefaultValue("Misc")]
+		public string DefaultCategoryName { get { return propertyGridPanel1.DefaultCategoryName; } set { propertyGridPanel1.DefaultCategoryName = value; } }
+
 		private PropertyGroup.PropertyGroupCollection mvarGroups = null;
 		public PropertyGroup.PropertyGroupCollection Groups { get { return mvarGroups; } }
 
@@ -66,6 +73,30 @@ namespace AwesomeControls.PropertyGrid
 		}
 
 		public int SelectedGroupIndex { get { return cboObject.SelectedIndex; } set { cboObject.SelectedIndex = value; } }
+
+		public PropertyGridSortingMode SortingMode
+		{
+			get { return propertyGridPanel1.SortingMode; }
+			set
+			{
+				propertyGridPanel1.SortingMode = value;
+				switch (value)
+				{
+					case PropertyGridSortingMode.Alphabetical:
+					{
+						tsbAlphabetical.Checked = true;
+						tsbCategorized.Checked = false;
+						break;
+					}
+					case PropertyGridSortingMode.Categorized:
+					{
+						tsbAlphabetical.Checked = false;
+						tsbCategorized.Checked = true;
+						break;
+					}
+				}
+			}
+		}
 
 		public int ItemHeight { get { return propertyGridPanel1.ItemHeight; } set { propertyGridPanel1.ItemHeight = value; } }
 
@@ -150,6 +181,19 @@ namespace AwesomeControls.PropertyGrid
 		private void propertyGridPanel1_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			OnPropertyChanged(e);
+		}
+
+		private void tsbCategorized_Click(object sender, EventArgs e)
+		{
+			tsbCategorized.Checked = true;
+			tsbAlphabetical.Checked = false;
+			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Categorized;
+		}
+		private void tsbAlphabetical_Click(object sender, EventArgs e)
+		{
+			tsbCategorized.Checked = false;
+			tsbAlphabetical.Checked = true;
+			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Alphabetical;
 		}
 	}
 }

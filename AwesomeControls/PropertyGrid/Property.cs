@@ -7,11 +7,35 @@ namespace AwesomeControls.PropertyGrid
 {
 	public class Property : ICloneable
 	{
+		public class ReadOnlyPropertyCollection
+			: System.Collections.ObjectModel.ReadOnlyCollection<Property>
+		{
+			public ReadOnlyPropertyCollection(IList<Property> list)
+				: base(list)
+			{
+
+			}
+
+			public Property this[string name]
+			{
+				get
+				{
+					foreach (Property p in this)
+					{
+						if (p.Name == name) return p;
+					}
+					return null;
+				}
+			}
+
+		}
 		public class PropertyCollection
 			: System.Collections.ObjectModel.Collection<Property>
 		{
 			private PropertyGridPanel _parent = null;
-			public PropertyGridPanel Parent { get { return _parent; } 
+			public PropertyGridPanel Parent
+			{
+				get { return _parent; } 
 				internal set 
 				{
 					_parent = value;
@@ -83,6 +107,9 @@ namespace AwesomeControls.PropertyGrid
 			mvarReadOnly = readOnly;
 			mvarProperties = new PropertyCollection(this);
 		}
+
+		private PropertyCategory mvarCategory = null;
+		public PropertyCategory Category { get { return mvarCategory; } set { mvarCategory = value; } }
 
 		private bool mvarExpanded = false;
 		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; if (mvarParentControl != null) mvarParentControl.UpdatePropertyBounds(); } }	

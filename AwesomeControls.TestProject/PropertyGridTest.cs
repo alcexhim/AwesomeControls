@@ -111,6 +111,8 @@ namespace AwesomeControls.TestProject
 
 
 			pg.Groups.Add(new PropertyGrid.PropertyGroup("Hatsune Miku", CharacterDataType));
+			pg.Groups[pg.Groups.Count - 1].Properties["Build Action"].Category = new PropertyCategory("Build");
+
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].DefaultValue = "Hatsune Miku";
 			pg.Groups[pg.Groups.Count - 1].Properties["Name"].Value = "Hatsune Miku";
 			pg.Groups.Add(new PropertyGrid.PropertyGroup("Kagamine Rin", CharacterDataType));
