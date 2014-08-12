@@ -114,12 +114,15 @@
 			// 
 			// tsbCategorized
 			// 
+			this.tsbCategorized.Checked = true;
+			this.tsbCategorized.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.tsbCategorized.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.tsbCategorized.Image = ((System.Drawing.Image)(resources.GetObject("tsbCategorized.Image")));
 			this.tsbCategorized.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsbCategorized.Name = "tsbCategorized";
 			this.tsbCategorized.Size = new System.Drawing.Size(23, 22);
 			this.tsbCategorized.Text = "Categorized";
+			this.tsbCategorized.Click += new System.EventHandler(this.tsbCategorized_Click);
 			// 
 			// tsbAlphabetical
 			// 
@@ -129,6 +132,7 @@
 			this.tsbAlphabetical.Name = "tsbAlphabetical";
 			this.tsbAlphabetical.Size = new System.Drawing.Size(23, 22);
 			this.tsbAlphabetical.Text = "Alphabetical";
+			this.tsbAlphabetical.Click += new System.EventHandler(this.tsbAlphabetical_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -215,12 +219,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.propertyGridPanel1.BackColor = System.Drawing.SystemColors.Window;
-			this.propertyGridPanel1.Group = null;
 			this.propertyGridPanel1.ItemHeight = 16;
 			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
 			this.propertyGridPanel1.Name = "propertyGridPanel1";
+			this.propertyGridPanel1.SelectedGroup = null;
 			this.propertyGridPanel1.SelectedProperty = null;
 			this.propertyGridPanel1.Size = new System.Drawing.Size(291, 148);
+			this.propertyGridPanel1.SortingMode = AwesomeControls.PropertyGrid.PropertyGridSortingMode.Categorized;
 			this.propertyGridPanel1.SplitterPosition = 0.4D;
 			this.propertyGridPanel1.TabIndex = 0;
 			this.propertyGridPanel1.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
@@ -283,28 +288,28 @@
             this.mnuContextCommands,
             this.mnuContextDescription});
 			this.mnuContext.Name = "mnuContext";
-			this.mnuContext.Size = new System.Drawing.Size(137, 76);
+			this.mnuContext.Size = new System.Drawing.Size(128, 76);
 			this.mnuContext.Opening += new System.ComponentModel.CancelEventHandler(this.mnuContext_Opening);
 			// 
 			// mnuContextReset
 			// 
 			this.mnuContextReset.Enabled = false;
 			this.mnuContextReset.Name = "mnuContextReset";
-			this.mnuContextReset.Size = new System.Drawing.Size(136, 22);
+			this.mnuContextReset.Size = new System.Drawing.Size(127, 22);
 			this.mnuContextReset.Text = "&Reset";
 			this.mnuContextReset.Click += new System.EventHandler(this.mnuContextReset_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
 			// 
 			// mnuContextCommands
 			// 
 			this.mnuContextCommands.Checked = true;
 			this.mnuContextCommands.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.mnuContextCommands.Name = "mnuContextCommands";
-			this.mnuContextCommands.Size = new System.Drawing.Size(136, 22);
+			this.mnuContextCommands.Size = new System.Drawing.Size(127, 22);
 			this.mnuContextCommands.Text = "&Commands";
 			this.mnuContextCommands.Click += new System.EventHandler(this.mnuContextCommands_Click);
 			// 
@@ -313,7 +318,7 @@
 			this.mnuContextDescription.Checked = true;
 			this.mnuContextDescription.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.mnuContextDescription.Name = "mnuContextDescription";
-			this.mnuContextDescription.Size = new System.Drawing.Size(136, 22);
+			this.mnuContextDescription.Size = new System.Drawing.Size(127, 22);
 			this.mnuContextDescription.Text = "&Description";
 			this.mnuContextDescription.Click += new System.EventHandler(this.mnuContextDescription_Click);
 			// 

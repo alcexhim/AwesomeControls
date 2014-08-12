@@ -150,6 +150,14 @@
     <Compile Include="DockingWindows\WindowClosingEvent.cs" />
     <Compile Include="DrawingTools.cs" />
     <Compile Include="Mirror.Methods.cs" />
+    <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Constants.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Delegates.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Methods.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Structures.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\FolderSelectDialog.cs" />
+    <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\Reflector.cs" />
     <Compile Include="PieMenu\PieMenuItem.cs" />
     <Compile Include="PieMenu\PieMenuItemGroup.cs" />
     <Compile Include="PieMenu\PieMenuManager.cs" />
@@ -158,6 +166,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PieMenu\PieMenuWindow.Designer.cs" />
+    <Compile Include="PropertyGrid\PropertyCategory.cs" />
     <Compile Include="PropertyGrid\PropertyDataTypeChoice.cs" />
     <Compile Include="PropertyGrid\PropertyEditor.cs">
       <SubType>UserControl</SubType>
@@ -165,6 +174,7 @@
     <Compile Include="PropertyGrid\PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyGrid\PropertyGridSortingMode.cs" />
     <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
     <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />
     <Compile Include="StringWrapper.cs" />

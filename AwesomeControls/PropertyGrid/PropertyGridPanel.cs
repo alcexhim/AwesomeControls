@@ -19,6 +19,14 @@ namespace AwesomeControls.PropertyGrid
 			txt.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
 		}
 
+		private string mvarDefaultCategoryName = "Misc";
+		/// <summary>
+		/// The name of the <see cref="PropertyCategory" /> in which to
+		/// place uncategorized properties.
+		/// </summary>
+		[DefaultValue("Misc")]
+		public string DefaultCategoryName { get { return mvarDefaultCategoryName; } set { mvarDefaultCategoryName = value; } }
+
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
@@ -60,32 +68,34 @@ namespace AwesomeControls.PropertyGrid
 		private PropertyGridView mvarView = PropertyGridView.Unsorted;
 		public PropertyGridView View { get { return mvarView; } set { mvarView = value; } }
 
-		private PropertyGroup mvarGroup = null;
-		public PropertyGroup Group
+		private PropertyGroup mvarSelectedGroup = null;
+		public PropertyGroup SelectedGroup
 		{
-			get { return mvarGroup; }
+			get { return mvarSelectedGroup; }
 			set
 			{
-				mvarGroup = value;
+				mvarSelectedGroup = value;
 
-				if (mvarGroup != null)
+				if (mvarSelectedGroup != null)
 				{
-					mvarGroup.ParentControl = this;
+					UpdateSortedProperties();
+
+					mvarSelectedGroup.ParentControl = this;
 					if (mvarSelectedProperty != null)
 					{
-						Property p = mvarGroup.Properties[mvarSelectedProperty.Name];
+						Property p = SortedProperties[mvarSelectedProperty.Name];
 						if (p != null)
 						{
 							SelectedProperty = p;
 						}
 						else
 						{
-							SelectedProperty = mvarGroup.Properties[0];
+							SelectedProperty = SortedProperties[0];
 						}
 					}
-					else
+					else if (SortedProperties.Count > 0)
 					{
-						SelectedProperty = mvarGroup.Properties[0];
+						SelectedProperty = SortedProperties[0];
 					}
 				}
 
@@ -109,7 +119,7 @@ namespace AwesomeControls.PropertyGrid
 		public override void Refresh()
 		{
 			base.Refresh();
-			if (mvarGroup == null) return;
+			if (mvarSelectedGroup == null) return;
 
 			if (SelectedProperty != null)
 			{
@@ -126,22 +136,97 @@ namespace AwesomeControls.PropertyGrid
 			vsc.Minimum = 0;
 
 			RecalculateVisibleProperties();
+			UpdateSortedProperties();
+		}
+
+		private PropertyGridSortingMode mvarSortingMode = PropertyGridSortingMode.Categorized;
+		public PropertyGridSortingMode SortingMode
+		{
+			get { return mvarSortingMode; }
+			set
+			{
+				bool changed = (mvarSortingMode != value);
+				mvarSortingMode = value;
+				if (changed)
+				{
+					UpdateSortedProperties();
+					UpdatePropertyBounds();
+					Refresh();
+				}
+			}
+		}
+
+		private Property.ReadOnlyPropertyCollection SortedProperties = null;
+		private int PropertyComparerCategorical(Property p1, Property p2)
+		{
+			if (p2.Category == null && p1.Category != null)
+			{
+				return p1.Category.Title.CompareTo(mvarDefaultCategoryName);
+			}
+			else if (p1.Category == null && p2.Category != null)
+			{
+				return mvarDefaultCategoryName.CompareTo(p2.Category.Title);
+			}
+			else if (p1.Category == null)
+			{
+				return p1.Name.CompareTo(p2.Name);
+			}
+
+			int r = p1.Category.Title.CompareTo(p2.Category.Title);
+			if (r == 0)
+			{
+				return p1.Name.CompareTo(p2.Name);
+			}
+			return r;
+		}
+		private int PropertyComparerAlphabetical(Property p1, Property p2)
+		{
+			return p1.Name.CompareTo(p2.Name);
+		}
+		private void UpdateSortedProperties()
+		{
+			List<Property> plist = new List<Property>();
+			if (mvarSelectedGroup != null)
+			{
+				foreach (Property p in mvarSelectedGroup.Properties)
+				{
+					plist.Add(p);
+				}
+			}
+
+			Comparison<Property> comparison = null;
+			switch (mvarSortingMode)
+			{
+				case PropertyGridSortingMode.Alphabetical:
+				{
+					comparison = new Comparison<Property>(PropertyComparerAlphabetical);
+					break;
+				}
+				case PropertyGridSortingMode.Categorized:
+				{
+					comparison = new Comparison<Property>(PropertyComparerCategorical);
+					break;
+				}
+			}
+			plist.Sort(comparison);
+
+			SortedProperties = new Property.ReadOnlyPropertyCollection(plist);
 		}
 
 		private void RecalculateVisibleProperties()
 		{
-			if (mvarGroup == null) return;
+			if (mvarSelectedGroup == null) return;
 			int visibleProperties = 0, h = 0;
-			for (int i = 0; i < mvarGroup.Properties.Count; i++)
+			for (int i = 0; i < mvarSelectedGroup.Properties.Count; i++)
 			{
-				h += CalculatePropertyHeight(mvarGroup.Properties[i]);
+				h += CalculatePropertyHeight(mvarSelectedGroup.Properties[i]);
 				if (h <= pnlProperties.Height)
 				{
 					visibleProperties++;
 				}
 			}
 			visibleProperties--;
-			vsc.Maximum = (mvarGroup.Properties.Count - visibleProperties) + 7;
+			vsc.Maximum = (mvarSelectedGroup.Properties.Count - visibleProperties) + 7;
 			if (vsc.Value > vsc.Maximum)
 			{
 				vsc.Value = 0;
@@ -180,6 +265,8 @@ namespace AwesomeControls.PropertyGrid
 
 		private void pnlProperties_Paint(object sender, PaintEventArgs e)
 		{
+			if (SortedProperties == null) UpdateSortedProperties();
+
 			e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor);
 
 			DrawingTools.PrepareGraphics(e.Graphics);
@@ -190,30 +277,48 @@ namespace AwesomeControls.PropertyGrid
 			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
 			int rightWidth = pnlProperties.Width - leftWidth;
 
-			if (mvarGroup != null)
+			if (mvarSelectedGroup != null)
 			{
-				if (mvarView == PropertyGridView.Alphabetical)
+				int s = 0;
+				if (vsc.Maximum > 0) s = vsc.Value;
+				int y = 0;
+
+				bool drawnFirstCategory = false;
+				PropertyCategory lastCategory = null;
+				for (int i = s; i < SortedProperties.Count; i++)
 				{
-				}
-				else if (mvarView == PropertyGridView.Categorized)
-				{
-				}
-				else if (mvarView == PropertyGridView.Unsorted)
-				{
-					int s = 0;
-					if (vsc.Maximum > 0) s = vsc.Value;
-					int y = 0;
-					for (int i = s; i < mvarGroup.Properties.Count; i++)
+					if (mvarSortingMode == PropertyGridSortingMode.Categorized)
 					{
-						RenderProperty(e.Graphics, mvarGroup.Properties[i], ref y, 0);
-						if (i < mvarGroup.Properties.Count - 1)
+						if ((SortedProperties[i].Category == null && !drawnFirstCategory) || (SortedProperties[i].Category != lastCategory))
 						{
-							e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), mvarMarginWidth, y + mvarItemHeight, pnlProperties.Width - 2, y + mvarItemHeight);
+							RenderPropertyCategoryHeader(e.Graphics, SortedProperties[i].Category, ref y);
 						}
+						drawnFirstCategory = true;
+						lastCategory = SortedProperties[i].Category;
+					}
+
+					RenderProperty(e.Graphics, SortedProperties[i], ref y, 0);
+					if (i < mvarSelectedGroup.Properties.Count - 1)
+					{
+						e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), mvarMarginWidth, y + mvarItemHeight, pnlProperties.Width - 2, y + mvarItemHeight);
 					}
 				}
 			}
 			e.Graphics.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), leftWidth, 1, leftWidth, pnlProperties.Height - 2);
+		}
+
+		private void RenderPropertyCategoryHeader(Graphics g, PropertyCategory category, ref int y)
+		{
+			y++;
+
+			Rectangle rect = new Rectangle(16, y, Width - 16, 16);
+
+			g.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), rect);
+			TextRenderer.DrawText(g, (category == null ? mvarDefaultCategoryName : category.Title), new Font(Font, FontStyle.Bold), rect, Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor, TextFormatFlags.Left);
+
+			y += 16;
+
+			y++;
 		}
 
 		private int mvarPropertyIndentSize = 14;
@@ -309,6 +414,14 @@ namespace AwesomeControls.PropertyGrid
 				{
 					txt.Font = font;
 				}
+				if (txt.Font.Bold)
+				{
+					txt.Left = leftWidth + 5;
+				}
+				else
+				{
+					txt.Left = leftWidth + 2;
+				}
 				TextRenderer.DrawText(g, property.Value.ToString(), font, rectValue, fc, TextFormatFlags.Left);
 			}
 
@@ -349,12 +462,28 @@ namespace AwesomeControls.PropertyGrid
 		{
 			propBounds.Clear();
 
+			if (SortedProperties == null) UpdateSortedProperties();
+
 			int h = 0;
-			if (mvarGroup != null)
+			if (mvarSelectedGroup != null)
 			{
-				for (int i = 0; i < mvarGroup.Properties.Count; i++)
+				bool processedCategory = false;
+				PropertyCategory lastCategory = null;
+				for (int i = 0; i < SortedProperties.Count; i++)
 				{
-					UpdatePropertyBounds(mvarGroup.Properties[i], ref h);
+					if (mvarSortingMode == PropertyGridSortingMode.Categorized)
+					{
+						if (!processedCategory || (lastCategory != SortedProperties[i].Category))
+						{
+							h += 18;
+							processedCategory = true;
+						}
+					}
+					UpdatePropertyBounds(SortedProperties[i], ref h);
+					if (processedCategory && (lastCategory != SortedProperties[i].Category))
+					{
+						h += 18;
+					}
 				}
 			}
 		}
@@ -435,7 +564,6 @@ namespace AwesomeControls.PropertyGrid
 			int rightWidth = pnlProperties.Width - leftWidth;
 
 			txt.Visible = true;
-			txt.Left = leftWidth + 2;
 			txt.Multiline = true;
 			txt.Height = mvarItemHeight - 1;
 			txt.Width = rightWidth - 6;
@@ -489,7 +617,7 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				if (mvarGroup == null) return;
+				if (mvarSelectedGroup == null) return;
 				int h = 0, s = 0;
 				if (vsc.Maximum > 0) s = vsc.Value;
 				if (m_clicked > 1)
@@ -550,13 +678,13 @@ namespace AwesomeControls.PropertyGrid
 
 		private void txt_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (mvarGroup == null) return;
+			if (mvarSelectedGroup == null) return;
 			if (e.KeyCode == Keys.Enter)
 			{
 				if (SelectedProperty != null)
 				{
-					SelectedProperty.Value = txt.Text;
 					txt.Visible = false;
+					SelectedProperty.Value = txt.Text;
 				}
 			}
 		}

@@ -31,9 +31,15 @@ namespace AwesomeControls.PropertyGrid
 
 		public Color PropertyListBackColor { get { return propertyGridPanel1.BackColor; } set { propertyGridPanel1.BackColor = value; } }
 
+		/// <summary>
+		/// The name of the <see cref="PropertyCategory" /> in which to
+		/// place uncategorized properties.
+		/// </summary>
+		[DefaultValue("Misc")]
+		public string DefaultCategoryName { get { return propertyGridPanel1.DefaultCategoryName; } set { propertyGridPanel1.DefaultCategoryName = value; } }
+
 		private PropertyGroup.PropertyGroupCollection mvarGroups = null;
 		public PropertyGroup.PropertyGroupCollection Groups { get { return mvarGroups; } }
-
 
 		public event PropertyChangingEventHandler PropertyChanging;
 		protected internal virtual void OnPropertyChanging(PropertyChangingEventArgs e)
@@ -59,7 +65,7 @@ namespace AwesomeControls.PropertyGrid
 				Font boldFont = new Font(base.Font, FontStyle.Bold);
 				Font regularFont = base.Font;
 				float w = e.Graphics.MeasureString(g.Name, boldFont).Width;
-				w -= 3;
+				w += 2;
 
 				TextRenderer.DrawText(e.Graphics, g.Name, new Font(base.Font, FontStyle.Bold), new Rectangle(e.Bounds.Left, e.Bounds.Top + 1, (int)w, cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);
 				TextRenderer.DrawText(e.Graphics, g.DataType.Title, base.Font, new Rectangle(e.Bounds.Left + (int)w, e.Bounds.Top + 1, cboObject.Width - 1 - ((int)w), cboObject.ItemHeight), Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal, TextFormatFlags.Left);
@@ -67,6 +73,30 @@ namespace AwesomeControls.PropertyGrid
 		}
 
 		public int SelectedGroupIndex { get { return cboObject.SelectedIndex; } set { cboObject.SelectedIndex = value; } }
+
+		public PropertyGridSortingMode SortingMode
+		{
+			get { return propertyGridPanel1.SortingMode; }
+			set
+			{
+				propertyGridPanel1.SortingMode = value;
+				switch (value)
+				{
+					case PropertyGridSortingMode.Alphabetical:
+					{
+						tsbAlphabetical.Checked = true;
+						tsbCategorized.Checked = false;
+						break;
+					}
+					case PropertyGridSortingMode.Categorized:
+					{
+						tsbAlphabetical.Checked = false;
+						tsbCategorized.Checked = true;
+						break;
+					}
+				}
+			}
+		}
 
 		public int ItemHeight { get { return propertyGridPanel1.ItemHeight; } set { propertyGridPanel1.ItemHeight = value; } }
 
@@ -77,7 +107,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			propertyGridPanel1.Group = mvarGroups[cboObject.SelectedIndex];
+			propertyGridPanel1.SelectedGroup = mvarGroups[cboObject.SelectedIndex];
 		}
 
 		private void sc_Panel_Paint(object sender, PaintEventArgs e)
@@ -151,6 +181,19 @@ namespace AwesomeControls.PropertyGrid
 		private void propertyGridPanel1_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			OnPropertyChanged(e);
+		}
+
+		private void tsbCategorized_Click(object sender, EventArgs e)
+		{
+			tsbCategorized.Checked = true;
+			tsbAlphabetical.Checked = false;
+			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Categorized;
+		}
+		private void tsbAlphabetical_Click(object sender, EventArgs e)
+		{
+			tsbCategorized.Checked = false;
+			tsbAlphabetical.Checked = true;
+			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Alphabetical;
 		}
 	}
 }
