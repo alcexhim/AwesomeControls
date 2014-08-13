@@ -30,8 +30,8 @@
         {
 			this.vsc = new System.Windows.Forms.VScrollBar();
 			this.pnlProperties = new AwesomeControls.PropertyGrid.DBPanel();
-			this.txt = new System.Windows.Forms.TextBox();
 			this.dummy = new System.Windows.Forms.Button();
+			this.txt = new System.Windows.Forms.TextBox();
 			this.pnlProperties.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,8 +56,18 @@
 			this.pnlProperties.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlProperties_Paint);
 			this.pnlProperties.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseDoubleClick);
 			this.pnlProperties.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseDown);
+			this.pnlProperties.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseMove);
 			this.pnlProperties.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseUp);
 			this.pnlProperties.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.pnlProperties_MouseWheel);
+			// 
+			// dummy
+			// 
+			this.dummy.Location = new System.Drawing.Point(-180, 65);
+			this.dummy.Name = "dummy";
+			this.dummy.Size = new System.Drawing.Size(21, 10);
+			this.dummy.TabIndex = 1;
+			this.dummy.Text = "button1";
+			this.dummy.UseVisualStyleBackColor = true;
 			// 
 			// txt
 			// 
@@ -69,15 +79,6 @@
 			this.txt.Visible = false;
 			this.txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_KeyDown);
 			this.txt.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txt_MouseDoubleClick);
-			// 
-			// dummy
-			// 
-			this.dummy.Location = new System.Drawing.Point(-180, 65);
-			this.dummy.Name = "dummy";
-			this.dummy.Size = new System.Drawing.Size(21, 10);
-			this.dummy.TabIndex = 1;
-			this.dummy.Text = "button1";
-			this.dummy.UseVisualStyleBackColor = true;
 			// 
 			// PropertyGridPanel
 			// 

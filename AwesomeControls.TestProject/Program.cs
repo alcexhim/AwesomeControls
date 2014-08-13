@@ -19,6 +19,7 @@ namespace AwesomeControls.TestProject
 			AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.VisualStudio2012Theme(Theming.BuiltinThemes.VisualStudio2012Theme.ColorMode.Dark);
 
 			PropertyGridTest test = new PropertyGridTest();
+			
 			test.ShowDialog();
 
 			/*

@@ -282,7 +282,7 @@ namespace AwesomeControls.PropertyGrid
 			e.Graphics.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, mvarMarginWidth, pnlProperties.Height - 1));
 			e.Graphics.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), new Rectangle(0, 0, pnlProperties.Width - 1, pnlProperties.Height - 1));
 			
-			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
+			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - (mvarSplitterPadding * 3);
 			int rightWidth = pnlProperties.Width - leftWidth;
 
 			if (mvarSelectedGroup != null)
@@ -340,7 +340,7 @@ namespace AwesomeControls.PropertyGrid
 		private void RenderProperty(Graphics g, Property property, ref int y, int indentLevel)
 		{
 			int indentSize = mvarPropertyIndentSize * indentLevel;
-			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
+			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - (mvarSplitterPadding * 3);
 			int rightWidth = pnlProperties.Width - leftWidth;
 
 			Color fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
@@ -384,6 +384,17 @@ namespace AwesomeControls.PropertyGrid
 
 			Rectangle rectTitle = new Rectangle(mvarMarginWidth, y + 1, leftWidth - mvarMarginWidth, mvarItemHeight);
 			Rectangle rectValue = new Rectangle(leftWidth + 2, y + 1, rightWidth, mvarItemHeight);
+			if (property == mvarSelectedProperty)
+			{
+				if (property.DataType.Editor != null)
+				{
+					rectValue.Width -= property.DataType.Editor.ButtonWidth;
+				}
+				else if (property.DataType.Choices.Count > 0)
+				{
+					rectValue.Width -= 16;
+				}
+			}
 			rectTitle.X += indentSize;
 			rectTitle.Width -= indentSize;
 			// rectValue.X += indentSize;
@@ -593,6 +604,9 @@ namespace AwesomeControls.PropertyGrid
 			return null;
 		}
 
+		private int mvarSplitterPadding = 3;
+		private bool mvarSplitterMoving = false;
+
 		private bool buttonDown = false;
 		private int m_clicked = 0;
 		private void pnlProperties_MouseDown(object sender, MouseEventArgs e)
@@ -600,8 +614,18 @@ namespace AwesomeControls.PropertyGrid
 			IPropertyGridItem ipgi = HitTest(e.X, e.Y);
 			IPropertyGridItem ipgiMargin = HitTest(e.X, e.Y, true);
 
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				if ((e.X >= ((mvarSplitterPosition * Width) - mvarMarginWidth) - mvarSplitterPadding)
+					&& (e.X <= ((mvarSplitterPosition * Width) - mvarMarginWidth) + mvarSplitterPadding))
+				{
+					mvarSplitterMoving = true;
+					return;
+				}
+			}
+
 			PropertyCategory pc = (ipgiMargin as PropertyCategory);
-			if (pc != null)
+			if (pc != null && e.X <= mvarMarginWidth)
 			{
 				pc.Expanded = !pc.Expanded;
 				UpdatePropertyBounds();
@@ -622,7 +646,7 @@ namespace AwesomeControls.PropertyGrid
 
 			if (p == null)
 			{
-				SelectedProperty = null;
+				if (e.X >= mvarMarginWidth) SelectedProperty = null;
 				return;
 			}
 
@@ -634,7 +658,7 @@ namespace AwesomeControls.PropertyGrid
 			}
 			SelectedProperty = p;
 
-			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - mvarMarginWidth;
+			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - (mvarSplitterPadding * 3);
 			int rightWidth = pnlProperties.Width - leftWidth;
 
 			txt.Visible = true;
@@ -687,10 +711,64 @@ namespace AwesomeControls.PropertyGrid
 			pnlProperties.Refresh();
 			m_clicked++;
 		}
+		private Cursor LastCursor = Cursors.Default;
+		private void pnlProperties_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (mvarSplitterMoving)
+			{
+				mvarSplitterPosition = ((double)(e.X + mvarMarginWidth) / (double)Width);
+
+				int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - (mvarSplitterPadding * 3);
+				int rightWidth = pnlProperties.Width - leftWidth;
+				int txtWidth = rightWidth - 6;
+
+				if (mvarSelectedProperty != null)
+				{
+					PropertyEditor editor = mvarSelectedProperty.DataType.Editor;
+					if (editor != null)
+					{
+						txtWidth -= editor.ButtonWidth;
+						if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - editor.ButtonWidth)
+						{
+							buttonDown = true;
+						}
+					}
+					else if (mvarSelectedProperty.DataType.Choices.Count > 0)
+					{
+						txtWidth -= 16;
+						if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - 16)
+						{
+							buttonDown = true;
+						}
+					}
+				}
+				txt.Width = txtWidth;
+
+				Refresh();
+			}
+			else
+			{
+				if ((e.X >= ((mvarSplitterPosition * Width) - mvarMarginWidth) - mvarSplitterPadding)
+					&& (e.X <= ((mvarSplitterPosition * Width) - mvarMarginWidth) + mvarSplitterPadding))
+				{
+					Cursor = Cursors.SizeWE;
+				}
+				else
+				{
+					Cursor = Cursors.Default;
+				}
+			}
+		}
 		private void pnlProperties_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
+				if (mvarSplitterMoving)
+				{
+					mvarSplitterMoving = false;
+					return;
+				}
+
 				if (mvarSelectedGroup == null) return;
 				int h = 0, s = 0;
 				if (vsc.Maximum > 0) s = vsc.Value;
@@ -739,8 +817,20 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				RotateSelectedProperty();
-				Refresh();
+				if (e.X >= mvarMarginWidth)
+				{
+					PropertyCategory pc = (HitTest(e.Location.X, e.Location.Y) as PropertyCategory);
+					if (pc != null)
+					{
+						pc.Expanded = !pc.Expanded;
+						UpdatePropertyBounds();
+						Refresh();
+						return;
+					}
+
+					RotateSelectedProperty();
+					Refresh();
+				}
 			}
 
 		}
