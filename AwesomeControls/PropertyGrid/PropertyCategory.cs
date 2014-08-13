@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AwesomeControls.PropertyGrid
 {
-	public class PropertyCategory
+	public class PropertyCategory : IPropertyGridItem
 	{
 		public class PropertyCategoryCollection
 			: System.Collections.ObjectModel.Collection<PropertyCategory>
@@ -38,7 +38,7 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
-		private bool mvarExpanded = false;
+		private bool mvarExpanded = true;
 		public bool Expanded { get { return mvarExpanded; } set { mvarExpanded = value; } }
 	}
 }

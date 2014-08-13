@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace AwesomeControls.PropertyGrid
 {
-	public class Property : ICloneable
+	public class Property : IPropertyGridItem, ICloneable
 	{
 		public class ReadOnlyPropertyCollection
 			: System.Collections.ObjectModel.ReadOnlyCollection<Property>

@@ -32,11 +32,9 @@ namespace AwesomeControls.PropertyGrid
 		public Color PropertyListBackColor { get { return propertyGridPanel1.BackColor; } set { propertyGridPanel1.BackColor = value; } }
 
 		/// <summary>
-		/// The name of the <see cref="PropertyCategory" /> in which to
-		/// place uncategorized properties.
+		/// The <see cref="PropertyCategory" /> in which to place uncategorized properties.
 		/// </summary>
-		[DefaultValue("Misc")]
-		public string DefaultCategoryName { get { return propertyGridPanel1.DefaultCategoryName; } set { propertyGridPanel1.DefaultCategoryName = value; } }
+		public PropertyCategory DefaultCategory { get { return propertyGridPanel1.DefaultCategory; } set { propertyGridPanel1.DefaultCategory = value; } }
 
 		private PropertyGroup.PropertyGroupCollection mvarGroups = null;
 		public PropertyGroup.PropertyGroupCollection Groups { get { return mvarGroups; } }

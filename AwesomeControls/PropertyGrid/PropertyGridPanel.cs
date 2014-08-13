@@ -19,13 +19,21 @@ namespace AwesomeControls.PropertyGrid
 			txt.BackColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor;
 		}
 
-		private string mvarDefaultCategoryName = "Misc";
+		private Rectangle mvarDefaultCategoryBounds = new Rectangle();
+
+		private PropertyCategory mvarDefaultCategory = new PropertyCategory("Misc");
 		/// <summary>
-		/// The name of the <see cref="PropertyCategory" /> in which to
-		/// place uncategorized properties.
+		/// The <see cref="PropertyCategory" /> in which to place uncategorized properties.
 		/// </summary>
-		[DefaultValue("Misc")]
-		public string DefaultCategoryName { get { return mvarDefaultCategoryName; } set { mvarDefaultCategoryName = value; } }
+		public PropertyCategory DefaultCategory 
+		{
+			get { return mvarDefaultCategory; }
+			set 
+			{
+				if (value == null) throw new ArgumentNullException();
+				mvarDefaultCategory = value; 
+			}
+		}
 
 		protected override void OnCreateControl()
 		{
@@ -161,11 +169,11 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (p2.Category == null && p1.Category != null)
 			{
-				return p1.Category.Title.CompareTo(mvarDefaultCategoryName);
+				return p1.Category.Title.CompareTo(mvarDefaultCategory.Name);
 			}
 			else if (p1.Category == null && p2.Category != null)
 			{
-				return mvarDefaultCategoryName.CompareTo(p2.Category.Title);
+				return mvarDefaultCategory.Name.CompareTo(p2.Category.Title);
 			}
 			else if (p1.Category == null)
 			{
@@ -287,6 +295,8 @@ namespace AwesomeControls.PropertyGrid
 				PropertyCategory lastCategory = null;
 				for (int i = s; i < SortedProperties.Count; i++)
 				{
+					PropertyCategory cat = (SortedProperties[i].Category == null ? mvarDefaultCategory : SortedProperties[i].Category);
+					
 					if (mvarSortingMode == PropertyGridSortingMode.Categorized)
 					{
 						if ((SortedProperties[i].Category == null && !drawnFirstCategory) || (SortedProperties[i].Category != lastCategory))
@@ -297,6 +307,7 @@ namespace AwesomeControls.PropertyGrid
 						lastCategory = SortedProperties[i].Category;
 					}
 
+					if (!cat.Expanded) continue;
 					RenderProperty(e.Graphics, SortedProperties[i], ref y, 0);
 					if (i < mvarSelectedGroup.Properties.Count - 1)
 					{
@@ -311,10 +322,13 @@ namespace AwesomeControls.PropertyGrid
 		{
 			y++;
 
+			Rectangle rectTreeButton = new Rectangle(5, y + 2, 8, 8);
+			DrawTreeButton(g, rectTreeButton, (category == null ? mvarDefaultCategory.Expanded : category.Expanded));
+
 			Rectangle rect = new Rectangle(16, y, Width - 16, 16);
 
 			g.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), rect);
-			TextRenderer.DrawText(g, (category == null ? mvarDefaultCategoryName : category.Title), new Font(Font, FontStyle.Bold), rect, Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor, TextFormatFlags.Left);
+			TextRenderer.DrawText(g, (category == null ? mvarDefaultCategory.Name : category.Title), new Font(Font, FontStyle.Bold), rect, Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor, TextFormatFlags.Left);
 
 			y += 16;
 
@@ -365,18 +379,7 @@ namespace AwesomeControls.PropertyGrid
 			if (property.Properties.Count > 0)
 			{
 				Rectangle rectTreeButton = new Rectangle(5, y + 4, 8, 8);
-
-				// border rectangle
-				g.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rectTreeButton);
-
-				// horizontal line
-				g.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rectTreeButton.X + 2, rectTreeButton.Y + 4, rectTreeButton.Right - 2, rectTreeButton.Y + 4);
-
-				if (!property.Expanded)
-				{
-					// vertical line
-					g.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rectTreeButton.X + 4, rectTreeButton.Y + 2, rectTreeButton.X + 4, rectTreeButton.Bottom - 2);
-				}
+				DrawTreeButton(g, rectTreeButton, property.Expanded);
 			}
 
 			Rectangle rectTitle = new Rectangle(mvarMarginWidth, y + 1, leftWidth - mvarMarginWidth, mvarItemHeight);
@@ -438,6 +441,21 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
+		private void DrawTreeButton(Graphics g, Rectangle rect, bool expanded)
+		{
+			// border rectangle
+			g.DrawRectangle(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rect);
+
+			// horizontal line
+			g.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rect.X + 2, rect.Y + 4, rect.Right - 2, rect.Y + 4);
+
+			if (!expanded)
+			{
+				// vertical line
+				g.DrawLine(new Pen(Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor), rect.X + 4, rect.Y + 2, rect.X + 4, rect.Bottom - 2);
+			}
+		}
+
 		private void DrawDropDownArrow(Graphics graphics, Rectangle rect, bool buttonDown)
 		{
 			DrawingTools.DrawArrow(graphics, ArrowDirection.Down, rect.Left + 5, rect.Top + 6, 5);
@@ -458,7 +476,7 @@ namespace AwesomeControls.PropertyGrid
 			pnlProperties.Refresh();
 		}
 
-		private Dictionary<Property, Rectangle> propBounds = new Dictionary<Property, Rectangle>();
+		private Dictionary<IPropertyGridItem, Rectangle> propBounds = new Dictionary<IPropertyGridItem, Rectangle>();
 		public void UpdatePropertyBounds()
 		{
 			propBounds.Clear();
@@ -476,11 +494,13 @@ namespace AwesomeControls.PropertyGrid
 					{
 						if (!processedCategory || (lastCategory != SortedProperties[i].Category))
 						{
-							h += 18;
 							processedCategory = true;
 							lastCategory = SortedProperties[i].Category;
+							UpdateCategoryBounds(lastCategory, h);
+							h += 18;
 						}
 					}
+
 					UpdatePropertyBounds(SortedProperties[i], ref h);
 					if (processedCategory && (lastCategory != SortedProperties[i].Category))
 					{
@@ -489,11 +509,40 @@ namespace AwesomeControls.PropertyGrid
 				}
 			}
 		}
+		private void UpdateCategoryBounds(PropertyCategory pc, int h)
+		{
+			Rectangle rect = new Rectangle(mvarMarginWidth, h, pnlProperties.Width - mvarMarginWidth, mvarItemHeight);
+			if (pc == null)
+			{
+				mvarDefaultCategoryBounds = rect;
+			}
+			else
+			{
+				propBounds[pc] = rect;
+			}
+		}
 		private void UpdatePropertyBounds(Property p, ref int h)
 		{
 			Rectangle rect = new Rectangle(mvarMarginWidth, h, pnlProperties.Width - mvarMarginWidth, mvarItemHeight);
-			propBounds[p] = rect;
-			h += mvarItemHeight;
+			PropertyCategory pc = (p.Category == null ? mvarDefaultCategory : p.Category);
+			if (p.Parent == null)
+			{
+				if (pc.Expanded)
+				{
+					propBounds[p] = rect;
+					h += mvarItemHeight;
+				}
+			}
+			else
+			{
+				propBounds[p] = rect;
+				h += mvarItemHeight;
+			}
+			if (p == mvarSelectedProperty)
+			{
+				txt.Visible = pc.Expanded;
+				txt.Top = rect.Y;
+			}
 			if (p.Properties.Count > 0 && p.Expanded)
 			{
 				foreach (Property p1 in p.Properties)
@@ -511,14 +560,24 @@ namespace AwesomeControls.PropertyGrid
 			}
 			return propBounds[p];
 		}
-		public Property HitTest(int x, int y, bool includeMargin = false)
+		public IPropertyGridItem HitTest(int x, int y, bool includeMargin = false)
 		{
 			if (propBounds.Count == 0)
 			{
 				UpdatePropertyBounds();
 			}
 
-			foreach (KeyValuePair<Property, Rectangle> kvp in propBounds)
+			{
+				Rectangle rect = mvarDefaultCategoryBounds;
+				if (includeMargin)
+				{
+					rect.X -= mvarMarginWidth;
+					rect.Width += mvarMarginWidth;
+				}
+				if (rect.Contains(x, y)) return mvarDefaultCategory;
+			}
+
+			foreach (KeyValuePair<IPropertyGridItem, Rectangle> kvp in propBounds)
 			{
 				Rectangle rect = kvp.Value;
 				if (includeMargin)
@@ -526,7 +585,10 @@ namespace AwesomeControls.PropertyGrid
 					rect.X -= mvarMarginWidth;
 					rect.Width += mvarMarginWidth;
 				}
-				if (rect.Contains(x, y)) return kvp.Key;
+				if (rect.Contains(x, y))
+				{
+					return kvp.Key;
+				}
 			}
 			return null;
 		}
@@ -535,14 +597,25 @@ namespace AwesomeControls.PropertyGrid
 		private int m_clicked = 0;
 		private void pnlProperties_MouseDown(object sender, MouseEventArgs e)
 		{
-			Property p = HitTest(e.X, e.Y);
+			IPropertyGridItem ipgi = HitTest(e.X, e.Y);
+			IPropertyGridItem ipgiMargin = HitTest(e.X, e.Y, true);
 
-			Property pMargin = HitTest(e.X, e.Y, true);
+			PropertyCategory pc = (ipgiMargin as PropertyCategory);
+			if (pc != null)
+			{
+				pc.Expanded = !pc.Expanded;
+				UpdatePropertyBounds();
+				Refresh();
+				return;
+			}
 
+			Property p = (ipgi as Property);
+			Property pMargin = (ipgiMargin as Property);
 			if (pMargin != null && pMargin.Properties.Count > 0 && e.X <= mvarMarginWidth)
 			{
 				pMargin.Expanded = !pMargin.Expanded;
 				SelectedProperty = pMargin;
+				UpdatePropertyBounds();
 				Refresh();
 				return;
 			}
