@@ -18,6 +18,12 @@ namespace AwesomeControls.PropertyGrid
 
 			cboObject.BackColor = Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorNormal;
 			cboObject.ForeColor = Theming.Theme.CurrentTheme.ColorTable.DropDownForegroundColorNormal;
+
+			lblPropertyName.ForeColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
+			lblDescription.ForeColor = Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor;
+
+			lblPropertyName.Text = String.Empty;
+			lblDescription.Text = String.Empty;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -29,12 +35,12 @@ namespace AwesomeControls.PropertyGrid
 		private PropertyGridView mvarView = PropertyGridView.Unsorted;
 		public PropertyGridView View { get { return mvarView; } }
 
-		public Color PropertyListBackColor { get { return propertyGridPanel1.BackColor; } set { propertyGridPanel1.BackColor = value; } }
+		public Color PropertyListBackColor { get { return pgp.BackColor; } set { pgp.BackColor = value; } }
 
 		/// <summary>
 		/// The <see cref="PropertyCategory" /> in which to place uncategorized properties.
 		/// </summary>
-		public PropertyCategory DefaultCategory { get { return propertyGridPanel1.DefaultCategory; } set { propertyGridPanel1.DefaultCategory = value; } }
+		public PropertyCategory DefaultCategory { get { return pgp.DefaultCategory; } set { pgp.DefaultCategory = value; } }
 
 		private PropertyGroup.PropertyGroupCollection mvarGroups = null;
 		public PropertyGroup.PropertyGroupCollection Groups { get { return mvarGroups; } }
@@ -74,10 +80,10 @@ namespace AwesomeControls.PropertyGrid
 
 		public PropertyGridSortingMode SortingMode
 		{
-			get { return propertyGridPanel1.SortingMode; }
+			get { return pgp.SortingMode; }
 			set
 			{
-				propertyGridPanel1.SortingMode = value;
+				pgp.SortingMode = value;
 				switch (value)
 				{
 					case PropertyGridSortingMode.Alphabetical:
@@ -96,7 +102,7 @@ namespace AwesomeControls.PropertyGrid
 			}
 		}
 
-		public int ItemHeight { get { return propertyGridPanel1.ItemHeight; } set { propertyGridPanel1.ItemHeight = value; } }
+		public int ItemHeight { get { return pgp.ItemHeight; } set { pgp.ItemHeight = value; } }
 
 		private void scPropertiesDescription_Paint(object sender, PaintEventArgs e)
 		{
@@ -105,7 +111,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			propertyGridPanel1.SelectedGroup = mvarGroups[cboObject.SelectedIndex];
+			pgp.SelectedGroup = mvarGroups[cboObject.SelectedIndex];
 		}
 
 		private void sc_Panel_Paint(object sender, PaintEventArgs e)
@@ -114,6 +120,16 @@ namespace AwesomeControls.PropertyGrid
 			e.Graphics.DrawRectangle(new Pen(Color.FromKnownColor(KnownColor.ControlDark)), new Rectangle(0, 0, panel.Width - 1, panel.Height - 1));
 		}
 
+		public bool ShowObjects
+		{
+			get { return cboObject.Visible; }
+			set { cboObject.Visible = value; }
+		}
+		public bool ShowToolbar
+		{
+			get { return tb.Visible; }
+			set { tb.Visible = value; }
+		}
 		public bool ShowCommands
 		{
 			get { return !scPropertiesCommands.Panel2Collapsed; }
@@ -144,7 +160,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void mnuContext_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			Property p = propertyGridPanel1.SelectedProperty;
+			Property p = pgp.SelectedProperty;
 			if (p != null)
 			{
 				if (p.DefaultValueSet)
@@ -160,15 +176,15 @@ namespace AwesomeControls.PropertyGrid
 
 		private void mnuContextReset_Click(object sender, EventArgs e)
 		{
-			if (propertyGridPanel1.SelectedProperty != null)
+			if (pgp.SelectedProperty != null)
 			{
-				propertyGridPanel1.SelectedProperty.Reset();
+				pgp.SelectedProperty.Reset();
 			}
 		}
 
 		public void UpdatePropertyBounds()
 		{
-			propertyGridPanel1.UpdatePropertyBounds();
+			pgp.UpdatePropertyBounds();
 		}
 
 		private void propertyGridPanel1_PropertyChanging(object sender, PropertyChangingEventArgs e)
@@ -185,13 +201,44 @@ namespace AwesomeControls.PropertyGrid
 		{
 			tsbCategorized.Checked = true;
 			tsbAlphabetical.Checked = false;
-			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Categorized;
+			pgp.SortingMode = PropertyGridSortingMode.Categorized;
 		}
 		private void tsbAlphabetical_Click(object sender, EventArgs e)
 		{
 			tsbCategorized.Checked = false;
 			tsbAlphabetical.Checked = true;
-			propertyGridPanel1.SortingMode = PropertyGridSortingMode.Alphabetical;
+			pgp.SortingMode = PropertyGridSortingMode.Alphabetical;
+		}
+
+		public event PropertyGridSelectionChangingEventHandler SelectionChanging;
+		protected virtual void OnSelectionChanging(PropertyGridSelectionChangingEventArgs e)
+		{
+			if (SelectionChanging != null) SelectionChanging(this, e);
+		}
+		public event PropertyGridSelectionChangedEventHandler SelectionChanged;
+		protected virtual void OnSelectionChanged(PropertyGridSelectionChangedEventArgs e)
+		{
+			if (SelectionChanged != null) SelectionChanged(this, e);
+		}
+
+		private void pgp_SelectionChanging(object sender, PropertyGridSelectionChangingEventArgs e)
+		{
+			OnSelectionChanging(e);
+		}
+
+		private void pgp_SelectionChanged(object sender, PropertyGridSelectionChangedEventArgs e)
+		{
+			OnSelectionChanged(e);
+			if (e.NewProperty != null)
+			{
+				lblPropertyName.Text = e.NewProperty.Name;
+				lblDescription.Text = e.NewProperty.Description;
+			}
+			else
+			{
+				lblPropertyName.Text = String.Empty;
+				lblDescription.Text = String.Empty;
+			}
 		}
 	}
 }

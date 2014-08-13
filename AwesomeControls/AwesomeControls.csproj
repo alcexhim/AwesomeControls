@@ -175,6 +175,8 @@
     <Compile Include="PropertyGrid\PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyGrid\PropertyGridSelectionChangedEvent.cs" />
+    <Compile Include="PropertyGrid\PropertyGridSelectionChangingEvent.cs" />
     <Compile Include="PropertyGrid\PropertyGridSortingMode.cs" />
     <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
     <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />

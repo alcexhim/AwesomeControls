@@ -176,8 +176,11 @@ namespace AwesomeControls.PropertyGrid
 		private Image mvarImage = null;
 		public Image Image { get { return mvarImage; } set { mvarImage = value; } }
 		
-		private string mvarName = "";
+		private string mvarName = String.Empty;
 		public string Name { get { return mvarName; } set { mvarName = value; } }
+
+		private string mvarDescription = String.Empty;
+		public string Description { get { return mvarDescription; } set { mvarDescription = value; } }
 
 		private PropertyGridPanel mvarParentControl = null;
 		public PropertyGridPanel ParentControl 
@@ -227,6 +230,7 @@ namespace AwesomeControls.PropertyGrid
 			clone.Category = mvarCategory;
 			clone.DataType = mvarDataType;
 			clone.DefaultValue = mvarDefaultValue;
+			clone.Description = (mvarDescription.Clone() as string);
 			clone.Expanded = mvarExpanded;
 			clone.Image = mvarImage;
 			clone.Name = (mvarName.Clone() as string);

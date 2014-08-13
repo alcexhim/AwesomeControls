@@ -118,7 +118,33 @@ namespace AwesomeControls.PropertyGrid
 		public Property SelectedProperty
 		{
 			get { return mvarSelectedProperty; }
-			set { mvarSelectedProperty = value; }
+			set
+			{
+				PropertyGridSelectionChangingEventArgs ce = new PropertyGridSelectionChangingEventArgs(mvarSelectedProperty, value);
+				OnSelectionChanging(ce);
+				if (ce.Cancel) return;
+
+				value = ce.NewProperty;
+
+				Property oldProperty = mvarSelectedProperty;
+				mvarSelectedProperty = value;
+				if (oldProperty != mvarSelectedProperty)
+				{
+					OnSelectionChanged(new PropertyGridSelectionChangedEventArgs(oldProperty, mvarSelectedProperty));
+				}
+			}
+		}
+
+		public event PropertyGridSelectionChangingEventHandler SelectionChanging;
+		protected virtual void OnSelectionChanging(PropertyGridSelectionChangingEventArgs e)
+		{
+			if (SelectionChanging != null) SelectionChanging(this, e);
+		}
+
+		public event PropertyGridSelectionChangedEventHandler SelectionChanged;
+		protected virtual void OnSelectionChanged(PropertyGridSelectionChangedEventArgs e)
+		{
+			if (SelectionChanged != null) SelectionChanged(this, e);
 		}
 
 		private int mvarItemHeight = 18;

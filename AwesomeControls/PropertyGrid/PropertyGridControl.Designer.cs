@@ -30,7 +30,6 @@
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyGridControl));
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.cboObject = new System.Windows.Forms.ComboBox();
 			this.tb = new AwesomeControls.CommandBars.CBToolBar();
 			this.tsbCategorized = new System.Windows.Forms.ToolStripButton();
@@ -42,17 +41,16 @@
 			this.tsbPropertyPages = new System.Windows.Forms.ToolStripButton();
 			this.scPropertiesDescription = new System.Windows.Forms.SplitContainer();
 			this.scPropertiesCommands = new System.Windows.Forms.SplitContainer();
-			this.propertyGridPanel1 = new AwesomeControls.PropertyGrid.PropertyGridPanel();
+			this.pgp = new AwesomeControls.PropertyGrid.PropertyGridPanel();
 			this.pnlCommands = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.label1 = new System.Windows.Forms.Label();
+			this.lblDescription = new System.Windows.Forms.Label();
 			this.lblPropertyName = new System.Windows.Forms.Label();
 			this.mnuContext = new AwesomeControls.CommandBars.CBContextMenu(this.components);
 			this.mnuContextReset = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuContextCommands = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuContextDescription = new System.Windows.Forms.ToolStripMenuItem();
-			this.tableLayoutPanel1.SuspendLayout();
 			this.tb.SuspendLayout();
 			this.scPropertiesDescription.Panel1.SuspendLayout();
 			this.scPropertiesDescription.Panel2.SuspendLayout();
@@ -64,33 +62,16 @@
 			this.mnuContext.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.cboObject, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.tb, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.scPropertiesDescription, 0, 2);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 3;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(297, 302);
-			this.tableLayoutPanel1.TabIndex = 1;
-			// 
 			// cboObject
 			// 
-			this.cboObject.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cboObject.Dock = System.Windows.Forms.DockStyle.Top;
 			this.cboObject.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.cboObject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboObject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.cboObject.FormattingEnabled = true;
-			this.cboObject.Location = new System.Drawing.Point(3, 3);
+			this.cboObject.Location = new System.Drawing.Point(0, 0);
 			this.cboObject.Name = "cboObject";
-			this.cboObject.Size = new System.Drawing.Size(291, 21);
+			this.cboObject.Size = new System.Drawing.Size(297, 21);
 			this.cboObject.TabIndex = 1;
 			this.cboObject.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cboObject_DrawItem);
 			this.cboObject.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
@@ -106,7 +87,7 @@
             this.tsbEvents,
             this.toolStripSeparator2,
             this.tsbPropertyPages});
-			this.tb.Location = new System.Drawing.Point(0, 26);
+			this.tb.Location = new System.Drawing.Point(0, 21);
 			this.tb.Name = "tb";
 			this.tb.Size = new System.Drawing.Size(297, 25);
 			this.tb.TabIndex = 2;
@@ -175,7 +156,7 @@
 			// 
 			this.scPropertiesDescription.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.scPropertiesDescription.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-			this.scPropertiesDescription.Location = new System.Drawing.Point(3, 55);
+			this.scPropertiesDescription.Location = new System.Drawing.Point(0, 46);
 			this.scPropertiesDescription.Name = "scPropertiesDescription";
 			this.scPropertiesDescription.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
@@ -187,8 +168,8 @@
 			// 
 			this.scPropertiesDescription.Panel2.Controls.Add(this.tableLayoutPanel2);
 			this.scPropertiesDescription.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.sc_Panel_Paint);
-			this.scPropertiesDescription.Size = new System.Drawing.Size(291, 244);
-			this.scPropertiesDescription.SplitterDistance = 190;
+			this.scPropertiesDescription.Size = new System.Drawing.Size(297, 256);
+			this.scPropertiesDescription.SplitterDistance = 202;
 			this.scPropertiesDescription.TabIndex = 3;
 			this.scPropertiesDescription.Paint += new System.Windows.Forms.PaintEventHandler(this.scPropertiesDescription_Paint);
 			// 
@@ -202,42 +183,42 @@
 			// 
 			// scPropertiesCommands.Panel1
 			// 
-			this.scPropertiesCommands.Panel1.Controls.Add(this.propertyGridPanel1);
+			this.scPropertiesCommands.Panel1.Controls.Add(this.pgp);
 			this.scPropertiesCommands.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.sc_Panel_Paint);
 			// 
 			// scPropertiesCommands.Panel2
 			// 
 			this.scPropertiesCommands.Panel2.Controls.Add(this.pnlCommands);
 			this.scPropertiesCommands.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.sc_Panel_Paint);
-			this.scPropertiesCommands.Size = new System.Drawing.Size(291, 190);
-			this.scPropertiesCommands.SplitterDistance = 148;
+			this.scPropertiesCommands.Size = new System.Drawing.Size(297, 202);
+			this.scPropertiesCommands.SplitterDistance = 160;
 			this.scPropertiesCommands.TabIndex = 0;
 			// 
-			// propertyGridPanel1
+			// pgp
 			// 
-			this.propertyGridPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.propertyGridPanel1.BackColor = System.Drawing.SystemColors.Window;
-			this.propertyGridPanel1.ItemHeight = 16;
-			this.propertyGridPanel1.Location = new System.Drawing.Point(0, 0);
-			this.propertyGridPanel1.Name = "propertyGridPanel1";
-			this.propertyGridPanel1.SelectedGroup = null;
-			this.propertyGridPanel1.SelectedProperty = null;
-			this.propertyGridPanel1.Size = new System.Drawing.Size(291, 148);
-			this.propertyGridPanel1.SortingMode = AwesomeControls.PropertyGrid.PropertyGridSortingMode.Categorized;
-			this.propertyGridPanel1.SplitterPosition = 0.4D;
-			this.propertyGridPanel1.TabIndex = 0;
-			this.propertyGridPanel1.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
-			this.propertyGridPanel1.PropertyChanging += new AwesomeControls.PropertyGrid.PropertyChangingEventHandler(this.propertyGridPanel1_PropertyChanging);
-			this.propertyGridPanel1.PropertyChanged += new AwesomeControls.PropertyGrid.PropertyChangedEventHandler(this.propertyGridPanel1_PropertyChanged);
+			this.pgp.BackColor = System.Drawing.SystemColors.Window;
+			this.pgp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pgp.ItemHeight = 16;
+			this.pgp.Location = new System.Drawing.Point(0, 0);
+			this.pgp.Name = "pgp";
+			this.pgp.SelectedGroup = null;
+			this.pgp.SelectedProperty = null;
+			this.pgp.Size = new System.Drawing.Size(297, 160);
+			this.pgp.SortingMode = AwesomeControls.PropertyGrid.PropertyGridSortingMode.Categorized;
+			this.pgp.SplitterPosition = 0.4D;
+			this.pgp.TabIndex = 0;
+			this.pgp.View = AwesomeControls.PropertyGrid.PropertyGridView.Unsorted;
+			this.pgp.PropertyChanging += new AwesomeControls.PropertyGrid.PropertyChangingEventHandler(this.propertyGridPanel1_PropertyChanging);
+			this.pgp.PropertyChanged += new AwesomeControls.PropertyGrid.PropertyChangedEventHandler(this.propertyGridPanel1_PropertyChanged);
+			this.pgp.SelectionChanging += new AwesomeControls.PropertyGrid.PropertyGridSelectionChangingEventHandler(this.pgp_SelectionChanging);
+			this.pgp.SelectionChanged += new AwesomeControls.PropertyGrid.PropertyGridSelectionChangedEventHandler(this.pgp_SelectionChanged);
 			// 
 			// pnlCommands
 			// 
 			this.pnlCommands.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlCommands.Location = new System.Drawing.Point(0, 0);
 			this.pnlCommands.Name = "pnlCommands";
-			this.pnlCommands.Size = new System.Drawing.Size(291, 38);
+			this.pnlCommands.Size = new System.Drawing.Size(297, 38);
 			this.pnlCommands.TabIndex = 0;
 			// 
 			// tableLayoutPanel2
@@ -247,26 +228,26 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel2.ColumnCount = 1;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
+			this.tableLayoutPanel2.Controls.Add(this.lblDescription, 0, 1);
 			this.tableLayoutPanel2.Controls.Add(this.lblPropertyName, 0, 0);
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(1, 1);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 2;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(289, 46);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(295, 46);
 			this.tableLayoutPanel2.TabIndex = 1;
 			// 
-			// label1
+			// lblDescription
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label1.Location = new System.Drawing.Point(3, 20);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(283, 26);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Property Description";
+			this.lblDescription.AutoSize = true;
+			this.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblDescription.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblDescription.Location = new System.Drawing.Point(3, 20);
+			this.lblDescription.Name = "lblDescription";
+			this.lblDescription.Size = new System.Drawing.Size(289, 26);
+			this.lblDescription.TabIndex = 1;
+			this.lblDescription.Text = "Property Description";
 			// 
 			// lblPropertyName
 			// 
@@ -276,7 +257,7 @@
 			this.lblPropertyName.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
 			this.lblPropertyName.Location = new System.Drawing.Point(3, 0);
 			this.lblPropertyName.Name = "lblPropertyName";
-			this.lblPropertyName.Size = new System.Drawing.Size(283, 20);
+			this.lblPropertyName.Size = new System.Drawing.Size(289, 20);
 			this.lblPropertyName.TabIndex = 0;
 			this.lblPropertyName.Text = "Property Name";
 			// 
@@ -327,12 +308,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ContextMenuStrip = this.mnuContext;
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.Controls.Add(this.scPropertiesDescription);
+			this.Controls.Add(this.tb);
+			this.Controls.Add(this.cboObject);
 			this.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.Name = "PropertyGridControl";
 			this.Size = new System.Drawing.Size(297, 302);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
 			this.tb.ResumeLayout(false);
 			this.tb.PerformLayout();
 			this.scPropertiesDescription.Panel1.ResumeLayout(false);
@@ -345,18 +326,18 @@
 			this.tableLayoutPanel2.PerformLayout();
 			this.mnuContext.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        internal System.Windows.Forms.ComboBox cboObject;
+		internal System.Windows.Forms.ComboBox cboObject;
 		private AwesomeControls.CommandBars.CBToolBar tb;
         private System.Windows.Forms.SplitContainer scPropertiesDescription;
         private System.Windows.Forms.SplitContainer scPropertiesCommands;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Label lblPropertyName;
         private System.Windows.Forms.Panel pnlCommands;
         private System.Windows.Forms.ToolStripButton tsbCategorized;
@@ -366,7 +347,7 @@
         private System.Windows.Forms.ToolStripButton tsbEvents;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsbPropertyPages;
-        private PropertyGridPanel propertyGridPanel1;
+        private PropertyGridPanel pgp;
 		private CommandBars.CBContextMenu mnuContext;
 		private System.Windows.Forms.ToolStripMenuItem mnuContextReset;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;

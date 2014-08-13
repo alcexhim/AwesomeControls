@@ -97,8 +97,11 @@ namespace AwesomeControls.TestProject
 
 			PropertyDataType CharacterDataType = new PropertyDataType("Character");
 			CharacterDataType.Properties.Add(new Property("ClassName", "Character", null, true));
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Description = "The name of the character used in programming.";
 			CharacterDataType.Properties.Add(new Property("Name", "Kagamine Len", null, false));
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Description = "The display name of the character.";
 			CharacterDataType.Properties.Add(new Property("Costumes", "", null, false));
+			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Description = "The default costume of the character.";
 
 			PropertyCategory catAppearance = new PropertyCategory("Appearance");
 			CharacterDataType.Properties[CharacterDataType.Properties.Count - 1].Category = catAppearance;
