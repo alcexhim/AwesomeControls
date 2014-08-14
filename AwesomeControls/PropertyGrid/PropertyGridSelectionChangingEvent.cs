@@ -9,13 +9,13 @@ namespace AwesomeControls.PropertyGrid
 	public delegate void PropertyGridSelectionChangingEventHandler(object sender, PropertyGridSelectionChangingEventArgs e);
 	public class PropertyGridSelectionChangingEventArgs : CancelEventArgs
 	{
-		private Property mvarOldProperty = null;
-		public Property OldProperty { get { return mvarOldProperty; } }
+		private IPropertyGridItem mvarOldProperty = null;
+		public IPropertyGridItem OldProperty { get { return mvarOldProperty; } }
 
-		private Property mvarNewProperty = null;
-		public Property NewProperty { get { return mvarNewProperty; } set { mvarNewProperty = value; } }
+		private IPropertyGridItem mvarNewProperty = null;
+		public IPropertyGridItem NewProperty { get { return mvarNewProperty; } set { mvarNewProperty = value; } }
 
-		public PropertyGridSelectionChangingEventArgs(Property oldProperty, Property newProperty)
+		public PropertyGridSelectionChangingEventArgs(IPropertyGridItem oldProperty, IPropertyGridItem newProperty)
 		{
 			mvarOldProperty = oldProperty;
 			mvarNewProperty = newProperty;

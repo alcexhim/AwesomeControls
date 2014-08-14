@@ -100,6 +100,7 @@ namespace AwesomeControls.PropertyGrid
 		public Property(string name, object defaultValue = null, Image image = null, bool readOnly = false)
 		{
 			mvarName = name;
+			mvarTitle = name;
 			mvarDefaultValue = defaultValue;
 			mvarValue = defaultValue;
 
@@ -179,6 +180,9 @@ namespace AwesomeControls.PropertyGrid
 		private string mvarName = String.Empty;
 		public string Name { get { return mvarName; } set { mvarName = value; } }
 
+		private string mvarTitle = String.Empty;
+		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
+
 		private string mvarDescription = String.Empty;
 		public string Description { get { return mvarDescription; } set { mvarDescription = value; } }
 
@@ -234,6 +238,7 @@ namespace AwesomeControls.PropertyGrid
 			clone.Expanded = mvarExpanded;
 			clone.Image = mvarImage;
 			clone.Name = (mvarName.Clone() as string);
+			clone.Title = (mvarTitle.Clone() as string);
 			/*
 			 * DON'T DO THIS - THIS IS WHAT DUPLICATES PROPERTIES
 			foreach (Property prop in mvarProperties)

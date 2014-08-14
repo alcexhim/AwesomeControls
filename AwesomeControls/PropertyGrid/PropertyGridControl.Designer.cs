@@ -1,33 +1,33 @@
 ﻿namespace AwesomeControls.PropertyGrid
 {
-    partial class PropertyGridControl
-    {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class PropertyGridControl
+	{
+		/// <summary> 
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Component Designer generated code
+		#region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyGridControl));
 			this.cboObject = new System.Windows.Forms.ComboBox();
@@ -80,13 +80,13 @@
 			// 
 			this.tb.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbCategorized,
-            this.tsbAlphabetical,
-            this.toolStripSeparator1,
-            this.tsbProperties,
-            this.tsbEvents,
-            this.toolStripSeparator2,
-            this.tsbPropertyPages});
+			this.tsbCategorized,
+			this.tsbAlphabetical,
+			this.toolStripSeparator1,
+			this.tsbProperties,
+			this.tsbEvents,
+			this.toolStripSeparator2,
+			this.tsbPropertyPages});
 			this.tb.Location = new System.Drawing.Point(0, 21);
 			this.tb.Name = "tb";
 			this.tb.Size = new System.Drawing.Size(297, 25);
@@ -201,8 +201,6 @@
 			this.pgp.ItemHeight = 16;
 			this.pgp.Location = new System.Drawing.Point(0, 0);
 			this.pgp.Name = "pgp";
-			this.pgp.SelectedGroup = null;
-			this.pgp.SelectedProperty = null;
 			this.pgp.Size = new System.Drawing.Size(297, 160);
 			this.pgp.SortingMode = AwesomeControls.PropertyGrid.PropertyGridSortingMode.Categorized;
 			this.pgp.SplitterPosition = 0.4D;
@@ -224,8 +222,8 @@
 			// tableLayoutPanel2
 			// 
 			this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel2.ColumnCount = 1;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel2.Controls.Add(this.lblDescription, 0, 1);
@@ -264,10 +262,10 @@
 			// mnuContext
 			// 
 			this.mnuContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuContextReset,
-            this.toolStripMenuItem1,
-            this.mnuContextCommands,
-            this.mnuContextDescription});
+			this.mnuContextReset,
+			this.toolStripMenuItem1,
+			this.mnuContextCommands,
+			this.mnuContextDescription});
 			this.mnuContext.Name = "mnuContext";
 			this.mnuContext.Size = new System.Drawing.Size(128, 76);
 			this.mnuContext.Opening += new System.ComponentModel.CancelEventHandler(this.mnuContext_Opening);
@@ -328,31 +326,31 @@
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
 		internal System.Windows.Forms.ComboBox cboObject;
 		private AwesomeControls.CommandBars.CBToolBar tb;
-        private System.Windows.Forms.SplitContainer scPropertiesDescription;
-        private System.Windows.Forms.SplitContainer scPropertiesCommands;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label lblDescription;
-        private System.Windows.Forms.Label lblPropertyName;
-        private System.Windows.Forms.Panel pnlCommands;
-        private System.Windows.Forms.ToolStripButton tsbCategorized;
-        private System.Windows.Forms.ToolStripButton tsbAlphabetical;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton tsbProperties;
-        private System.Windows.Forms.ToolStripButton tsbEvents;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton tsbPropertyPages;
-        private PropertyGridPanel pgp;
+		private System.Windows.Forms.SplitContainer scPropertiesDescription;
+		private System.Windows.Forms.SplitContainer scPropertiesCommands;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.Label lblDescription;
+		private System.Windows.Forms.Label lblPropertyName;
+		private System.Windows.Forms.Panel pnlCommands;
+		private System.Windows.Forms.ToolStripButton tsbCategorized;
+		private System.Windows.Forms.ToolStripButton tsbAlphabetical;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton tsbProperties;
+		private System.Windows.Forms.ToolStripButton tsbEvents;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton tsbPropertyPages;
+		private PropertyGridPanel pgp;
 		private CommandBars.CBContextMenu mnuContext;
 		private System.Windows.Forms.ToolStripMenuItem mnuContextReset;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem mnuContextCommands;
 		private System.Windows.Forms.ToolStripMenuItem mnuContextDescription;
 
-    }
+	}
 }

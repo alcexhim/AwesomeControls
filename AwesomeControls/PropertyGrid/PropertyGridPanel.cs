@@ -89,21 +89,23 @@ namespace AwesomeControls.PropertyGrid
 					UpdateSortedProperties();
 
 					mvarSelectedGroup.ParentControl = this;
-					if (mvarSelectedProperty != null)
+
+					Property SelectedProperty = (SelectedItem as Property);
+					if (SelectedProperty != null)
 					{
-						Property p = SortedProperties[mvarSelectedProperty.Name];
+						Property p = SortedProperties[SelectedProperty.Title];
 						if (p != null)
 						{
-							SelectedProperty = p;
+							SelectedItem = p;
 						}
 						else
 						{
-							SelectedProperty = SortedProperties[0];
+							SelectedItem = SortedProperties[0];
 						}
 					}
 					else if (SortedProperties.Count > 0)
 					{
-						SelectedProperty = SortedProperties[0];
+						SelectedItem = SortedProperties[0];
 					}
 				}
 
@@ -114,23 +116,23 @@ namespace AwesomeControls.PropertyGrid
 
 		private int mvarMarginWidth = 17;
 
-		private Property mvarSelectedProperty = null;
-		public Property SelectedProperty
+		private IPropertyGridItem mvarSelectedItem = null;
+		public IPropertyGridItem SelectedItem
 		{
-			get { return mvarSelectedProperty; }
+			get { return mvarSelectedItem; }
 			set
 			{
-				PropertyGridSelectionChangingEventArgs ce = new PropertyGridSelectionChangingEventArgs(mvarSelectedProperty, value);
+				PropertyGridSelectionChangingEventArgs ce = new PropertyGridSelectionChangingEventArgs(mvarSelectedItem, value);
 				OnSelectionChanging(ce);
 				if (ce.Cancel) return;
 
 				value = ce.NewProperty;
 
-				Property oldProperty = mvarSelectedProperty;
-				mvarSelectedProperty = value;
-				if (oldProperty != mvarSelectedProperty)
+				IPropertyGridItem oldProperty = mvarSelectedItem;
+				mvarSelectedItem = value;
+				if (oldProperty != mvarSelectedItem)
 				{
-					OnSelectionChanged(new PropertyGridSelectionChangedEventArgs(oldProperty, mvarSelectedProperty));
+					OnSelectionChanged(new PropertyGridSelectionChangedEventArgs(oldProperty, mvarSelectedItem));
 				}
 			}
 		}
@@ -155,6 +157,7 @@ namespace AwesomeControls.PropertyGrid
 			base.Refresh();
 			if (mvarSelectedGroup == null) return;
 
+			Property SelectedProperty = (SelectedItem as Property);
 			if (SelectedProperty != null)
 			{
 				if (SelectedProperty.Value != null)
@@ -195,27 +198,27 @@ namespace AwesomeControls.PropertyGrid
 		{
 			if (p2.Category == null && p1.Category != null)
 			{
-				return p1.Category.Title.CompareTo(mvarDefaultCategory.Name);
+				return p1.Category.Title.CompareTo(mvarDefaultCategory.Title);
 			}
 			else if (p1.Category == null && p2.Category != null)
 			{
-				return mvarDefaultCategory.Name.CompareTo(p2.Category.Title);
+				return mvarDefaultCategory.Title.CompareTo(p2.Category.Title);
 			}
 			else if (p1.Category == null)
 			{
-				return p1.Name.CompareTo(p2.Name);
+				return p1.Title.CompareTo(p2.Title);
 			}
 
 			int r = p1.Category.Title.CompareTo(p2.Category.Title);
 			if (r == 0)
 			{
-				return p1.Name.CompareTo(p2.Name);
+				return p1.Title.CompareTo(p2.Title);
 			}
 			return r;
 		}
 		private int PropertyComparerAlphabetical(Property p1, Property p2)
 		{
-			return p1.Name.CompareTo(p2.Name);
+			return p1.Title.CompareTo(p2.Title);
 		}
 		private void UpdateSortedProperties()
 		{
@@ -354,7 +357,7 @@ namespace AwesomeControls.PropertyGrid
 			Rectangle rect = new Rectangle(16, y, Width - 16, 16);
 
 			g.FillRectangle(new SolidBrush(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBorderColor), rect);
-			TextRenderer.DrawText(g, (category == null ? mvarDefaultCategory.Name : category.Title), new Font(Font, FontStyle.Bold), rect, Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor, TextFormatFlags.Left);
+			TextRenderer.DrawText(g, (category == null ? mvarDefaultCategory.Title : category.Title), new Font(Font, FontStyle.Bold), rect, Theming.Theme.CurrentTheme.ColorTable.PropertyGridForegroundColor, TextFormatFlags.Left);
 
 			y += 16;
 
@@ -374,7 +377,7 @@ namespace AwesomeControls.PropertyGrid
 			{
 				fc = Theming.Theme.CurrentTheme.ColorTable.PropertyGridDisabledForegroundColor;
 			}
-			if (SelectedProperty == property)
+			if (SelectedItem == property)
 			{
 				txt.ForeColor = fc;
 				if (_hasFocus)
@@ -410,7 +413,7 @@ namespace AwesomeControls.PropertyGrid
 
 			Rectangle rectTitle = new Rectangle(mvarMarginWidth, y + 1, leftWidth - mvarMarginWidth, mvarItemHeight);
 			Rectangle rectValue = new Rectangle(leftWidth + 2, y + 1, rightWidth, mvarItemHeight);
-			if (property == mvarSelectedProperty)
+			if (property == SelectedItem)
 			{
 				if (property.DataType.Editor != null)
 				{
@@ -426,7 +429,7 @@ namespace AwesomeControls.PropertyGrid
 			// rectValue.X += indentSize;
 			// rectValue.Width -= indentSize;
 
-			TextRenderer.DrawText(g, property.Name, base.Font, rectTitle, fc, TextFormatFlags.Left);
+			TextRenderer.DrawText(g, property.Title, base.Font, rectTitle, fc, TextFormatFlags.Left);
 
 			if (property.ReadOnly)
 			{
@@ -450,7 +453,7 @@ namespace AwesomeControls.PropertyGrid
 				{
 					font = new Font(font, FontStyle.Bold);
 				}
-				if (SelectedProperty == property)
+				if (SelectedItem == property)
 				{
 					txt.Font = font;
 				}
@@ -575,7 +578,7 @@ namespace AwesomeControls.PropertyGrid
 				propBounds[p] = rect;
 				h += mvarItemHeight;
 			}
-			if (p == mvarSelectedProperty)
+			if (p == SelectedItem)
 			{
 				txt.Visible = pc.Expanded;
 				txt.Top = rect.Y;
@@ -654,6 +657,7 @@ namespace AwesomeControls.PropertyGrid
 			if (pc != null && e.X <= mvarMarginWidth)
 			{
 				pc.Expanded = !pc.Expanded;
+				SelectedItem = pc;
 				UpdatePropertyBounds();
 				Refresh();
 				return;
@@ -664,7 +668,7 @@ namespace AwesomeControls.PropertyGrid
 			if (pMargin != null && pMargin.Properties.Count > 0 && e.X <= mvarMarginWidth)
 			{
 				pMargin.Expanded = !pMargin.Expanded;
-				SelectedProperty = pMargin;
+				SelectedItem = pMargin;
 				UpdatePropertyBounds();
 				Refresh();
 				return;
@@ -672,17 +676,22 @@ namespace AwesomeControls.PropertyGrid
 
 			if (p == null)
 			{
-				if (e.X >= mvarMarginWidth) SelectedProperty = null;
+				if (e.X >= mvarMarginWidth)
+				{
+					SelectedItem = pc;
+					txt.Visible = false;
+					Refresh();
+				}
 				return;
 			}
 
 			Rectangle bounds = GetPropertyBounds(p);
 
-			if (p != SelectedProperty)
+			if (p != SelectedItem)
 			{
 				m_clicked = 0;
 			}
-			SelectedProperty = p;
+			SelectedItem = p;
 
 			int leftWidth = (int)(mvarSplitterPosition * pnlProperties.Width) - (mvarSplitterPadding * 3);
 			int rightWidth = pnlProperties.Width - leftWidth;
@@ -748,9 +757,10 @@ namespace AwesomeControls.PropertyGrid
 				int rightWidth = pnlProperties.Width - leftWidth;
 				int txtWidth = rightWidth - 6;
 
-				if (mvarSelectedProperty != null)
+				Property SelectedProperty = (SelectedItem as Property);
+				if (SelectedProperty != null)
 				{
-					PropertyEditor editor = mvarSelectedProperty.DataType.Editor;
+					PropertyEditor editor = SelectedProperty.DataType.Editor;
 					if (editor != null)
 					{
 						txtWidth -= editor.ButtonWidth;
@@ -759,7 +769,7 @@ namespace AwesomeControls.PropertyGrid
 							buttonDown = true;
 						}
 					}
-					else if (mvarSelectedProperty.DataType.Choices.Count > 0)
+					else if (SelectedProperty.DataType.Choices.Count > 0)
 					{
 						txtWidth -= 16;
 						if (e.Button == MouseButtons.Left && e.X >= pnlProperties.Width - 16)
@@ -802,7 +812,7 @@ namespace AwesomeControls.PropertyGrid
 				{
 					if (e.X >= (pnlProperties.Width - 16))
 					{
-						Property p = SelectedProperty;
+						Property p = (SelectedItem as Property);
 						if (p != null && !p.ReadOnly)
 						{
 							// Dropdown open
@@ -871,6 +881,7 @@ namespace AwesomeControls.PropertyGrid
 			if (mvarSelectedGroup == null) return;
 			if (e.KeyCode == Keys.Enter)
 			{
+				Property SelectedProperty = (SelectedItem as Property);
 				if (SelectedProperty != null)
 				{
 					txt.Visible = false;
@@ -889,6 +900,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void RotateSelectedProperty()
 		{
+			Property SelectedProperty = (mvarSelectedItem as Property);
 			if (SelectedProperty != null)
 			{
 				PropertyDataType dt = SelectedProperty.DataType;

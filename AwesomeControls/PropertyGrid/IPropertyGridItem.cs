@@ -7,5 +7,7 @@ namespace AwesomeControls.PropertyGrid
 {
 	public interface IPropertyGridItem
 	{
+		string Title { get; }
+		string Description { get; }
 	}
 }

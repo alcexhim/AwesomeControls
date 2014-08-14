@@ -22,7 +22,8 @@ namespace AwesomeControls.PropertyGrid
 			{
 				base.Font = _parent.Font;
 
-				foreach (PropertyDataTypeChoice s in _parent.SelectedProperty.DataType.Choices)
+				Property SelectedProperty = (_parent.SelectedItem as Property);
+				foreach (PropertyDataTypeChoice s in SelectedProperty.DataType.Choices)
 				{
 					_validValues.Add(s);
 				}
@@ -34,11 +35,12 @@ namespace AwesomeControls.PropertyGrid
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
+			Property SelectedProperty = (_parent.SelectedItem as Property);
 			foreach (PropertyDataTypeChoice choice in _validValues)
 			{
 				if (choice.Value == null)
 				{
-					if (_parent.SelectedProperty.Value == null)
+					if (SelectedProperty.Value == null)
 					{
 						mvarSelectedIndex = _validValues.IndexOf(choice);
 						return;
@@ -46,7 +48,7 @@ namespace AwesomeControls.PropertyGrid
 				}
 				else
 				{
-					if (choice.Value.Equals(_parent.SelectedProperty.Value))
+					if (choice.Value.Equals(SelectedProperty.Value))
 					{
 						mvarSelectedIndex = _validValues.IndexOf(choice);
 						return;
@@ -66,8 +68,9 @@ namespace AwesomeControls.PropertyGrid
 			base.OnMouseDown(e);
 			if (e.Button == MouseButtons.Left)
 			{
-				if (_parent.SelectedProperty == null) return;
-				if (_parent.SelectedProperty.DataType.Choices.Count > 0)
+				Property SelectedProperty = (_parent.SelectedItem as Property);
+				if (SelectedProperty == null) return;
+				if (SelectedProperty.DataType.Choices.Count > 0)
 				{
 					int i = 0;
 					for (int j = 0; j < _validValues.Count; j++)
@@ -89,7 +92,8 @@ namespace AwesomeControls.PropertyGrid
 			base.OnMouseMove(e);
 			if (e.Button == MouseButtons.Left)
 			{
-				if (_parent.SelectedProperty == null) return;
+				Property SelectedProperty = (_parent.SelectedItem as Property);
+				if (SelectedProperty == null) return;
 				if (_validValues.Count > 0)
 				{
 					int i = 0;
@@ -113,7 +117,8 @@ namespace AwesomeControls.PropertyGrid
 
 			if (mvarSelectedIndex > -1 && mvarSelectedIndex < _validValues.Count)
 			{
-				_parent.SelectedProperty.Value = _validValues[mvarSelectedIndex].Value;
+				Property SelectedProperty = (_parent.SelectedItem as Property);
+				SelectedProperty.Value = _validValues[mvarSelectedIndex].Value;
 				_parent.Refresh();
 			}
 		}
@@ -123,7 +128,8 @@ namespace AwesomeControls.PropertyGrid
 			e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.PropertyGridBackgroundColor);
 
 			DrawingTools.PrepareGraphics(e.Graphics);
-			if (_parent.SelectedProperty == null) return;
+			Property SelectedProperty = (_parent.SelectedItem as Property);
+			if (SelectedProperty == null) return;
 
 			int i = 0;
 			foreach (PropertyDataTypeChoice s in _validValues)

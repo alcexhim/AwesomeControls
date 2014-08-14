@@ -23,6 +23,12 @@ namespace AwesomeControls.PropertyGrid
 			mvarName = name;
 			mvarTitle = title;
 		}
+		public PropertyCategory(string name, string title, string description)
+		{
+			mvarName = name;
+			mvarTitle = title;
+			mvarDescription = description;
+		}
 
 		private string mvarName = String.Empty;
 		public string Name { get { return mvarName; } set { mvarName = value; } }
@@ -35,6 +41,17 @@ namespace AwesomeControls.PropertyGrid
 			{
 				if (value == null) value = String.Empty;
 				mvarTitle = value;
+			}
+		}
+
+		private string mvarDescription = String.Empty;
+		public string Description 
+		{
+			get { return mvarDescription; } 
+			set 
+			{
+				if (value == null) value = String.Empty;
+				mvarDescription = value; 
 			}
 		}
 

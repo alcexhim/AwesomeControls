@@ -160,7 +160,7 @@ namespace AwesomeControls.PropertyGrid
 
 		private void mnuContext_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			Property p = pgp.SelectedProperty;
+			Property p = (pgp.SelectedItem as Property);
 			if (p != null)
 			{
 				if (p.DefaultValueSet)
@@ -176,9 +176,10 @@ namespace AwesomeControls.PropertyGrid
 
 		private void mnuContextReset_Click(object sender, EventArgs e)
 		{
-			if (pgp.SelectedProperty != null)
+			Property SelectedProperty = (pgp.SelectedItem as Property);
+			if (SelectedProperty != null)
 			{
-				pgp.SelectedProperty.Reset();
+				SelectedProperty.Reset();
 			}
 		}
 
@@ -231,7 +232,7 @@ namespace AwesomeControls.PropertyGrid
 			OnSelectionChanged(e);
 			if (e.NewProperty != null)
 			{
-				lblPropertyName.Text = e.NewProperty.Name;
+				lblPropertyName.Text = e.NewProperty.Title;
 				lblDescription.Text = e.NewProperty.Description;
 			}
 			else
