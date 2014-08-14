@@ -15,6 +15,13 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			Dark,
 			Blue
 		}
+		public enum StatusBarState
+		{
+			Initial,
+			SolutionLoaded,
+			Building,
+			Debugging
+		}
 
 		private ColorTable mvarLightColorTable = new ColorTable();
 		private ColorTable mvarDarkColorTable = new ColorTable();
@@ -799,6 +806,33 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 		private bool mvarUseAllCapsMenus = true;
 		public bool UseAllCapsMenus { get { return mvarUseAllCapsMenus; } set { mvarUseAllCapsMenus = value; } }
+
+		public void SetStatusBarState(StatusBarState value)
+		{
+			switch (value)
+			{
+				case StatusBarState.Initial:
+				{
+					ColorTable.StatusBarBackground = Color.FromArgb(104, 33, 122);
+					break;
+				}
+				case StatusBarState.Building:
+				{
+					ColorTable.StatusBarBackground = Color.FromArgb(14, 99, 156);
+					break;
+				}
+				case StatusBarState.SolutionLoaded:
+				{
+					ColorTable.StatusBarBackground = Color.FromArgb(0, 122, 204);
+					break;
+				}
+				case StatusBarState.Debugging:
+				{
+					ColorTable.StatusBarBackground = Color.FromArgb(202, 81, 0);
+					break;
+				}
+			}
+		}
 
 		public override void DrawText(Graphics graphics, string text, Color color, Font font, Rectangle textRectangle, TextFormatFlags textFormat, ToolStripTextDirection textDirection, ToolStripItem item)
 		{
