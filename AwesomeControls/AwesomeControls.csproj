@@ -181,6 +181,7 @@
     <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
     <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />
     <Compile Include="StringWrapper.cs" />
+    <Compile Include="TextBox\TextBoxSyntaxGroup.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
     <Compile Include="CommandBars\CBPanel.cs">

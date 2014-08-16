@@ -19,6 +19,15 @@ namespace AwesomeControls.TextBox
 	{
 		private int widthModifier = -7;
 
+		private bool mvarReplaceTabsWithSpaces = true;
+		public bool ReplaceTabsWithSpaces { get { return mvarReplaceTabsWithSpaces; } set { mvarReplaceTabsWithSpaces = value; } }
+
+		private int mvarTabSize = 4;
+		public int TabSize { get { return mvarTabSize; } set { mvarTabSize = value; } }
+
+		private TextBoxSyntaxGroup.TextBoxSyntaxHighlightGroupCollection mvarSyntaxHighlightGroups = new TextBoxSyntaxGroup.TextBoxSyntaxHighlightGroupCollection();
+		public TextBoxSyntaxGroup.TextBoxSyntaxHighlightGroupCollection SyntaxHighlightGroups { get { return mvarSyntaxHighlightGroups; } }
+
 		public TextBoxControl()
 		{
 			InitializeComponent();
@@ -153,7 +162,17 @@ namespace AwesomeControls.TextBox
 				if (term is TextBoxAutoSuggestTermItem)
 				{
 					TextBoxAutoSuggestTermItem item = (term as TextBoxAutoSuggestTermItem);
-					if (item.Value == PreviousWord)
+
+					bool test = false;
+					if (mvarCaseSensitive)
+					{
+						test = (item.Value == PreviousWord);
+					}
+					else
+					{
+						test = (item.Value.ToLower() == PreviousWord.ToLower());
+					}
+					if (test)
 					{
 						previtem = item;
 						break;
@@ -186,7 +205,7 @@ namespace AwesomeControls.TextBox
 				if (!wndAC.Visible)
 				{
 					Point pt = GetCaretRectangle().Location;
-					int charIndex = GetCharIndexFromPhysicalPosition(pt);
+					int charIndex = GetCharIndexFromCharPosition(pt);
 					charIndex -= CurrentWord.Length;
 					pt = GetPhysicalPositionFromCharIndex(charIndex);
 
@@ -208,7 +227,18 @@ namespace AwesomeControls.TextBox
 				{
 					wndAC.lst.Items.Add(item);
 				}
-				if (!selected && !String.IsNullOrEmpty(CurrentWord) && item.Value.ToLower().StartsWith(CurrentWord.ToLower()))
+
+				bool test = false;
+				if (mvarCaseSensitive)
+				{
+					test = item.Value.StartsWith(PreviousWord);
+				}
+				else
+				{
+					test = item.Value.ToLower().StartsWith(PreviousWord.ToLower());
+				}
+
+				if (!selected && !String.IsNullOrEmpty(PreviousWord) && test)
 				{
 					wndAC.lst.SelectedItem = item;
 					selected = true;
@@ -259,7 +289,7 @@ namespace AwesomeControls.TextBox
 					if (sel != null)
 					{
 						int cursel = GetCharIndexFromSelection(sel);
-						int selstart = cursel - CurrentWord.Length, sellength = CurrentWord.Length;
+						int selstart = cursel - PreviousWord.Length, sellength = PreviousWord.Length;
 
 						InsertText(term.Value, selstart, sellength);
 					}
@@ -434,10 +464,6 @@ namespace AwesomeControls.TextBox
 					}
 				}
 				_x += (sz.Width + widthModifier);
-			}
-			if (currentLineIndex < lines.Length)
-			{
-				return dwx; // return lines[currentLineIndex].Length;
 			}
 			return Text.Length;
 		}
@@ -1413,19 +1439,39 @@ namespace AwesomeControls.TextBox
 				if (e.KeyCode == System.Windows.Forms.Keys.Enter)
 				{
 					// handle auto-indent
-					int aiStart = 0;
-					string aiCurrentLine = Lines[CurrentLineIndex];
-					for (aiStart = 0; aiStart < Lines[CurrentLineIndex].Length; aiStart++)
+					if (mvarReplaceTabsWithSpaces)
 					{
-						if (aiCurrentLine[aiStart] != ' ')
+						int aiStart = 0;
+						string aiCurrentLine = Lines[CurrentLineIndex];
+						for (aiStart = 0; aiStart < Lines[CurrentLineIndex].Length; aiStart++)
 						{
-							break;
+							if (aiCurrentLine[aiStart] != ' ')
+							{
+								break;
+							}
+						}
+						if (aiStart > 0)
+						{
+							InsertText(mvarLineSeparatorString + new string(' ', aiStart));
+							return;
 						}
 					}
-					if (aiStart > 0)
+					else
 					{
-						InsertText(mvarLineSeparatorString + new string(' ', aiStart));
-						return;
+						int aiStart = 0;
+						string aiCurrentLine = Lines[CurrentLineIndex];
+						for (aiStart = 0; aiStart < Lines[CurrentLineIndex].Length; aiStart++)
+						{
+							if (aiCurrentLine[aiStart] != '\t')
+							{
+								break;
+							}
+						}
+						if (aiStart > 0)
+						{
+							InsertText(mvarLineSeparatorString + new string('\t', aiStart));
+							return;
+						}
 					}
 				}
 			}
@@ -1561,24 +1607,42 @@ namespace AwesomeControls.TextBox
 								}
 							}
 
-							if (length == 0)
+							bool isTab = false;
+							if (mvarReplaceTabsWithSpaces)
 							{
-								start--;
-								length = 1;
+								string tabString = new string(' ', mvarTabSize);
+								if (Text.Length - start >= mvarTabSize && start - mvarTabSize >= 0)
+								{
+									if (Text.Substring(start - mvarTabSize, mvarTabSize) == tabString)
+									{
+										length = mvarTabSize;
+										start -= mvarTabSize;
+										isTab = true;
+									}
+								}
 							}
 
-							if (start >= Text.Length) start = Text.Length - 1;
-
-							if (Text.Contains(mvarLineSeparatorString))
+							if (!isTab)
 							{
-								if (start + 1 >= mvarLineSeparatorString.Length)
+								if (length == 0)
 								{
-									if (Text.Substring(start - mvarLineSeparatorString.Length + 1, mvarLineSeparatorString.Length) == mvarLineSeparatorString)
+									start--;
+									length = 1;
+								}
+
+								if (start >= Text.Length) start = Text.Length - 1;
+
+								if (Text.Contains(mvarLineSeparatorString))
+								{
+									if (start + 1 >= mvarLineSeparatorString.Length)
 									{
-										// handle the special case when the cursor is immediately after a line separator...
-										// TODO: need to handle cursor immediately BEFORE line separators for "delete" key too!!
-										length = mvarLineSeparatorString.Length;
-										start -= (mvarLineSeparatorString.Length - 1);
+										if (Text.Substring(start - mvarLineSeparatorString.Length + 1, mvarLineSeparatorString.Length) == mvarLineSeparatorString)
+										{
+											// handle the special case when the cursor is immediately after a line separator...
+											// TODO: need to handle cursor immediately BEFORE line separators for "delete" key too!!
+											length = mvarLineSeparatorString.Length;
+											start -= (mvarLineSeparatorString.Length - 1);
+										}
 									}
 								}
 							}
@@ -1992,8 +2056,13 @@ namespace AwesomeControls.TextBox
 					else
 					{
 						// only end to the end of the line.
-						mvarSelections.Clear();
-						mvarSelections.Add(Text.IndexOf(Environment.NewLine), 0);
+						TextBoxLinearSelection sel = (mvarSelections[mvarSelections.Count - 1] as TextBoxLinearSelection);
+						if (sel != null)
+						{
+							int curSel = sel.Start + sel.End;
+							mvarSelections.Clear();
+							mvarSelections.Add(Text.IndexOf(Environment.NewLine, sel.End), 0);
+						}
 					}
 
 					if (e.Shift)
@@ -2298,6 +2367,13 @@ namespace AwesomeControls.TextBox
 							wndAC.lst.SelectedIndex = wndAC.lst.Items.Count - 1;
 						}
 					}
+					else
+					{
+						if (CurrentLineIndex - 1 >= 0)
+						{
+							CurrentLineIndex--;
+						}
+					}
 					return true;
 				}
 				case System.Windows.Forms.Keys.Down:
@@ -2311,6 +2387,13 @@ namespace AwesomeControls.TextBox
 						else
 						{
 							wndAC.lst.SelectedIndex = 0;
+						}
+					}
+					else
+					{
+						if (CurrentLineIndex + 1 < Lines.Length)
+						{
+							CurrentLineIndex++;
 						}
 					}
 					return true;
@@ -2465,6 +2548,13 @@ namespace AwesomeControls.TextBox
 			get
 			{
 				return base.Text.Split(new string[] { mvarLineSeparatorString }, StringSplitOptions.None);
+			}
+		}
+		public string CurrentLine
+		{
+			get
+			{
+				return Lines[CurrentLineIndex];
 			}
 		}
 		
@@ -2637,10 +2727,10 @@ namespace AwesomeControls.TextBox
 
 				if (!inSelection)
 				{
-					if (sho != null)
+					if (sho != null && sho.Group != null)
 					{
-						foreColor = sho.ForeColor;
-						backColor = sho.BackColor;
+						foreColor = sho.Group.ForeColor;
+						backColor = sho.Group.BackColor;
 					}
 				}
 				#endregion
@@ -2760,6 +2850,39 @@ namespace AwesomeControls.TextBox
 				}
 				return -1;
 			}
+			set
+			{
+				TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
+				if (lsel != null)
+				{
+					if (value < 0 || value >= Lines.Length) return;
+
+					Point pt = GetCharPositionFromCharIndex(lsel.Start);
+					if (pt.X > Lines[value].Length) pt.X = 0;
+					pt.Y = value;
+
+					lsel.Start = GetCharIndexFromCharPosition(pt) - 1;
+					lsel.End = 0;
+					Refresh();
+				}
+			}
+		}
+
+		public void InsertLine()
+		{
+			string indentString = String.Empty;
+			if (mvarAutoIndentEnabled)
+			{
+				if (mvarReplaceTabsWithSpaces)
+				{
+					indentString = new string(' ', mvarTabSize);
+				}
+				else
+				{
+					indentString = "\t";
+				}
+			}
+			InsertText(mvarLineSeparatorString + indentString);
 		}
 	}
 }

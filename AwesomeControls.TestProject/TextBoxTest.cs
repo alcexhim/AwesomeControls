@@ -12,9 +12,21 @@ namespace AwesomeControls.TestProject
 {
 	public partial class TextBoxTest : Form
 	{
+		private TextBoxSyntaxGroup GenericKeywordGroup = new TextBoxSyntaxGroup("Syntax Elements", Color.Blue);
+		private TextBoxSyntaxGroup ClassGroup = new TextBoxSyntaxGroup("Object Types", Color.DarkCyan);
+		private TextBoxSyntaxGroup ValueTypeGroup = new TextBoxSyntaxGroup("Value Types", Color.Red);
+		private TextBoxSyntaxGroup StringGroup = new TextBoxSyntaxGroup("Strings", Color.DarkRed);
+		private TextBoxSyntaxGroup OperatorGroup = new TextBoxSyntaxGroup("Operators", Color.Gray);
+		private TextBoxSyntaxGroup ConstantGroup = new TextBoxSyntaxGroup("Constants", Color.Gray);
+
 		public TextBoxTest()
 		{
 			InitializeComponent();
+
+			textBox1.SyntaxHighlightGroups.Add(GenericKeywordGroup);
+			textBox1.SyntaxHighlightGroups.Add(ClassGroup);
+			textBox1.SyntaxHighlightGroups.Add(ValueTypeGroup);
+			textBox1.SyntaxHighlightGroups.Add(StringGroup);
 			
 			textBox1.Font = new Font(FontFamily.GenericMonospace, 10, FontStyle.Regular);
 			textBox1.Text = string.Empty;
@@ -35,7 +47,7 @@ namespace AwesomeControls.TestProject
 			textBox1.WordBreakingSequences.Add(")");
 
 			InitSQL();
-			InitWD();
+			// InitWD();
 			// InitHLSL();
 			// InitVB();
 			// InitCS();
@@ -78,7 +90,7 @@ namespace AwesomeControls.TestProject
 				{
 					if (textBox1.Lines[textBox1.CurrentLineIndex].Trim().Contains(" " + str + " ") || textBox1.Lines[textBox1.CurrentLineIndex].Trim().StartsWith(str + " "))
 					{
-						textBox1.InsertText(textBox1.LineSeparatorString + "    ");
+						textBox1.InsertLine();
 						textBox1.InsertText(textBox1.LineSeparatorString + "End " + str, false);
 						e.Handled = true;
 						e.SuppressKeyPress = true;
@@ -104,6 +116,43 @@ namespace AwesomeControls.TestProject
 					e.Handled = true;
 				}
 			}
+			else if (e.KeyCode == Keys.Space)
+			{
+				string strtext = textBox1.CurrentLine;
+				string[] words = strtext.Split(new string[] { " " }, StringSplitOptions.None);
+				if (words.Length < 2) return;
+
+				switch (words[words.Length - 2].ToLower())
+				{
+					case "dim":
+					{
+						textBox1.InsertText(" As ");
+						e.Handled = true;
+						e.SuppressKeyPress = true;
+						break;
+					}
+					case "private":
+					case "public":
+					{
+						switch (words[words.Length - 1].ToLower())
+						{
+							case "sub":
+							case "function":
+							{
+								break;
+							}
+							default:
+							{
+								textBox1.InsertText(" As ");
+								e.Handled = true;
+								e.SuppressKeyPress = true;
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
 		}
 
 		private void InitConcertroid()
@@ -119,12 +168,12 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("Song", "A song used in a Performance.", Image.FromFile(@"Images/Class.png"));
 			textBox1.AutoSuggestTerms.Add("Producer", "The creator of a song.", Image.FromFile(@"Images/Class.png"));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Concert", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Character", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Costume", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Performance", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Song", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Producer", Color.DarkCyan));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Concert", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Character", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Costume", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Performance", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Song", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Producer", ClassGroup));
 
 		}
 
@@ -140,20 +189,20 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("double", "64-bit floating-point value", Image.FromFile(@"Images/Structure.png"));
 			textBox1.AutoSuggestTerms.Add("texture", "Untyped texture for backwards compatibility", Image.FromFile(@"Images/Structure.png"));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("bool", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("int", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("uint", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("dword", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("half", Color.Red));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("bool", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("int", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("uint", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("dword", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("half", ValueTypeGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float1", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float2", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float3", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float4", Color.Red));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float1", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float2", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float3", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("float4", ValueTypeGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("double", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("texture", Color.Red));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("double", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("texture", ValueTypeGroup));
 			#endregion
 			#region Classes
 			textBox1.AutoSuggestTerms.Add("Buffer", "Buffer<Type> name;\r\n\r\nData is read from a buffer using an overloaded version of the Load HLSL intrinsic function that takes one input parameter (an integer index). A buffer is accessed like an array of elements.", Image.FromFile(@"Images/Class.png"));
@@ -164,23 +213,23 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("Texture3D", Image.FromFile(@"Images/Class.png"));
 			textBox1.AutoSuggestTerms.Add("TextureCube", Image.FromFile(@"Images/Class.png"));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Buffer", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture1D", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture1DArray", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture2D", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture2DArray", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture3D", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TextureCube", Color.DarkCyan));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Buffer", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture1D", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture1DArray", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture2D", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture2DArray", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Texture3D", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TextureCube", ClassGroup));
 			#endregion
 
 			#region Keywords
 
 			textBox1.AutoSuggestTerms.Add("struct", "Declares an HLSL structure.\r\n\tstruct Name\r\n\t{\r\n\t\t[InterpolationModifier] Type[RxC] MemberName;\r\n\t\t...\r\n\t};", Image.FromFile(@"Images/Syntax.png"));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("struct", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("struct", GenericKeywordGroup));
 			textBox1.AutoSuggestTerms.Add("packoffset", "Optional shader constant packing keyword. Use this keyword to manually pack a shader constant when declaring a variable type. When packing a constant, you cannot mix constant types.", Image.FromFile(@"Images/Syntax.png"));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("packoffset", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("packoffset", GenericKeywordGroup));
 			textBox1.AutoSuggestTerms.Add("register", "Optional keyword for manually assigning a shader variable to a particular register.", Image.FromFile(@"Images/Syntax.png"));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("register", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("register", GenericKeywordGroup));
 			#endregion
 			
 			#region Storage Classes
@@ -192,22 +241,22 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("uniform", "Input only constant data. A uniform value comes from a constant register; each vertex shader or pixel shader invocation see the same initial value for a uniform variable.", Image.FromFile(@"Images/Syntax.png"));
 			textBox1.AutoSuggestTerms.Add("volatile", "Mark a variable that changes frequently; this is a hint to the compiler. This storage class modifier only applies to a local variable. The HLSL compiler currently ignores this storage class modifier.", Image.FromFile(@"Images/Syntax.png"));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("extern", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("precise", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("shared", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("groupshared", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("static", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("uniform", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("volatile", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("extern", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("precise", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("shared", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("groupshared", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("static", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("uniform", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("volatile", GenericKeywordGroup));
 			#endregion
 			#region Type Modifiers
 			textBox1.AutoSuggestTerms.Add("const", "Mark a variable that cannot be changed by a shader, therefore, it must be initialized in the variable declaration. Global variables are considered const by default (suppress this behavior by supplying the /Gec flag to the compiler).", Image.FromFile(@"Images/Syntax.png"));
 			textBox1.AutoSuggestTerms.Add("row_major", "Mark a variable that stores four components in a single row so they can be stored in a single constant register.", Image.FromFile(@"Images/Syntax.png"));
 			textBox1.AutoSuggestTerms.Add("column_major", "Mark a variable that stores 4 components in a single column to optimize matrix math.", Image.FromFile(@"Images/Syntax.png"));
-			
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("const", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("row_major", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("column_major", Color.Blue));
+
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("const", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("row_major", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("column_major", GenericKeywordGroup));
 			#endregion
 
 			#region Interpolation Types
@@ -216,17 +265,17 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("nointerpolation", "Do not interpolate the outputs of a vertex shader before passing them to a pixel shader.  When using an int/uint type, the only valid option is nointerpolation.", Image.FromFile(@"Images/Syntax.png"));
 			textBox1.AutoSuggestTerms.Add("noperspective", "Do not perform perspective-correction during interpolation. The noperspective modifier can be combined with the centroid modifier.", Image.FromFile(@"Images/Syntax.png"));
 			textBox1.AutoSuggestTerms.Add("sample", "Interpolate at sample location rather than at the pixel center. This causes the pixel shader to execute per-sample rather than per-pixel. Available in shader model 4.1 and later.", Image.FromFile(@"Images/Syntax.png"));
-			
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("linear", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("centroid", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("nointerpolation", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("noperspective", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("sample", Color.Blue));
+
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("linear", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("centroid", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("nointerpolation", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("noperspective", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("sample", GenericKeywordGroup));
 			#endregion
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("snorm", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("unorm", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("vector", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("snorm", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("unorm", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("vector", GenericKeywordGroup));
 
 			#region Flow-control statements
 			textBox1.AutoSuggestTerms.Add("break", "Exit the surrounding loop (do, for, while).", Image.FromFile(@"Images/Syntax.png"));
@@ -252,26 +301,26 @@ namespace AwesomeControls.TestProject
 
 			textBox1.AutoSuggestTerms.Add("while", "Executes a statement block until the conditional expression fails.\r\n\r\n\t[unroll([{count}]) | loop | fastopt | allow_uav_condition] while ({conditional})\r\n\t{\r\n\t\t[{statement ...}]\r\n\t}", Image.FromFile(@"Images/Syntax.png"));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("break", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("continue", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("discard", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("do", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("fastopt", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("for", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("break", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("continue", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("discard", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("do", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("fastopt", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("for", GenericKeywordGroup));
 			
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("unroll", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("loop", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("fastopt", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("allow_uav_condition", Color.DarkCyan));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("unroll", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("loop", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("fastopt", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("allow_uav_condition", GenericKeywordGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("if", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("branch", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("flatten", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("forcecase", Color.DarkCyan));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("call", Color.DarkCyan));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("if", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("branch", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("flatten", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("forcecase", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("call", GenericKeywordGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("switch", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("while", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("switch", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("while", GenericKeywordGroup));
 			#endregion
 
 		}
@@ -285,49 +334,50 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("NOT");
 			textBox1.AutoSuggestTerms.Add("NULL");
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AND", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("OR", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("NOT", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("NULL", Color.Gray));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AND", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("OR", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("NOT", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("NULL", ConstantGroup));
 			#endregion
 
 			textBox1.AutoSuggestTerms.Add("ROW");
 			textBox1.AutoSuggestTerms.Add("COLUMN");
 
 			#region SELECT
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("SELECT", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("FROM", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("WHERE", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ORDER", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("GROUP", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("BY", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("SELECT", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("FROM", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("WHERE", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ORDER", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("GROUP", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("BY", GenericKeywordGroup));
 
-			textBox1.AutoSuggestTerms.Add("SELECT", "Selects data from a database.\r\n\r\n\tSELECT {columns} FROM {database} [WHERE {criteria ...}]", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("FROM", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("WHERE", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("ORDER", "Orders the result set by the specified column.", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("GROUP", "Groups the result set by the specified column.", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("BY", Image.FromFile("Images/Syntax.png"));
+			Image SyntaxImage = null; // Image.FromFile("Images/Syntax.png");
+			textBox1.AutoSuggestTerms.Add("SELECT", "Selects data from a database.\r\n\r\n\tSELECT {columns} FROM {database} [WHERE {criteria ...}]", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("FROM", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("WHERE", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("ORDER", "Orders the result set by the specified column.", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("GROUP", "Groups the result set by the specified column.", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("BY", SyntaxImage);
 			#endregion
 			#region INSERT
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INSERT", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ALL", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INTO", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("VALUES", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INSERT", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ALL", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INTO", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("VALUES", GenericKeywordGroup));
 
-			textBox1.AutoSuggestTerms.Add("INSERT", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("ALL", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("INTO", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("VALUES", Image.FromFile("Images/Syntax.png"));
+			textBox1.AutoSuggestTerms.Add("INSERT", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("ALL", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("INTO", "Inserts data into a table on the specified database.\r\n\r\n\tINSERT INTO {database} ({rows}) VALUES ({values})", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("VALUES", SyntaxImage);
 			#endregion
 
 			#region CREATE
-			TextBoxAutoSuggestTermItem termTABLE = new TextBoxAutoSuggestTermItem("TABLE", Image.FromFile("Images/Syntax.png"));
-			TextBoxAutoSuggestTermItem termUSER = new TextBoxAutoSuggestTermItem("USER", Image.FromFile("Images/Syntax.png"));
-			TextBoxAutoSuggestTermItem termDATABASE = new TextBoxAutoSuggestTermItem("DATABASE", Image.FromFile("Images/Syntax.png"));
-			TextBoxAutoSuggestTermItem termTRIGGER = new TextBoxAutoSuggestTermItem("TRIGGER", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termTABLE = new TextBoxAutoSuggestTermItem("TABLE", SyntaxImage);
+			TextBoxAutoSuggestTermItem termUSER = new TextBoxAutoSuggestTermItem("USER", SyntaxImage);
+			TextBoxAutoSuggestTermItem termDATABASE = new TextBoxAutoSuggestTermItem("DATABASE", SyntaxImage);
+			TextBoxAutoSuggestTermItem termTRIGGER = new TextBoxAutoSuggestTermItem("TRIGGER", SyntaxImage);
 
-			TextBoxAutoSuggestTermItem termCREATE = new TextBoxAutoSuggestTermItem("CREATE", "Creates a database, user, table, or other object on the server.\r\n\r\n\tCREATE DATABASE {database}\r\n\tCREATE USER {username} IDENTIFIED BY {password}\r\n\tCREATE TABLE {tablename} AS ( {column_name data_type null? }, ... )", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termCREATE = new TextBoxAutoSuggestTermItem("CREATE", "Creates a database, user, table, or other object on the server.\r\n\r\n\tCREATE DATABASE {database}\r\n\tCREATE USER {username} IDENTIFIED BY {password}\r\n\tCREATE TABLE {tablename} AS ( {column_name data_type null? }, ... )", SyntaxImage);
 			termCREATE.PreventDefaultSuggestions = true;
 			termCREATE.AutoSuggestTerms.Add(termTABLE);
 			termCREATE.AutoSuggestTerms.Add(termUSER);
@@ -335,7 +385,7 @@ namespace AwesomeControls.TestProject
 			termCREATE.AutoSuggestTerms.Add(termTRIGGER);
 			textBox1.AutoSuggestTerms.Add(termCREATE);
 
-			TextBoxAutoSuggestTermItem termALTER = new TextBoxAutoSuggestTermItem("ALTER", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termALTER = new TextBoxAutoSuggestTermItem("ALTER", SyntaxImage);
 			termALTER.PreventDefaultSuggestions = true;
 			termALTER.AutoSuggestTerms.Add(termTABLE);
 			termALTER.AutoSuggestTerms.Add(termUSER);
@@ -343,7 +393,7 @@ namespace AwesomeControls.TestProject
 			termALTER.AutoSuggestTerms.Add(termTRIGGER);
 			textBox1.AutoSuggestTerms.Add(termALTER);
 			
-			TextBoxAutoSuggestTermItem termDROP = new TextBoxAutoSuggestTermItem("DROP", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termDROP = new TextBoxAutoSuggestTermItem("DROP", SyntaxImage);
 			termDROP.PreventDefaultSuggestions = true;
 			termDROP.AutoSuggestTerms.Add(termTABLE);
 			termDROP.AutoSuggestTerms.Add(termUSER);
@@ -351,56 +401,56 @@ namespace AwesomeControls.TestProject
 			termDROP.AutoSuggestTerms.Add(termTRIGGER);
 			textBox1.AutoSuggestTerms.Add(termDROP);
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("CREATE", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ALTER", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DROP", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TABLE", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("USER", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TRIGGER", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATABASE", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("CREATE", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("ALTER", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DROP", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TABLE", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("USER", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TRIGGER", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATABASE", GenericKeywordGroup));
 			#endregion
 
 			#region Others
-			textBox1.AutoSuggestTerms.Add("AS", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("IS", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("PRIMARY KEY", Image.FromFile("Images/Syntax.png"));
-			textBox1.AutoSuggestTerms.Add("AUTO_INCREMENT", "Indicates that the value in this column will be automatically incremented as each new row is inserted.", Image.FromFile("Images/Syntax.png"));
+			textBox1.AutoSuggestTerms.Add("AS", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("IS", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("PRIMARY KEY", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add("AUTO_INCREMENT", "Indicates that the value in this column will be automatically incremented as each new row is inserted.", SyntaxImage);
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AS", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("IS", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("PRIMARY", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("KEY", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AUTO_INCREMENT", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AS", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("IS", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("PRIMARY", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("KEY", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AUTO_INCREMENT", GenericKeywordGroup));
 			#endregion
 
 			#region Datatypes
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("BYTE", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("CHAR", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("VARCHAR", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INT", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("MEMO", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TEXT", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATE", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATETIME", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TIMESTAMP", Color.Red));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("BYTE", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("CHAR", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("VARCHAR", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("INT", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("MEMO", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TEXT", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATE", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("DATETIME", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("TIMESTAMP", ValueTypeGroup));
 			#endregion
 			#region Blocks
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightBlock("\"", "\"", Color.DarkRed));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightBlock("\"", "\"", StringGroup));
 			#endregion
 
 			/*
 			#region Databases
-			textBox1.AutoSuggestTerms.Add("dbo", Image.FromFile("Images/Namespace.png"));
+			textBox1.AutoSuggestTerms.Add("dbo", NamespaceImage);
 
-			textBox1.AutoSuggestTerms.Add("AdventureWorks", "database AdventureWorks", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("BluePrintEmploymentOffice", "database", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("EmployeeLeaveRequest", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("FEMAReimbursement", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("IntegritSQL", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("ME2000", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("Meeting_Event_dev", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("PerformanceAppraisal", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("Workorders", Image.FromFile("Images/Database.png"));
+			textBox1.AutoSuggestTerms.Add("AdventureWorks", "database AdventureWorks", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("BluePrintEmploymentOffice", "database", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("EmployeeLeaveRequest", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("FEMAReimbursement", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("IntegritSQL", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("ME2000", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("Meeting_Event_dev", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("PerformanceAppraisal", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("Workorders", DatabaseImage);
 
 			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("AdventureWorks", Color.FromArgb(0x2B, 0x91, 0xAF)));
 			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("BluePrintEmploymentOffice", Color.FromArgb(0x2B, 0x91, 0xAF)));
@@ -423,28 +473,31 @@ namespace AwesomeControls.TestProject
 
 		private void InitWD()
 		{
+			Image NamespaceImage = null; // Image.FromFile("Images/Namespace.png");
+			Image DatabaseImage = null; // Image.FromFile("Images/Database.png");
+			Image ClassImage = null; // Image.FromFile("Images/Class.png");
 			#region Databases
-			textBox1.AutoSuggestTerms.Add("wd5_impl", Image.FromFile("Images/Namespace.png"));
+			textBox1.AutoSuggestTerms.Add("wd5_impl", NamespaceImage);
 
-			textBox1.AutoSuggestTerms.Add("cityoforlando1", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("cityoforlando2", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("cityoforlando3", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("cityoforlando4", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("cityoforlando5", Image.FromFile("Images/Database.png"));
-			textBox1.AutoSuggestTerms.Add("cityoforlando6", Image.FromFile("Images/Database.png"));
+			textBox1.AutoSuggestTerms.Add("cityoforlando1", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("cityoforlando2", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("cityoforlando3", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("cityoforlando4", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("cityoforlando5", DatabaseImage);
+			textBox1.AutoSuggestTerms.Add("cityoforlando6", DatabaseImage);
 
-			textBox1.AutoSuggestTerms.Add("Incentive_Certification", "The value associated with custom worktag 4.\r\n\r\nSource: Workday Delivered\r\nType: Single Instance\r\nCategory: Payroll", Image.FromFile("Images/Class.png"));
-			textBox1.AutoSuggestTerms.Add("Worker", "The worker for this result line.\r\n\r\nSource: Workday Delivered\r\nType: Single Instance\r\nCategory: Payroll", Image.FromFile("Images/Class.png"));
+			textBox1.AutoSuggestTerms.Add("Incentive_Certification", "The value associated with custom worktag 4.\r\n\r\nSource: Workday Delivered\r\nType: Single Instance\r\nCategory: Payroll", ClassImage);
+			textBox1.AutoSuggestTerms.Add("Worker", "The worker for this result line.\r\n\r\nSource: Workday Delivered\r\nType: Single Instance\r\nCategory: Payroll", ClassImage);
 
-			Color classColor = Color.FromArgb(0x2B, 0x91, 0xAF);
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Incentive_Certification", classColor));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Worker", classColor));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Incentive_Certification", ClassGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Worker", ClassGroup));
 			#endregion
 		}
 
 		private void InitVB()
 		{
 			textBox1.KeyDown += new KeyEventHandler(textBox1_KeyDown_VB);
+			Image ClassImage = null; // Image.FromFile("Images/Class.png");
 			
 			// it only goes back as far as one word in the word chain, so it doesn't
 			// know the difference between Async [CurrentWord] and Public Async
@@ -456,58 +509,67 @@ namespace AwesomeControls.TestProject
 			textBox1.AutoSuggestTerms.Add("Not");
 			textBox1.AutoSuggestTerms.Add("Null");
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("And", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Or", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Not", Color.Gray));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Null", Color.Gray));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("And", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Or", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Not", OperatorGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Null", ConstantGroup));
 			#endregion
 
+			Image SyntaxImage = null; //  Image.FromFile("Images/Syntax.png");
+			Image StructureImage = null; // Image.FromFile("Images/Structure.png");
+
 			#region Function/Sub
-			TextBoxAutoSuggestTermItem termFunction = new TextBoxAutoSuggestTermItem("Function", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termFunction = new TextBoxAutoSuggestTermItem("Function", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termFunction);
-			TextBoxAutoSuggestTermItem termSub = new TextBoxAutoSuggestTermItem("Sub", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termSub = new TextBoxAutoSuggestTermItem("Sub", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termSub);
 			#endregion
 
 			#region Access Modifiers/Async
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Private", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Public", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Friend", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Protected", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Async", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Dim", GenericKeywordGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Function", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Sub", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Inherits", Color.Blue));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Class", Color.Blue));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Private", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Public", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Friend", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Protected", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Async", GenericKeywordGroup));
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("As", Color.Blue));
-			TextBoxAutoSuggestTermItem termAs = new TextBoxAutoSuggestTermItem("As", Image.FromFile("Images/Syntax.png"));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Function", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Sub", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Inherits", GenericKeywordGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Class", GenericKeywordGroup));
+
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("As", GenericKeywordGroup));
+
+			TextBoxAutoSuggestTermItem termAs = new TextBoxAutoSuggestTermItem("As", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termAs);
 
-			TextBoxAutoSuggestTermItem termPrivate = new TextBoxAutoSuggestTermItem("Private", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termDim = new TextBoxAutoSuggestTermItem("Dim", SyntaxImage);
+			textBox1.AutoSuggestTerms.Add(termDim);
+
+			TextBoxAutoSuggestTermItem termPrivate = new TextBoxAutoSuggestTermItem("Private", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termPrivate);
 
-			TextBoxAutoSuggestTermItem termPublic = new TextBoxAutoSuggestTermItem("Public", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termPublic = new TextBoxAutoSuggestTermItem("Public", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termPublic);
 
-			TextBoxAutoSuggestTermItem termFriend = new TextBoxAutoSuggestTermItem("Friend", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termFriend = new TextBoxAutoSuggestTermItem("Friend", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termFriend);
 
-			TextBoxAutoSuggestTermItem termProtected = new TextBoxAutoSuggestTermItem("Protected", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termProtected = new TextBoxAutoSuggestTermItem("Protected", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termProtected);
 
-			TextBoxAutoSuggestTermItem termAsync = new TextBoxAutoSuggestTermItem("Async", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termAsync = new TextBoxAutoSuggestTermItem("Async", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termAsync);
 
-			TextBoxAutoSuggestTermItem termInherits = new TextBoxAutoSuggestTermItem("Inherits", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termInherits = new TextBoxAutoSuggestTermItem("Inherits", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termInherits);
 
-			TextBoxAutoSuggestTermItem termClass = new TextBoxAutoSuggestTermItem("Class", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termClass = new TextBoxAutoSuggestTermItem("Class", SyntaxImage);
 			textBox1.AutoSuggestTerms.Add(termClass);
 
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("End", Color.Blue));
-			TextBoxAutoSuggestTermItem termEnd = new TextBoxAutoSuggestTermItem("End", Image.FromFile("Images/Syntax.png"));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("End", GenericKeywordGroup));
+			TextBoxAutoSuggestTermItem termEnd = new TextBoxAutoSuggestTermItem("End", SyntaxImage);
 			termEnd.AutoSuggestTerms.Add(termClass);
 			termEnd.AutoSuggestTerms.Add(termSub);
 			termEnd.AutoSuggestTerms.Add(termFunction);
@@ -519,7 +581,7 @@ namespace AwesomeControls.TestProject
 			termAsync.AutoSuggestTerms.Add(termSub);
 
 			#region PAsync - Async coming after an Access Modifier
-			TextBoxAutoSuggestTermItem termPAsync = new TextBoxAutoSuggestTermItem("Async", Image.FromFile("Images/Syntax.png"));
+			TextBoxAutoSuggestTermItem termPAsync = new TextBoxAutoSuggestTermItem("Async", SyntaxImage);
 			termPAsync.AutoSuggestTerms.Add(termFunction);
 			termPAsync.AutoSuggestTerms.Add(termSub);
 
@@ -548,15 +610,15 @@ namespace AwesomeControls.TestProject
 			#endregion
 
 			#region Datatypes
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Short", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Integer", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Long", Color.Red));
-			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("String", Color.Red));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Short", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Integer", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("Long", ValueTypeGroup));
+			textBox1.SyntaxHighlightObjects.Add(new TextBoxSyntaxHighlightTerm("String", ValueTypeGroup));
 
-			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Short", Image.FromFile("Images/Structure.png")));
-			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Integer", Image.FromFile("Images/Structure.png")));
-			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Long", Image.FromFile("Images/Structure.png")));
-			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("String", Image.FromFile("Images/Class.png")));
+			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Short", StructureImage));
+			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Integer", StructureImage));
+			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("Long", StructureImage));
+			termAs.AutoSuggestTerms.Add(new TextBoxAutoSuggestTermItem("String", ClassImage));
 			#endregion
 
 
