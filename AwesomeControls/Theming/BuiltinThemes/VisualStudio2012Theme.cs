@@ -388,6 +388,13 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.PropertyGridItemHighlightForegroundColor = Color.FromArgb(255, 255, 255);
 			}
 			#endregion
+
+			#region ToolTip
+			mvarDarkColorTable.ToolTipBackgroundGradientBegin = Color.FromArgb(66, 66, 69);
+			mvarDarkColorTable.ToolTipBackgroundGradientMiddle = Color.FromArgb(66, 66, 69);
+			mvarDarkColorTable.ToolTipBackgroundGradientEnd = Color.FromArgb(66, 66, 69);
+			mvarDarkColorTable.ToolTipBorder = Color.FromArgb(77, 77, 80);
+			#endregion
 		}
 		protected virtual void InitializeBlueColorTable()
 		{
