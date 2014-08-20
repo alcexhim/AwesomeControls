@@ -189,6 +189,10 @@ namespace AwesomeControls.TextBox
 			}
 			else
 			{
+				// BEGIN: fix bug where completely typed word does not appear in AC list
+				ACUpdateAutoCompleteListRecursive(previtem, ref selected);
+				// END: fix bug where completely typed word does not appear in AC list
+
 				foreach (TextBoxAutoSuggestTerm term in previtem.AutoSuggestTerms)
 				{
 					ACUpdateAutoCompleteListRecursive(term, ref selected);
