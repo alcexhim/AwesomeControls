@@ -23,14 +23,14 @@ namespace AwesomeControls.ListView
 				return item;
 			}
 
-            internal void AddRange(ListViewColumn[] listViewColumn)
-            {
-                foreach (ListViewColumn lvc in listViewColumn)
-                {
-                    Add(lvc);
-                }
-            }
-        }
+			public void AddRange(ListViewColumn[] listViewColumn)
+			{
+				foreach (ListViewColumn lvc in listViewColumn)
+				{
+					Add(lvc);
+				}
+			}
+		}
 
 		private string mvarName = String.Empty;
 		public string Name { get { return mvarName; } set { mvarName = value; } }
