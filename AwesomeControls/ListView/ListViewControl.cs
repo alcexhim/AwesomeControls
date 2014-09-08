@@ -11,6 +11,7 @@ using AwesomeControls.CommandBars;
 namespace AwesomeControls.ListView
 {
 	// TODO:
+	//		* Fix theming on column headers and grid lines
 	//      * Scroll bars!!!!!
 	//      * Wheel scrolling works, but doesn't stop when you reach the end of the list
 	//      * Keyboard navigation (Up, Down, Left, Right, Home, End, with Ctrl/Shift support for multiselectable listviews)
@@ -19,6 +20,7 @@ namespace AwesomeControls.ListView
 	//      * Column repositioning
 	//      * Column filtering (text-based)
 	//      * Column filtering (menu-based, see Windows Explorer)
+	//		* Column selection via menu (see Mozilla)
 
 	/// <summary>
 	/// A more powerful ListView control. Originally designed to quickly display a range of items from an extremely
@@ -834,14 +836,14 @@ namespace AwesomeControls.ListView
 					OnSelectionChanged(EventArgs.Empty);
 					break;
 				}
-                case Keys.Enter:
-                {
-                    if (SelectedItems.Count > 0)
-                    {
-                        OnItemActivate(EventArgs.Empty);
-                    }
-                    break;
-                }
+				case Keys.Enter:
+				{
+					if (SelectedItems.Count > 0)
+					{
+						OnItemActivate(EventArgs.Empty);
+					}
+					break;
+				}
 				default:
 				{
 					if ((e.KeyValue >= (int)'a' && e.KeyValue <= (int)'z') || (e.KeyValue >= (int)'A' && e.KeyValue <= (int)'Z') || (e.KeyValue >= (int)'0' && e.KeyValue <= (int)'9'))
