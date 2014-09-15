@@ -53,7 +53,9 @@ namespace AwesomeControls.Theming
 			ColorTable.CommandBarMenuControlTextHighlight = ColorTable.CommandBarControlTextHover;
 			ColorTable.CommandBarMenuControlTextPressed = ColorTable.CommandBarControlTextPressed;
 			ColorTable.CommandBarMenuControlTextDisabled = ColorTable.CommandBarControlTextDisabled;
-			
+
+
+			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromKnownColor(KnownColor.ControlDarkDark);
 		}
 		public override void DrawCommandBarBorder (Graphics graphics, System.Windows.Forms.ToolStrip toolStrip, Rectangle connectedArea)
 		{

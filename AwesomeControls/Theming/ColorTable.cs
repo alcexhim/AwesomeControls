@@ -900,6 +900,62 @@ namespace AwesomeControls.Theming
 			set { mvarHyperlinkFollowed = value; }
 		}
 		#endregion
+		#region ListView
+		#region ColumnHeader
+		#region Arrow
+		private Color mvarListViewColumnHeaderArrowNormal;
+		public Color ListViewColumnHeaderArrowNormal
+		{
+			get { return mvarListViewColumnHeaderArrowNormal; }
+			set { mvarListViewColumnHeaderArrowNormal = value; }
+		}
+		#endregion
+		#region Header
+		private Color mvarListViewColumnHeaderBackgroundNormal;
+		public Color ListViewColumnHeaderBackgroundNormal
+		{
+			get { return mvarListViewColumnHeaderBackgroundNormal; }
+			set { mvarListViewColumnHeaderBackgroundNormal = value; }
+		}
+		private Color mvarListViewColumnHeaderBackgroundHover;
+		public Color ListViewColumnHeaderBackgroundHover
+		{
+			get { return mvarListViewColumnHeaderBackgroundHover; }
+			set { mvarListViewColumnHeaderBackgroundHover = value; }
+		}
+		private Color mvarListViewColumnHeaderBackgroundSelected;
+		public Color ListViewColumnHeaderBackgroundSelected
+		{
+			get { return mvarListViewColumnHeaderBackgroundSelected; }
+			set { mvarListViewColumnHeaderBackgroundSelected = value; }
+		}
+		private Color mvarListViewColumnHeaderForegroundNormal;
+		public Color ListViewColumnHeaderForegroundNormal
+		{
+			get { return mvarListViewColumnHeaderForegroundNormal; }
+			set { mvarListViewColumnHeaderForegroundNormal = value; }
+		}
+		private Color mvarListViewColumnHeaderForegroundHover;
+		public Color ListViewColumnHeaderForegroundHover
+		{
+			get { return mvarListViewColumnHeaderForegroundHover; }
+			set { mvarListViewColumnHeaderForegroundHover = value; }
+		}
+		private Color mvarListViewColumnHeaderForegroundSelected;
+		public Color ListViewColumnHeaderForegroundSelected
+		{
+			get { return mvarListViewColumnHeaderForegroundSelected; }
+			set { mvarListViewColumnHeaderForegroundSelected = value; }
+		}
+		private Color mvarListViewColumnHeaderBorder;
+		public Color ListViewColumnHeaderBorder
+		{
+			get { return mvarListViewColumnHeaderBorder; }
+			set { mvarListViewColumnHeaderBorder = value; }
+		}
+		#endregion
+		#endregion
+		#endregion
 		#region JotNavUI
 		private Color mvarJotNavUIBorder;
 		public Color JotNavUIBorder
@@ -933,12 +989,6 @@ namespace AwesomeControls.Theming
 		}
 		#endregion
 		#region Common Colors
-		private Color mvarListHeaderArrow;
-		public Color ListHeaderArrow
-		{
-			get { return mvarListHeaderArrow; }
-			set { mvarListHeaderArrow = value; }
-		}
 		private Color mvarNetLookBackground;
 		public Color NetLookBackground
 		{
@@ -1592,7 +1642,7 @@ namespace AwesomeControls.Theming
 			set { mvarRibbonTabText = value; }
 		}
 		#endregion
-		#region
+		#region Button
 		private Color mvarButtonPressedHighlight;
 		public Color ButtonPressedHighlight
 		{

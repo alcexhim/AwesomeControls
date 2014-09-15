@@ -377,6 +377,18 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.DropDownBorderColorPressed = Color.FromArgb(67, 67, 70);
 			}
 			#endregion
+			#region ListView
+			{
+				mvarDarkColorTable.ListViewColumnHeaderBackgroundNormal = Color.FromArgb(37, 37, 38);
+				mvarDarkColorTable.ListViewColumnHeaderBackgroundHover = Color.FromArgb(62, 62, 64);
+				mvarDarkColorTable.ListViewColumnHeaderBackgroundSelected = Color.FromArgb(0, 122, 204);
+				mvarDarkColorTable.ListViewColumnHeaderForegroundNormal = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.ListViewColumnHeaderForegroundHover = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.ListViewColumnHeaderForegroundSelected = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.ListViewColumnHeaderBorder = Color.FromArgb(63, 63, 70);
+				mvarDarkColorTable.ListViewColumnHeaderArrowNormal = Color.FromArgb(241, 241, 241);
+			}
+			#endregion
 
 			#region Property Grid
 			{
@@ -629,6 +641,29 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				graphics.FillRectangle(b2, r2);
 
 				graphics.DrawRectangle(new Pen(ColorTable.CommandBarControlBorderHover), r);
+			}
+		}
+
+		public override void DrawListColumnBackground(Graphics g, Rectangle rect, ControlState state, bool sorted)
+		{
+			// draws the column header background, should this be called DrawColumnHeaderBackground?
+			switch (state)
+			{
+				case ControlState.Normal:
+				{
+					g.FillRectangle(new SolidBrush(ColorTable.ListViewColumnHeaderBackgroundNormal), rect);
+					break;
+				}
+				case ControlState.Hover:
+				{
+					g.FillRectangle(new SolidBrush(ColorTable.ListViewColumnHeaderBackgroundHover), rect);
+					break;
+				}
+				case ControlState.Pressed:
+				{
+					g.FillRectangle(new SolidBrush(ColorTable.ListViewColumnHeaderBackgroundSelected), rect);
+					break;
+				}
 			}
 		}
 

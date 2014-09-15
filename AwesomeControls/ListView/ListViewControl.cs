@@ -1303,6 +1303,25 @@ namespace AwesomeControls.ListView
 			sz.Height = mvarColumnHeaderHeight;
 			textRect.Size = sz;
 
+			switch (state)
+			{
+				case ControlState.Normal:
+				{
+					foreColor = Theming.Theme.CurrentTheme.ColorTable.ListViewColumnHeaderForegroundNormal;
+					break;
+				}
+				case ControlState.Hover:
+				{
+					foreColor = Theming.Theme.CurrentTheme.ColorTable.ListViewColumnHeaderForegroundHover;
+					break;
+				}
+				case ControlState.Pressed:
+				{
+					foreColor = Theming.Theme.CurrentTheme.ColorTable.ListViewColumnHeaderForegroundSelected;
+					break;
+				}
+			}
+
 			TextRenderer.DrawText(g, col.Text, font, textRect, foreColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
 
 			if (col == mvarSortColumn)
@@ -1311,12 +1330,12 @@ namespace AwesomeControls.ListView
 				{
 					case ListSortDirection.Ascending:
 					{
-						DrawingTools.DrawArrow(g, Color.FromKnownColor(KnownColor.ControlDarkDark), DrawingTools.Direction.Up, textRect.Right + 4, (mvarColumnHeaderHeight / 2) - 2, 4);
+						DrawingTools.DrawArrow(g, Theming.Theme.CurrentTheme.ColorTable.ListViewColumnHeaderArrowNormal, DrawingTools.Direction.Up, textRect.Right + 4, (mvarColumnHeaderHeight / 2) - 2, 4);
 						break;
 					}
 					case ListSortDirection.Descending:
 					{
-						DrawingTools.DrawArrow(g, Color.FromKnownColor(KnownColor.ControlDarkDark), DrawingTools.Direction.Down, textRect.Right + 4, (mvarColumnHeaderHeight / 2) - 2, 4);
+						DrawingTools.DrawArrow(g, Theming.Theme.CurrentTheme.ColorTable.ListViewColumnHeaderArrowNormal, DrawingTools.Direction.Down, textRect.Right + 4, (mvarColumnHeaderHeight / 2) - 2, 4);
 						break;
 					}
 				}

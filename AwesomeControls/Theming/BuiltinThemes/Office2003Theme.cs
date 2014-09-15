@@ -218,7 +218,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.JotNavUIGradientEnd = window;
 			ColorTable.JotNavUIGradientMiddle = window;
 			ColorTable.JotNavUIText = windowText;
-			ColorTable.ListHeaderArrow = controlText;
+			ColorTable.ListViewColumnHeaderArrowNormal = controlText;
 			ColorTable.NetLookBackground = empty;
 			ColorTable.OABBackground = buttonShadow;
 			ColorTable.OBBackgroundBorder = buttonShadow;
@@ -440,7 +440,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.JotNavUIGradientEnd = Color.FromArgb(255, 255, 255);
 			ColorTable.JotNavUIGradientMiddle = Color.FromArgb(196, 218, 250);
 			ColorTable.JotNavUIText = Color.FromArgb(0, 0, 0);
-			ColorTable.ListHeaderArrow = Color.FromArgb(172, 168, 153);
+			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromArgb(172, 168, 153);
 			ColorTable.NetLookBackground = Color.FromArgb(227, 239, 255);
 			ColorTable.OABBackground = Color.FromArgb(128, 128, 128);
 			ColorTable.OBBackgroundBorder = Color.FromArgb(128, 128, 128);
@@ -674,7 +674,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.JotNavUIGradientMiddle = Color.FromArgb(242, 241, 228);
 			ColorTable.JotNavUIGradientMiddle = Color.FromArgb(242, 241, 228);
 			ColorTable.JotNavUIText = Color.FromArgb(0, 0, 0);
-			ColorTable.ListHeaderArrow = Color.FromArgb(172, 168, 153);
+			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromArgb(172, 168, 153);
 			ColorTable.NetLookBackground = Color.FromArgb(255, 255, 237);
 			ColorTable.OABBackground = Color.FromArgb(255, 255, 255);
 			ColorTable.OBBackgroundBorder = Color.FromArgb(211, 211, 211);
@@ -918,7 +918,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.PowerPointSlideBorderActiveSelectedHover = Color.FromArgb(255, 51, 153);
 			ColorTable.DialogGroupBoxText = Color.FromArgb(0, 0, 0);
 			ColorTable.ScrollbarBackground = Color.FromArgb(237, 235, 239);
-			ColorTable.ListHeaderArrow = Color.FromArgb(155, 154, 156);
+			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromArgb(155, 154, 156);
 			ColorTable.DisabledHighlightedText = Color.FromArgb(188, 202, 226);
 			ColorTable.FocuslessHighlightedBackground = Color.FromArgb(235, 233, 237);
 			ColorTable.FocuslessHighlightedForeground = Color.FromArgb(0, 0, 0);
@@ -1136,7 +1136,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.JotNavUIGradientMiddle = Color.FromArgb(243, 243, 247);
 			ColorTable.JotNavUIGradientMiddle = Color.FromArgb(243, 243, 247);
 			ColorTable.JotNavUIText = Color.FromArgb(0, 0, 0);
-			ColorTable.ListHeaderArrow = Color.FromArgb(172, 168, 153);
+			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromArgb(172, 168, 153);
 			ColorTable.NetLookBackground = Color.FromArgb(249, 249, 255);
 			ColorTable.OABBackground = Color.FromArgb(255, 255, 255);
 			ColorTable.OBBackgroundBorder = Color.FromArgb(211, 211, 211);
