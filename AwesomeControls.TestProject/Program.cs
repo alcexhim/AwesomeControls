@@ -18,11 +18,13 @@ namespace AwesomeControls.TestProject
 			AwesomeControls.Theming.Theme.CurrentTheme = AwesomeControls.Theming.Themes.System;
 			// AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.VisualStudio2012Theme(Theming.BuiltinThemes.VisualStudio2012Theme.ColorMode.Dark);
 
-			TextBoxTest test = new TextBoxTest();
-			
+			DropDownTest test = new DropDownTest();
 			test.ShowDialog();
 
 			/*
+			
+			TextBoxTest test = new TextBoxTest();
+			test.ShowDialog();
 			
 			MainWindowTest mwt = new MainWindowTest();
 			mwt.ShowDialog();

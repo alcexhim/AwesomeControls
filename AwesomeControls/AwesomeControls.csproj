@@ -149,6 +149,18 @@
     <Compile Include="DockingWindows\WindowClosedEvent.cs" />
     <Compile Include="DockingWindows\WindowClosingEvent.cs" />
     <Compile Include="DrawingTools.cs" />
+    <Compile Include="DropDown\DropDownControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownControl.Designer.cs">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DropDown\DropDownWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DropDown\DropDownWindow.Designer.cs">
+      <DependentUpon>DropDownWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
@@ -166,6 +178,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PieMenu\PieMenuWindow.Designer.cs" />
+    <Compile Include="Popup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popup.Designer.cs">
+      <DependentUpon>Popup.cs</DependentUpon>
+    </Compile>
     <Compile Include="PropertyGrid\IPropertyGridItem.cs" />
     <Compile Include="PropertyGrid\PropertyCategory.cs" />
     <Compile Include="PropertyGrid\PropertyDataTypeChoice.cs" />
@@ -493,6 +511,12 @@
     <EmbeddedResource Include="DockingWindows\DockingContainerControl.resx">
       <DependentUpon>DockingContainerControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DropDown\DropDownControl.resx">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropDown\DropDownWindow.resx">
+      <DependentUpon>DropDownWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DynamicContainer\DynamicContainerControl.resx">
       <DependentUpon>DynamicContainerControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -513,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MultipleDocumentContainer\MultipleDocumentContainerControl.resx">
       <DependentUpon>MultipleDocumentContainerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popup.resx">
+      <DependentUpon>Popup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
