@@ -136,6 +136,12 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		public VisualStudio2012Theme(ColorMode colorMode = ColorMode.Light)
 		{
 			SetColorMode(colorMode);
+			InitializeMetricTable();
+		}
+
+		protected virtual void InitializeMetricTable()
+		{
+			MetricTable.DropDownButtonPadding = new Padding(0, 0, 0, 0);
 		}
 
 		protected virtual void InitializeLightColorTable()
@@ -367,18 +373,14 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.DropDownBackgroundColorNormal = Color.FromArgb(51, 51, 55);
 				mvarDarkColorTable.DropDownForegroundColorNormal = Color.FromArgb(241, 241, 241);
 				mvarDarkColorTable.DropDownBorderColorNormal = Color.FromArgb(67, 67, 70);
-				/*
+
 				mvarDarkColorTable.DropDownBackgroundColorHover = Color.FromArgb(63, 63, 70);
 				mvarDarkColorTable.DropDownForegroundColorHover = Color.FromArgb(255, 255, 255);
 				mvarDarkColorTable.DropDownBorderColorHover = Color.FromArgb(67, 67, 70);
-				*/
-				mvarDarkColorTable.DropDownBackgroundColorHover = Color.FromArgb(45, 45, 48);
-				mvarDarkColorTable.DropDownForegroundColorHover = Color.FromArgb(255, 255, 255);
-				mvarDarkColorTable.DropDownBorderColorHover = Color.FromArgb(67, 67, 70);
 
-				mvarDarkColorTable.DropDownBackgroundColorPressed = Color.FromArgb(63, 63, 70);
-				mvarDarkColorTable.DropDownForegroundColorPressed = Color.FromArgb(255, 255, 255);
-				mvarDarkColorTable.DropDownBorderColorPressed = Color.FromArgb(67, 67, 70);
+				mvarDarkColorTable.DropDownBackgroundColorPressed = Color.FromArgb(63, 63, 70); // Color.FromKnownColor(KnownColor.Highlight);
+				mvarDarkColorTable.DropDownForegroundColorPressed = Color.FromArgb(255, 255, 255); // Color.FromKnownColor(KnownColor.HighlightText);
+				mvarDarkColorTable.DropDownBorderColorPressed = Color.FromArgb(51, 51, 55);
 			}
 			#endregion
 			#region ListView

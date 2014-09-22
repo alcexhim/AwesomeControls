@@ -30,5 +30,8 @@ namespace AwesomeControls.Theming
 
 		private int mvarDropDownButtonWidth = 16;
 		public int DropDownButtonWidth { get { return mvarDropDownButtonWidth; } set { mvarDropDownButtonWidth = value; } }
+
+		private System.Windows.Forms.Padding mvarDropDownButtonPadding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+		public System.Windows.Forms.Padding DropDownButtonPadding { get { return mvarDropDownButtonPadding; } set { mvarDropDownButtonPadding = value; } }
 	}
 }

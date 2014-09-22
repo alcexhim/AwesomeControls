@@ -30,6 +30,31 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 		}
 
+		public override void DrawDropDownBackground(Graphics graphics, Rectangle rectangle, ControlState state)
+		{
+			switch (state)
+			{
+				case ControlState.Normal:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownBackgroundColorNormal), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorNormal), rectangle);
+					break;
+				}
+				case ControlState.Hover:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownBackgroundColorHover), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorHover), rectangle);
+					break;
+				}
+				case ControlState.Pressed:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownBackgroundColorPressed), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorPressed), rectangle);
+					break;
+				}
+			}
+		}
+
 		private Color HSLTransform(Color color, double percentL, double percentS)
 		{
 			DrawingTools.HSLColor hslc = new DrawingTools.HSLColor(color);

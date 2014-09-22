@@ -139,16 +139,9 @@ namespace AwesomeControls.DropDown
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-
-			switch (mvarControlState)
-			{
-				case ControlState.Normal: e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorNormal); break;
-				case ControlState.Hover: e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorHover); break;
-				case ControlState.Pressed: e.Graphics.Clear(Theming.Theme.CurrentTheme.ColorTable.DropDownBackgroundColorPressed); break;
-			}
 			Theming.Theme.CurrentTheme.DrawDropDownBackground(e.Graphics, new Rectangle(0, 0, Width - 1, Height - 1), mvarControlState);
 
-			Rectangle rectDropDownButton = new Rectangle(Width - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth - 2, 2, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth, Height - 4);
+			Rectangle rectDropDownButton = new Rectangle(Width - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Right, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Top, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth, Height - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Top - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Bottom);
 			Theming.Theme.CurrentTheme.DrawDropDownButton(e.Graphics, rectDropDownButton, mvarControlState);
 
 			OnPaintContent(new PaintEventArgs(e.Graphics, new Rectangle(2, 2, Width - 4, Height - 4)));
