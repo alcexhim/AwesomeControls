@@ -125,6 +125,7 @@
     <Compile Include="CommandBars\CBMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DesignerTools.cs" />
     <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +156,7 @@
     <Compile Include="DropDown\DropDownControl.Designer.cs">
       <DependentUpon>DropDownControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DropDown\DropDownControlDesigner.cs" />
     <Compile Include="DropDown\DropDownWindow.cs">
       <SubType>Form</SubType>
     </Compile>

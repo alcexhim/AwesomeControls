@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AwesomeControls.DropDown
 {
-	[DefaultEvent("PaintContent")]
+	[DefaultEvent("PaintContent"), Designer(typeof(DropDownControlDesigner))]
 	public partial class DropDownControl : UserControl
 	{
 		public DropDownControl()
