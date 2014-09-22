@@ -68,6 +68,12 @@
       <DependentUpon>DesignerTest.cs</DependentUpon>
     </Compile>
     <Compile Include="DrawingTools.cs" />
+    <Compile Include="DropDownCustomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DropDownCustomControl.Designer.cs">
+      <DependentUpon>DropDownCustomControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DropDownTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DesignerTest.resx">
       <DependentUpon>DesignerTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropDownCustomControl.resx">
+      <DependentUpon>DropDownCustomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DropDownTest.resx">
       <DependentUpon>DropDownTest.cs</DependentUpon>
