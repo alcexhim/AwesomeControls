@@ -54,6 +54,15 @@ namespace AwesomeControls.Theming
 			ColorTable.CommandBarMenuControlTextPressed = ColorTable.CommandBarControlTextPressed;
 			ColorTable.CommandBarMenuControlTextDisabled = ColorTable.CommandBarControlTextDisabled;
 
+			ColorTable.DropDownBackgroundColorHover = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownBackgroundColorNormal = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownBackgroundColorPressed = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownBorderColorHover = Color.FromKnownColor(KnownColor.ControlDark);
+			ColorTable.DropDownBorderColorNormal = Color.FromKnownColor(KnownColor.ControlDark);
+			ColorTable.DropDownBorderColorPressed = Color.FromKnownColor(KnownColor.ControlDark);
+			ColorTable.DropDownForegroundColorHover = Color.FromKnownColor(KnownColor.WindowText);
+			ColorTable.DropDownForegroundColorNormal = Color.FromKnownColor(KnownColor.WindowText);
+			ColorTable.DropDownForegroundColorPressed = Color.FromKnownColor(KnownColor.WindowText);
 
 			ColorTable.ListViewColumnHeaderArrowNormal = Color.FromKnownColor(KnownColor.ControlDarkDark);
 		}
@@ -124,6 +133,35 @@ namespace AwesomeControls.Theming
 					break;
 				}
 			}
+		}
+		#endregion
+		#region DropDown
+		public override void DrawDropDownBackground(Graphics graphics, Rectangle rectangle, ControlState state)
+		{
+			DrawingTools.DrawSunkenBorder(graphics, rectangle);
+		}
+		public override void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState state)
+		{
+			graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rectangle);
+			switch (state)
+			{
+				case ControlState.Normal:
+				case ControlState.Hover:
+				case ControlState.Disabled:
+				{
+					graphics.DrawThreeDRaisedBorder(rectangle, ThreeDBorderThickness.Double, ThreeDBorderStyle.Outset);
+					break;
+				}
+				case ControlState.Pressed:
+				{
+					graphics.DrawThreeDRaisedBorder(rectangle, ThreeDBorderThickness.Double, ThreeDBorderStyle.Inset);
+					break;
+				}
+			}
+		}
+		public override void DrawDropDownMenuBackground(Graphics graphics, Rectangle rectangle)
+		{
+			graphics.FillRectangle(new SolidBrush(ColorTable.DropDownMenuBackground), rectangle);
 		}
 		#endregion
 		#region TextBox

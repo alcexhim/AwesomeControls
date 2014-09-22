@@ -27,5 +27,8 @@ namespace AwesomeControls.Theming
 
 		private int mvarDockingWindowTabScrollArrowSize = 16;
 		public int DockingWindowTabScrollArrowSize { get { return mvarDockingWindowTabScrollArrowSize; } set { mvarDockingWindowTabScrollArrowSize = value; } }
+
+		private int mvarDropDownButtonWidth = 16;
+		public int DropDownButtonWidth { get { return mvarDropDownButtonWidth; } set { mvarDropDownButtonWidth = value; } }
 	}
 }

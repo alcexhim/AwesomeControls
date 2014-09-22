@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 
 namespace AwesomeControls.Theming.BuiltinThemes
 {
-	public class SystemTheme : Office2003Theme
+	public class SystemTheme : ClassicTheme
 	{
 		private static class VisualStyleRenderers
 		{
@@ -180,8 +180,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 		}
 		
-		private ClassicTheme fallback = new ClassicTheme();
-		
 		protected override void InitCommonColors ()
 		{
 			base.InitCommonColors();
@@ -219,7 +217,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawCommandBarPanelBackground(graphics, toolStripPanel);
+				base.DrawCommandBarPanelBackground(graphics, toolStripPanel);
 				return;
 			}
 
@@ -243,7 +241,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			else
 			{
-				fallback.DrawCommandBarPanelBackground(graphics, toolStripPanel);
+				base.DrawCommandBarPanelBackground(graphics, toolStripPanel);
 				return;
 			}
 		}
@@ -251,7 +249,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawCommandBarBackground(graphics, parent);
+				base.DrawCommandBarBackground(graphics, parent);
 				return;
 			}
 
@@ -294,7 +292,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			else
 			{
-				fallback.DrawCommandBarBackground(graphics, parent);
+				base.DrawCommandBarBackground(graphics, parent);
 				return;
 			}
 		}
@@ -302,7 +300,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawCommandBarBorder (graphics, toolStrip, connectedArea);
+				base.DrawCommandBarBorder(graphics, toolStrip, connectedArea);
 				return;
 			}
 			// NOTE: Hasn't been tested on versions 5!
@@ -319,7 +317,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			else
 			{
-				fallback.DrawCommandBarBorder(graphics, toolStrip, connectedArea);
+				base.DrawCommandBarBorder(graphics, toolStrip, connectedArea);
 				return;
 			}
 		}
@@ -327,7 +325,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawCommandButtonBackground (graphics, item, parent);
+				base.DrawCommandButtonBackground(graphics, item, parent);
 				return;
 			}
 			if (Environment.OSVersion.Version.Major > 4)
@@ -350,7 +348,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawImageMargin(graphics, affectedBounds, toolStrip);
+				base.DrawImageMargin(graphics, affectedBounds, toolStrip);
 				return;
 			}
 			// NOTE: Hasn't been tested on versions 5!
@@ -361,7 +359,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			else
 			{
-				fallback.DrawImageMargin(graphics, affectedBounds, toolStrip);
+				base.DrawImageMargin(graphics, affectedBounds, toolStrip);
 				return;
 			}
 		}
@@ -369,7 +367,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawMenuItemBackground (graphics, item);
+				base.DrawMenuItemBackground(graphics, item);
 				return;
 			}
 			// NOTE: Hasn't been tested on versions 5!
@@ -408,7 +406,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 						}
 						else
 						{
-							fallback.DrawMenuItemBackground(graphics, item);
+							base.DrawMenuItemBackground(graphics, item);
 							return;
 						}
 					}
@@ -425,7 +423,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawCheck(graphics, item, imageRectangle);
+				base.DrawCheck(graphics, item, imageRectangle);
 				return;
 			}
 
@@ -462,7 +460,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawDropDownButtonBackground (graphics, item, parent);
+				base.DrawDropDownButtonBackground (graphics, item, parent);
 				return;
 			}
 			// NOTE: Hasn't been tested on versions 5!
@@ -479,7 +477,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawSplitButtonBackground (graphics, item, parent);
+				base.DrawSplitButtonBackground (graphics, item, parent);
 				return;
 			}
 			// NOTE: Hasn't been tested on versions 5!
@@ -520,7 +518,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawText(graphics, text, color, font, textRectangle, textFormat, textDirection, item);
+				base.DrawText(graphics, text, color, font, textRectangle, textFormat, textDirection, item);
 				return;
 			}
 
@@ -551,7 +549,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawDocumentTabBackground(g, rectTab, controlState, position, selected, focused);
+				base.DrawDocumentTabBackground(g, rectTab, controlState, position, selected, focused);
 				return;
 			}
 
@@ -618,7 +616,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawButtonBackground(g, rect, state);
+				base.DrawButtonBackground(g, rect, state);
 				return;
 			}
 
@@ -659,7 +657,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			else
 			{
-				fallback.DrawTextBoxBackground(g, rect, state);
+				base.DrawTextBoxBackground(g, rect, state);
 			}
 		}
 		#endregion
@@ -668,7 +666,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawListColumnBackground(g, rect, state, sorted);
+				base.DrawListColumnBackground(g, rect, state, sorted);
 				return;
 			}
 
@@ -698,7 +696,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawListViewTreeGlyph(g, rect, state, expanded);
+				base.DrawListViewTreeGlyph(g, rect, state, expanded);
 				return;
 			}
 
@@ -722,7 +720,7 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			if (!VisualStyleInformation.IsEnabledByUser)
 			{
-				fallback.DrawListItemBackground(g, rect, state, selected, focused);
+				base.DrawListItemBackground(g, rect, state, selected, focused);
 				return;
 			}
 

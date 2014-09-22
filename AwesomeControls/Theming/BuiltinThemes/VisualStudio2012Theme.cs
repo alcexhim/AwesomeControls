@@ -367,8 +367,12 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.DropDownBackgroundColorNormal = Color.FromArgb(51, 51, 55);
 				mvarDarkColorTable.DropDownForegroundColorNormal = Color.FromArgb(241, 241, 241);
 				mvarDarkColorTable.DropDownBorderColorNormal = Color.FromArgb(67, 67, 70);
-
+				/*
 				mvarDarkColorTable.DropDownBackgroundColorHover = Color.FromArgb(63, 63, 70);
+				mvarDarkColorTable.DropDownForegroundColorHover = Color.FromArgb(255, 255, 255);
+				mvarDarkColorTable.DropDownBorderColorHover = Color.FromArgb(67, 67, 70);
+				*/
+				mvarDarkColorTable.DropDownBackgroundColorHover = Color.FromArgb(45, 45, 48);
 				mvarDarkColorTable.DropDownForegroundColorHover = Color.FromArgb(255, 255, 255);
 				mvarDarkColorTable.DropDownBorderColorHover = Color.FromArgb(67, 67, 70);
 

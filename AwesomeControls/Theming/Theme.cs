@@ -380,6 +380,11 @@ namespace AwesomeControls.Theming
 		public virtual void DrawContentAreaBackground(Graphics graphics, Rectangle rectangle)
 		{
 		}
+		
+		public abstract void DrawDropDownBackground(Graphics graphics, Rectangle rectangle, ControlState state);
+		public abstract void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState state);
+		public abstract void DrawDropDownMenuBackground(Graphics graphics, Rectangle rectangle);
+
 		public virtual void DrawCommandBarPanelBackground(Graphics graphics, ToolStripPanel toolStripPanel)
 		{
 			DrawCommandBarPanelBackground(graphics, new Rectangle(0, 0, toolStripPanel.Width, toolStripPanel.Height));
@@ -387,9 +392,9 @@ namespace AwesomeControls.Theming
 		public virtual void DrawCommandBarPanelBackground(Graphics graphics, Rectangle rectangle)
 		{
 		}
-        public virtual void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
-        {
-        }
+		public virtual void DrawSizingGrip(Graphics graphics, Rectangle gripBounds)
+		{
+		}
 		#endregion
 
 		#region Themed Colors
@@ -1028,5 +1033,5 @@ namespace AwesomeControls.Theming
 		{
 		}
 		#endregion
-    }
+	}
 }

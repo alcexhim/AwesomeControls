@@ -2088,6 +2088,8 @@ namespace AwesomeControls.Theming
 		public Color DropDownForegroundColorPressed { get { return mvarDropDownForegroundColorPressed; } set { mvarDropDownForegroundColorPressed = value; } }
 		private Color mvarDropDownBorderColorPressed;
 		public Color DropDownBorderColorPressed { get { return mvarDropDownBorderColorPressed; } set { mvarDropDownBorderColorPressed = value; } }
+		private Color mvarDropDownMenuBackground;
+		public Color DropDownMenuBackground { get { return mvarDropDownMenuBackground; } set { mvarDropDownMenuBackground = value; } }
 
 		#region ToolTip
 		private Color mvarToolTipBackgroundGradientBegin;
