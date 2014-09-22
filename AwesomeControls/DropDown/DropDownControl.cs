@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace AwesomeControls.DropDown
 {
+	[DefaultEvent("PaintContent")]
 	public partial class DropDownControl : UserControl
 	{
 		public DropDownControl()
@@ -16,6 +17,41 @@ namespace AwesomeControls.DropDown
 			InitializeComponent();
 			base.DoubleBuffered = true;
 		}
+
+		/// <summary>
+		/// Paints the content of the dropdown.
+		/// </summary>
+		public event PaintEventHandler PaintContent;
+		protected virtual void OnPaintContent(PaintEventArgs e)
+		{
+			if (PaintContent != null) PaintContent(this, e);
+		}
+
+		private Control mvarCustomDropDownControl = null;
+		public Control CustomDropDownControl
+		{
+			get { return mvarCustomDropDownControl; } 
+			set
+			{
+				if (value != null)
+				{
+					if (value == this)
+					{
+						throw new ArgumentException("Cannot use myself as my own custom dropdown control");
+					}
+					else if (value == ParentForm)
+					{
+						throw new ArgumentException("Cannot use my parent form as a custom dropdown control");
+					}
+				}
+				mvarCustomDropDownControl = value; 
+			}
+		}
+
+		private ListView.ListViewItem.ListViewItemCollection mvarDropDownItems = new ListView.ListViewItem.ListViewItemCollection();
+		public ListView.ListViewItem.ListViewItemCollection DropDownItems { get { return mvarDropDownItems; } }
+
+		private bool mvarInitialDropDownWindowSizeSet = false;
 
 		private DropDownWindow mvarDropDownWindow = null;
 		public bool DropDownVisible
@@ -34,13 +70,24 @@ namespace AwesomeControls.DropDown
 					{
 						if (mvarDropDownWindow.Visible) mvarDropDownWindow.Hide();
 						mvarDropDownWindow.Location = PointToScreen(new Point(0, Height));
-						mvarDropDownWindow.Width = this.Width;
+						if (!mvarInitialDropDownWindowSizeSet)
+						{
+							mvarDropDownWindow.Width = this.Width;
+							mvarInitialDropDownWindowSizeSet = true;
+						}
+						if (mvarCustomDropDownControl != null)
+						{
+							// if (mvarCustomDropDownControl.IsDisposed) mvarCustomDropDownControl = (Control)(mvarCustomDropDownControl.GetType().Assembly.CreateInstance(mvarCustomDropDownControl.GetType().FullName));
+							mvarDropDownWindow.Controls.Add(mvarCustomDropDownControl);
+							mvarCustomDropDownControl.Visible = true;
+							mvarCustomDropDownControl.Dock = DockStyle.Fill;
+						}
 						mvarDropDownWindow.Show(ParentForm);
 						break;
 					}
 					case false:
 					{
-						mvarDropDownWindow.Close();
+						mvarDropDownWindow.Hide();
 						break;
 					}
 				}
@@ -51,18 +98,22 @@ namespace AwesomeControls.DropDown
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				mvarControlState = ControlState.Pressed;
+				Invalidate();
 
-			mvarControlState = ControlState.Pressed;
-			Invalidate();
-
-			DropDownVisible = true;
+				DropDownVisible = !DropDownVisible;
+			}
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			base.OnMouseUp(e);
-
-			mvarControlState = ControlState.Normal;
-			Invalidate();
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				mvarControlState = ControlState.Normal;
+				Invalidate();
+			}
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -99,6 +150,8 @@ namespace AwesomeControls.DropDown
 
 			Rectangle rectDropDownButton = new Rectangle(Width - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth - 2, 2, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth, Height - 4);
 			Theming.Theme.CurrentTheme.DrawDropDownButton(e.Graphics, rectDropDownButton, mvarControlState);
+
+			OnPaintContent(new PaintEventArgs(e.Graphics, new Rectangle(2, 2, Width - 4, Height - 4)));
 		}
 	}
 }
