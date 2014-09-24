@@ -135,6 +135,7 @@ namespace AwesomeControls.DropDown
 		}
 
 		private ControlState mvarControlState = ControlState.Normal;
+		private ControlState mvarButtonState = ControlState.Normal;
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -142,7 +143,10 @@ namespace AwesomeControls.DropDown
 			Theming.Theme.CurrentTheme.DrawDropDownBackground(e.Graphics, new Rectangle(0, 0, Width - 1, Height - 1), mvarControlState);
 
 			Rectangle rectDropDownButton = new Rectangle(Width - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Right, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Top, Theming.Theme.CurrentTheme.MetricTable.DropDownButtonWidth, Height - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Top - Theming.Theme.CurrentTheme.MetricTable.DropDownButtonPadding.Bottom);
-			Theming.Theme.CurrentTheme.DrawDropDownButton(e.Graphics, rectDropDownButton, mvarControlState);
+			rectDropDownButton.Width--;
+			rectDropDownButton.Height--;
+
+			Theming.Theme.CurrentTheme.DrawDropDownButton(e.Graphics, rectDropDownButton, mvarControlState, mvarButtonState);
 
 			OnPaintContent(new PaintEventArgs(e.Graphics, new Rectangle(2, 2, Width - 4, Height - 4)));
 		}
