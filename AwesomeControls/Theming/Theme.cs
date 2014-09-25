@@ -382,7 +382,7 @@ namespace AwesomeControls.Theming
 		}
 		
 		public abstract void DrawDropDownBackground(Graphics graphics, Rectangle rectangle, ControlState state);
-		public abstract void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState state);
+		public abstract void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState dropdownState, ControlState buttonState);
 		public abstract void DrawDropDownMenuBackground(Graphics graphics, Rectangle rectangle);
 
 		public virtual void DrawCommandBarPanelBackground(Graphics graphics, ToolStripPanel toolStripPanel)
