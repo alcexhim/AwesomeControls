@@ -18,7 +18,7 @@ namespace AwesomeControls.TestProject
 
 		private void dropDownControl1_PaintContent(object sender, PaintEventArgs e)
 		{
-			TextRenderer.DrawText(e.Graphics, "Select from list OBJECTS", dropDownControl1.Font, new Rectangle(2, 2, dropDownControl1.Width - 4, dropDownControl1.Height - 4), Color.Red, TextFormatFlags.Left);
+			TextRenderer.DrawText(e.Graphics, "Select from list OBJECTS", dropDownControl1.Font, new Rectangle(2, 4, dropDownControl1.Width - 4, dropDownControl1.Height - 4), Color.Red, TextFormatFlags.Left);
 		}
 	}
 }
