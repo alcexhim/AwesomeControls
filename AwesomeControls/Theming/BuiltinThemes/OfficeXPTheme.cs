@@ -8,6 +8,11 @@ namespace AwesomeControls.Theming.BuiltinThemes
 {
 	public class OfficeXPTheme : Office2000Theme
 	{
+		public OfficeXPTheme()
+		{
+			MetricTable.DropDownButtonPadding = new System.Windows.Forms.Padding(0, 0, 0, 0);
+		}
+
 		public override string Name { get { return "Office XP"; } }
 		public override CommandBarMenuAnimationType CommandBarMenuAnimationType { get { return Theming.CommandBarMenuAnimationType.Fade; } }
 
@@ -98,6 +103,21 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			
 			ColorTable.CommandBarImageMarginBackground = Color.FromKnownColor(KnownColor.Control);
 
+			ColorTable.DropDownBackgroundColorNormal = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownBackgroundColorHover = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownBackgroundColorPressed = Color.FromKnownColor(KnownColor.Window);
+
+			ColorTable.DropDownBorderColorNormal = Color.FromKnownColor(KnownColor.ControlDark);
+			ColorTable.DropDownBorderColorHover = Color.FromKnownColor(KnownColor.Highlight);
+			ColorTable.DropDownBorderColorPressed = Color.FromKnownColor(KnownColor.Highlight);
+
+			ColorTable.DropDownMenuBackground = Color.FromKnownColor(KnownColor.Window);
+			ColorTable.DropDownMenuBorder = Color.FromKnownColor(KnownColor.ControlDark);
+
+			ColorTable.DropDownButtonBackgroundNormal = Color.FromKnownColor(KnownColor.Control);
+			ColorTable.DropDownButtonBackgroundHover = ColorTable.GetAlphaBlendedColorHighRes(Color.FromKnownColor(KnownColor.Highlight), Color.FromKnownColor(KnownColor.Window), 30);
+			ColorTable.DropDownButtonBackgroundPressed = ColorTable.GetAlphaBlendedColorHighRes(Color.FromKnownColor(KnownColor.Highlight), Color.FromKnownColor(KnownColor.Window), 50);
+
 			FontTable.Default = new Font("Tahoma", 8, FontStyle.Regular);
 			FontTable.CommandBar = new Font("Tahoma", 8, FontStyle.Regular);
 			FontTable.DialogFont = new Font("Tahoma", 8, FontStyle.Regular);
@@ -166,6 +186,31 @@ namespace AwesomeControls.Theming.BuiltinThemes
 
 			DrawArrow(graphics, item.Enabled, new Rectangle(tssb.DropDownButtonBounds.X, tssb.DropDownButtonBounds.Y, tssb.DropDownButtonBounds.Width, tssb.DropDownButtonBounds.Height), System.Windows.Forms.ArrowDirection.Down);
 		}
+		public override void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState dropdownState, ControlState buttonState)
+		{
+			switch (dropdownState)
+			{
+				case ControlState.Normal:
+				case ControlState.Disabled:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownButtonBackgroundNormal), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorNormal), rectangle);
+					break;
+				}
+				case ControlState.Hover:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownButtonBackgroundHover), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorHover), rectangle);
+					break;
+				}
+				case ControlState.Pressed:
+				{
+					graphics.FillRectangle(new SolidBrush(ColorTable.DropDownButtonBackgroundPressed), rectangle);
+					graphics.DrawRectangle(new Pen(ColorTable.DropDownBorderColorPressed), rectangle);
+					break;
+				}
+			}
+		}
 		public override void DrawDropDownButtonBackground(Graphics graphics, System.Windows.Forms.ToolStripDropDownButton item, System.Windows.Forms.ToolStrip parent)
 		{
 			Rectangle rect = new Rectangle(0, 0, item.Bounds.Width - 1, item.Bounds.Height - 1);
@@ -188,6 +233,11 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				graphics.DrawRectangle(new Pen(ColorTable.CommandBarControlBorderHover), rect);
 			}
 			DrawArrow(graphics, item.Enabled, new Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), System.Windows.Forms.ArrowDirection.Down);
+		}
+		public override void DrawDropDownMenuBackground(Graphics graphics, Rectangle rectangle)
+		{
+			base.DrawDropDownMenuBackground(graphics, rectangle);
+			graphics.DrawRectangle(new Pen(ColorTable.DropDownMenuBorder), rectangle);
 		}
 
 		public override void DrawMenuItemBackground(Graphics graphics, System.Windows.Forms.ToolStripItem item)
