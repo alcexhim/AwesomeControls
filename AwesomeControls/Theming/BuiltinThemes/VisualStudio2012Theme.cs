@@ -381,6 +381,9 @@ namespace AwesomeControls.Theming.BuiltinThemes
 				mvarDarkColorTable.DropDownBackgroundColorPressed = Color.FromArgb(63, 63, 70); // Color.FromKnownColor(KnownColor.Highlight);
 				mvarDarkColorTable.DropDownForegroundColorPressed = Color.FromArgb(255, 255, 255); // Color.FromKnownColor(KnownColor.HighlightText);
 				mvarDarkColorTable.DropDownBorderColorPressed = Color.FromArgb(51, 51, 55);
+
+				mvarDarkColorTable.DropDownMenuBackground = Color.FromArgb(37, 37, 38);
+				mvarDarkColorTable.DropDownMenuBorder = Color.FromArgb(100, 100, 100);
 			}
 			#endregion
 			#region ListView
