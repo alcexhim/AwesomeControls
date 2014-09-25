@@ -15,6 +15,7 @@ namespace AwesomeControls.DropDown
 		public DropDownWindow()
 		{
 			InitializeComponent();
+			base.DoubleBuffered = true;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
