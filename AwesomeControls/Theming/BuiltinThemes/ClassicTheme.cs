@@ -140,10 +140,10 @@ namespace AwesomeControls.Theming
 		{
 			DrawingTools.DrawSunkenBorder(graphics, rectangle);
 		}
-		public override void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState state)
+		public override void DrawDropDownButton(Graphics graphics, Rectangle rectangle, ControlState dropdownState, ControlState buttonState)
 		{
 			graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(KnownColor.Control)), rectangle);
-			switch (state)
+			switch (dropdownState)
 			{
 				case ControlState.Normal:
 				case ControlState.Hover:
