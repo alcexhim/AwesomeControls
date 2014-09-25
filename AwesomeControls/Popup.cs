@@ -41,9 +41,9 @@ namespace AwesomeControls
 		{
 			// this is an ultra ugly hack to prevent the parent form from disappearing when the
 			// popup is closed (which only happens 1/10 of the time...)
-			Owner.TopMost = true;
+			if (Owner != null) Owner.TopMost = true;
 			Hide();
-			Owner.TopMost = false;
+			if (Owner != null) Owner.TopMost = false;
 		}
 	}
 }
