@@ -82,7 +82,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -203,6 +202,7 @@
     <Compile Include="StringWrapper.cs" />
     <Compile Include="TextBox\TextBoxSyntaxGroup.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
+    <Compile Include="Theming\BuiltinThemes\StyleSheetTheme.cs" />
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
     <Compile Include="CommandBars\CBPanel.cs">
       <SubType>Component</SubType>
@@ -613,6 +613,19 @@
   <ItemGroup>
     <None Include="Resources\ArrowDown.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+      <Project>{2d4737e6-6d95-408a-90db-8dff38147e85}</Project>
+      <Name>UniversalEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+      <Project>{30467e5c-05bc-4856-aadc-13906ef4cadd}</Project>
+      <Name>UniversalEditor.Essential</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Web\UniversalEditor.Plugins.Web.csproj">
+      <Project>{64089452-6a08-47a5-a857-bf418f80d4a3}</Project>
+      <Name>UniversalEditor.Plugins.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.Targets" />
 </Project>
