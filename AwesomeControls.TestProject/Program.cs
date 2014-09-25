@@ -16,18 +16,18 @@ namespace AwesomeControls.TestProject
 			//System.Windows.Forms.Application.EnableVisualStyles();
 
 			// AwesomeControls.Theming.Theme.CurrentTheme = AwesomeControls.Theming.Themes.System;
-			AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.VisualStudio2012Theme(Theming.BuiltinThemes.VisualStudio2012Theme.ColorMode.Dark);
+			AwesomeControls.Theming.Theme.CurrentTheme = new AwesomeControls.Theming.BuiltinThemes.StyleSheetTheme("Themes/Office XP.css");
 
 			DropDownTest test = new DropDownTest();
 			test.ShowDialog();
-
+			
 			/*
+
+			MainWindowTest mwt = new MainWindowTest();
+			mwt.ShowDialog();
 			
 			TextBoxTest test = new TextBoxTest();
 			test.ShowDialog();
-			
-			MainWindowTest mwt = new MainWindowTest();
-			mwt.ShowDialog();
 			
 			BinaryDropDownTest mwt = new BinaryDropDownTest();
 			mwt.ShowDialog();
