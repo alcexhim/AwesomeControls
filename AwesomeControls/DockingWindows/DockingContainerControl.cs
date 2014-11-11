@@ -1474,9 +1474,20 @@ namespace AwesomeControls.DockingWindows
 			dlgWindowListPopup.Close();
 		}
 
-
+		private Dialogs.WindowListDialog dlgWindowList = null;
 		public void DisplayWindowListDialog()
 		{
+			if (dlgWindowList == null) dlgWindowList = new Dialogs.WindowListDialog(this);
+			if (dlgWindowList.IsDisposed) dlgWindowList = new Dialogs.WindowListDialog(this);
+			if (dlgWindowList.Visible)
+			{
+				dlgWindowList.Hide();
+			}
+			dlgWindowList.SelectedWindow = SelectedWindow;
+			if (dlgWindowList.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+
+			}
 		}
 
 		private bool mvarIsWindowListPopupDialogVisible = false;
