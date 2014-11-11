@@ -82,6 +82,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -125,6 +126,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DesignerTools.cs" />
+    <Compile Include="DockingWindows\Dialogs\WindowListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockingWindows\Dialogs\WindowListDialog.Designer.cs">
+      <DependentUpon>WindowListDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="DockingWindows\Dialogs\WindowListPopupDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +169,14 @@
     <Compile Include="DropDown\DropDownWindow.Designer.cs">
       <DependentUpon>DropDownWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileTextBox\FileTextBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileTextBox\FileTextBoxControl.Designer.cs">
+      <DependentUpon>FileTextBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileTextBox\FileTextBoxMode.cs" />
+    <Compile Include="FileTextBox\FileTextBoxSelectionChangingEventArgs.cs" />
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
@@ -507,6 +522,9 @@
     <EmbeddedResource Include="Dialog.resx">
       <DependentUpon>Dialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DockingWindows\Dialogs\WindowListDialog.resx">
+      <DependentUpon>WindowListDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DockingWindows\Dialogs\WindowListPopupDialog.resx">
       <DependentUpon>WindowListPopupDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -524,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DynamicContainer\FloatingWindow.resx">
       <DependentUpon>FloatingWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileTextBox\FileTextBoxControl.resx">
+      <DependentUpon>FileTextBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GanttChart\GanttChartControl.resx">
       <DependentUpon>GanttChartControl.cs</DependentUpon>
