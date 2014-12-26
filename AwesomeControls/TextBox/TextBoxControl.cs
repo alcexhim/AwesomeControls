@@ -2856,6 +2856,7 @@ namespace AwesomeControls.TextBox
 			}
 			set
 			{
+				if (mvarSelections.Count <= 0) return;
 				TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
 				if (lsel != null)
 				{
