@@ -89,7 +89,10 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		public override void DrawText(Graphics graphics, string text, Color color, Font font, Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
 		{
 			color = (item.Enabled ? ColorTable.CommandBarControlText : SystemColors.GrayText);
-			System.Windows.Forms.TextRenderer.DrawText(graphics, text, font, textRectangle, color, textFormat);
+
+			graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+			graphics.DrawText(text, font, textRectangle, color, RotateFlipType.RotateNoneFlipNone, textFormat);
+			// System.Windows.Forms.TextRenderer.DrawText(graphics, text, font, textRectangle, color, textFormat);
 		}
 		public override void DrawSeparator(Graphics graphics, System.Windows.Forms.ToolStripItem item, Rectangle rectangle, bool vertical)
 		{

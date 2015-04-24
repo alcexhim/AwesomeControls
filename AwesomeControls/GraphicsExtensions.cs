@@ -350,7 +350,20 @@ namespace AwesomeControls
 				rectTextSource = new System.Drawing.Rectangle(0, 0, bounds.Width, bounds.Height);
 			}
 			System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(bmp);
-			System.Windows.Forms.TextRenderer.DrawText(gra, text, font, rectTextSource, foreColor, backColor, flags);
+
+			bool useTextRenderer = false;
+			if (useTextRenderer)
+			{
+				System.Windows.Forms.TextRenderer.DrawText(gra, text, font, rectTextSource, foreColor, backColor, flags);
+			}
+			else
+			{
+				// TODO: complete conversion of TextFormatFlags into StringFormatFlags
+				StringFormatFlags formatFlags = (StringFormatFlags)0;
+				if ((flags & System.Windows.Forms.TextFormatFlags.SingleLine) == System.Windows.Forms.TextFormatFlags.SingleLine) formatFlags &= StringFormatFlags.NoWrap;
+				StringFormat format = new StringFormat(formatFlags);
+				gra.DrawString(text, font, new SolidBrush(foreColor), rectTextSource, format);
+			}
 			gra.Flush();
 
 			bmp.RotateFlip(rotateFlip);

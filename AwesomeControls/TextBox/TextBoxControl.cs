@@ -2847,15 +2847,19 @@ namespace AwesomeControls.TextBox
 		{
 			get
 			{
-				TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
-				if (lsel != null)
+				if (mvarSelections.Count > 0)
 				{
-					return GetLineIndexFromCharIndex(lsel.Start);
+					TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
+					if (lsel != null)
+					{
+						return GetLineIndexFromCharIndex(lsel.Start);
+					}
 				}
 				return -1;
 			}
 			set
 			{
+				if (mvarSelections.Count < 1) return;
 				TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
 				if (lsel != null)
 				{
