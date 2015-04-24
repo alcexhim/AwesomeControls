@@ -116,6 +116,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="CollectionListView\ItemEligibilityEvent.cs" />
+    <Compile Include="CollectionListView\ItemPropertiesEventArgs.cs" />
     <Compile Include="CommandBars\CBContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,6 +179,12 @@
     </Compile>
     <Compile Include="FileTextBox\FileTextBoxMode.cs" />
     <Compile Include="FileTextBox\FileTextBoxSelectionChangingEventArgs.cs" />
+    <Compile Include="CollectionListView\CollectionListViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CollectionListView\CollectionListViewControl.Designer.cs">
+      <DependentUpon>CollectionListViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
@@ -548,6 +556,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GanttChart\GanttChartControl.resx">
       <DependentUpon>GanttChartControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CollectionListView\CollectionListViewControl.resx">
+      <DependentUpon>CollectionListViewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListView\ListViewControl.resx">
       <DependentUpon>ListViewControl.cs</DependentUpon>
