@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FAE48F29-DB35-4CD6-8A55-6C1FDDFBE6AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AwesomeControls.Content.PlatformIndependent</RootNamespace>
+    <AssemblyName>AwesomeControls.Content.PlatformIndependent</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemAdd.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemClear.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemRemove.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditCopy.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditCut.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditDelete.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditPaste.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditRedo.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditSelectAll.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\EditUndo.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileNewDocument.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileNewProject.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileOpenDocument.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileOpenTeamProject.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FilePrint.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileSaveAll.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\FileSaveDocument.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\HelpViewHelp.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ProjectAddExistingItem.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ProjectAddNewItem.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ProjectProperties.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ProjectShowAllFiles.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ToolsOptions.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ViewFullScreen.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ViewRefresh.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Commands\ViewStartPage.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Overlays\Add.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Overlays\Clear.png" />
+    <Content Include="Themes\VisualStudio2012\Images\Overlays\Remove.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ErrorList\Error.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ErrorList\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Themes\VisualStudio2012\Images\Buttons\ListViewItem.xcf" />
+  </ItemGroup>
+  <ItemGroup />
+  <Target Name="Build">
+    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build">
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
