@@ -54,6 +54,34 @@ namespace AwesomeControls.Theming
 			InitThemedColors();
 		}
 
+		public virtual string GetName()
+		{
+			string name = this.GetType().Name;
+			if (name.EndsWith("Theme")) name = name.Substring(0, name.Length - "Theme".Length);
+			return name;
+		}
+		public string GetBasePath()
+		{
+			string pathName = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
+			{
+				System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
+				"Themes",
+				this.GetName()
+			});
+			return pathName;
+		}
+		public Image GetImage(string path)
+		{
+			// Buttons/ListViewItemAdd
+			string filename = GetBasePath() + System.IO.Path.DirectorySeparatorChar.ToString() + "Images" + System.IO.Path.DirectorySeparatorChar.ToString() + path;
+			if (System.IO.File.Exists(filename))
+			{
+				Image image = Image.FromFile(filename);
+				return image;
+			}
+			return null;
+		}
+
 		private void InitThemedColors()
 		{
 			string colorScheme = System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme;
