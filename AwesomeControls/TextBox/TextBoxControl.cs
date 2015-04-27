@@ -2859,7 +2859,10 @@ namespace AwesomeControls.TextBox
 			}
 			set
 			{
+				// don't do anything if we have no selections, since there will always be at least one
+				// selection for a non-empty textbox
 				if (mvarSelections.Count < 1) return;
+
 				TextBoxLinearSelection lsel = (mvarSelections[0] as TextBoxLinearSelection);
 				if (lsel != null)
 				{
