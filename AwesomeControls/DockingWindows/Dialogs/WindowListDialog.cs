@@ -15,6 +15,7 @@ namespace AwesomeControls.DockingWindows.Dialogs
 		{
 			InitializeComponent();
 			mvarParentContainer = parentControl;
+			Font = SystemFonts.MenuFont;
 		}
 
 		private DockingContainerControl mvarParentContainer = null;
