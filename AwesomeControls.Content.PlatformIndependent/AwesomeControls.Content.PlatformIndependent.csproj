@@ -68,6 +68,16 @@
     <Content Include="Themes\VisualStudio2012\Images\ErrorList\Error.png" />
     <Content Include="Themes\VisualStudio2012\Images\ErrorList\Warning.png" />
     <Content Include="Themes\VisualStudio2012\Images\ErrorList\Message.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\Back.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\CollapseAll.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\FilterOpenFiles.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\FilterPendingChanges.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\Forward.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\Home.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\PreviewSelectedItems.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\Properties.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\Refresh.png" />
+    <Content Include="Themes\VisualStudio2012\Images\SolutionExplorer\ShowAllFiles.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Themes\VisualStudio2012\Images\Buttons\ListViewItem.xcf" />
