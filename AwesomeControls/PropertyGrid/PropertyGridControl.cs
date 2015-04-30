@@ -24,6 +24,8 @@ namespace AwesomeControls.PropertyGrid
 
 			lblPropertyName.Text = String.Empty;
 			lblDescription.Text = String.Empty;
+
+			tb.LoadThemeIcons("PropertyGrid");
 		}
 
 		protected override void OnPaint(PaintEventArgs e)

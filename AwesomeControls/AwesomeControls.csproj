@@ -499,6 +499,7 @@
     <Compile Include="Toolbox\ToolboxControl.Designer.cs">
       <DependentUpon>ToolboxControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripExtensions.cs" />
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
     </Compile>
