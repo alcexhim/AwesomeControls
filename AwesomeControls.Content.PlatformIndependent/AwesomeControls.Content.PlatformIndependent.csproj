@@ -67,6 +67,7 @@
     <Content Include="Themes\VisualStudio2012\Images\Overlays\Remove.png" />
     <Content Include="Themes\VisualStudio2012\Images\ErrorList\Error.png" />
     <Content Include="Themes\VisualStudio2012\Images\ErrorList\Warning.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ErrorList\Message.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Themes\VisualStudio2012\Images\Buttons\ListViewItem.xcf" />
