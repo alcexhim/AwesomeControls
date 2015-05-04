@@ -74,6 +74,11 @@ namespace AwesomeControls.Theming
 		{
 			// Buttons/ListViewItemAdd
 			string filename = GetBasePath() + System.IO.Path.DirectorySeparatorChar.ToString() + "Images" + System.IO.Path.DirectorySeparatorChar.ToString() + path;
+
+			// normalize directory separator chars (not really necessary but looks pretty)
+			filename = filename.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
+			filename = filename.Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
+
 			if (System.IO.File.Exists(filename))
 			{
 				Image image = Image.FromFile(filename);
