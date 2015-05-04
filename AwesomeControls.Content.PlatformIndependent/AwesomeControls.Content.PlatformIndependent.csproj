@@ -62,6 +62,16 @@
     <Content Include="Themes\VisualStudio2012\Images\Commands\ViewFullScreen.png" />
     <Content Include="Themes\VisualStudio2012\Images\Commands\ViewRefresh.png" />
     <Content Include="Themes\VisualStudio2012\Images\Commands\ViewStartPage.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\16x16\generic-application.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\16x16\generic-document.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\16x16\generic-file.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\16x16\generic-folder-closed.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\16x16\generic-folder-open.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\32x32\generic-application.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\32x32\generic-document.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\32x32\generic-file.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\32x32\generic-folder-closed.png" />
+    <Content Include="Themes\VisualStudio2012\Images\ImageList\32x32\generic-folder-open.png" />
     <Content Include="Themes\VisualStudio2012\Images\OutputWindow\ClearAll.png" />
     <Content Include="Themes\VisualStudio2012\Images\OutputWindow\FindMessageInDocument.png" />
     <Content Include="Themes\VisualStudio2012\Images\OutputWindow\GoToNextMessage.png" />
