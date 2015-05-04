@@ -62,9 +62,12 @@ namespace AwesomeControls.Theming
 		}
 		public string GetBasePath()
 		{
+			System.Reflection.Assembly entryAsm = System.Reflection.Assembly.GetEntryAssembly();
+			if (entryAsm == null) return String.Empty;
+
 			string pathName = String.Join(System.IO.Path.DirectorySeparatorChar.ToString(), new string[]
 			{
-				System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
+				System.IO.Path.GetDirectoryName(entryAsm.Location),
 				"Themes",
 				this.GetName()
 			});
