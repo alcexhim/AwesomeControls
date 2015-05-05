@@ -121,6 +121,12 @@ namespace AwesomeControls.ListView
 		[Description("Indicates whether the user can reorder columns in Details view."), DefaultValue(true)]
 		public bool AllowColumnReorder { get { return mvarAllowColumnReorder; } set { mvarAllowColumnReorder = value; } }
 
+		private bool mvarEnableAutomaticInlineRenaming = true;
+		/// <summary>
+		/// Determines if the F2 key is automatically handled for inline renaming.
+		/// </summary>
+		public bool EnableAutomaticInlineRenaming { get { return mvarEnableAutomaticInlineRenaming; } set { mvarEnableAutomaticInlineRenaming = value; } }
+
 		public override void ResetBackColor()
 		{
 			BackColor = Color.FromKnownColor(KnownColor.Window);
@@ -345,6 +351,8 @@ namespace AwesomeControls.ListView
 			}
 		}
 
+		private Timer _labelEditTimer = null;
+
 		private bool wasControlKeyPressed = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -384,16 +392,43 @@ namespace AwesomeControls.ListView
 							mvarItems[i].Selected = true;
 						}
 					}
+
+					bool selectionChanged = true;
 					if (lvi.Selected && ((Control.ModifierKeys & Keys.Control) == Keys.Control) && ((Control.ModifierKeys & Keys.Shift) != Keys.Shift))
 					{
 						lvi.Selected = false;
 					}
 					else
 					{
-						lvi.Selected = true;
+						if (lvi.Selected)
+						{
+							// start the timeout
+							if (mvarEnableAutomaticInlineRenaming)
+							{
+								_labelEditTimer = TimerMethods.SetTimeout(1000, delegate(object[] paramz)
+								{
+									BeginLabelEdit(paramz[0] as ListViewItem);
+								}, lvi);
+							}
+							selectionChanged = false;
+						}
+						else
+						{
+							lvi.Selected = true;
+						}
 					}
 					Refresh();
-					OnSelectionChanged(EventArgs.Empty);
+
+					if (selectionChanged)
+					{
+						OnSelectionChanged(EventArgs.Empty);
+
+						if (_labelEditTimer != null)
+						{
+							TimerMethods.ClearTimeout(_labelEditTimer);
+							_labelEditTimer = null;
+						}
+					}
 
 					if (mvarAllowDrag) m_DraggingItem = true;
 				}
@@ -758,6 +793,20 @@ namespace AwesomeControls.ListView
 
 			switch (e.KeyCode)
 			{
+				case Keys.F2:
+				{
+					if (mvarEnableAutomaticInlineRenaming)
+					{
+						if (SelectedItems.Count == 1)
+						{
+							BeginLabelEdit(SelectedItems[0]);
+						}
+						e.Handled = true;
+						e.SuppressKeyPress = true;
+						return;
+					}
+					break;
+				}
 				case Keys.Home:
 				{
 					if (mvarItems.Count == 0) return;
@@ -876,6 +925,71 @@ namespace AwesomeControls.ListView
 					break;
 				}
 			}
+		}
+
+		public event ListViewItemLabelEditingEventHandler ItemLabelEditing;
+		protected virtual void OnItemLabelEditing(ListViewItemLabelEditingEventArgs e)
+		{
+			if (ItemLabelEditing != null) ItemLabelEditing(this, e);
+		}
+
+		public event ListViewItemLabelEditedEventHandler ItemLabelEdited;
+		protected virtual void OnItemLabelEdited(ListViewItemLabelEditedEventArgs e)
+		{
+			if (ItemLabelEdited != null) ItemLabelEdited(this, e);
+		}
+
+		private void BeginLabelEdit(ListViewItem lvi)
+		{
+			ListViewItemLabelEditingEventArgs e = new ListViewItemLabelEditingEventArgs(lvi, lvi.Text);
+			OnItemLabelEditing(e);
+			if (e.Cancel) return;
+
+			Rectangle bounds = GetItemBounds(lvi);
+
+			switch (mvarMode)
+			{
+				case ListViewMode.List:
+				case ListViewMode.Details:
+				{
+					bounds.X += 25;
+					bounds.Y += 2;
+					if (mvarColumns.Count > 0)
+					{
+						bounds.Width = mvarColumns[0].Width - bounds.X;
+					}
+					break;
+				}
+				case ListViewMode.Tiles:
+				{
+					bounds.X += 55;
+					bounds.Y += 1;
+					bounds.Height = 18;
+					bounds.Width -= 56;
+					break;
+				}
+			}
+
+			txtRename.Location = bounds.Location;
+			txtRename.Size = bounds.Size;
+
+			txtRename.Tag = lvi;
+			txtRename.Text = e.Label;
+			txtRename.Enabled = true;
+			txtRename.Visible = true;
+			txtRename.Focus();
+		}
+		private void EndLabelEdit(bool cancel)
+		{
+			ListViewItem lvi = (txtRename.Tag as ListViewItem);
+			if (!cancel) lvi.Text = txtRename.Text;
+
+			txtRename.Visible = false;
+			txtRename.Enabled = false;
+
+			Focus();
+
+			if (!cancel) OnItemLabelEdited(new ListViewItemLabelEditedEventArgs(lvi));
 		}
 		#endregion
 		#endregion
@@ -1760,6 +1874,25 @@ namespace AwesomeControls.ListView
 			foreach (ListViewColumn lvc in mvarColumns)
 			{
 				AutoResizeColumn(lvc, mode);
+			}
+		}
+
+		private void txtRename_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				(txtRename.Tag as ListViewItem).Text = txtRename.Text;
+				EndLabelEdit(false);
+
+				e.Handled = true;
+				e.SuppressKeyPress = true;
+			}
+			else if (e.KeyCode == Keys.Escape)
+			{
+				EndLabelEdit(true);
+
+				e.Handled = true;
+				e.SuppressKeyPress = true;
 			}
 		}
 	}
