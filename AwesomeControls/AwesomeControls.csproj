@@ -185,6 +185,7 @@
     <Compile Include="CollectionListView\CollectionListViewControl.Designer.cs">
       <DependentUpon>CollectionListViewControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListView\ListViewItemLabelEditEvent.cs" />
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\FolderBrowserDialogOld.cs" />
@@ -487,6 +488,7 @@
     <Compile Include="Timeline\TimelineEntry.cs" />
     <Compile Include="Timeline\TimelineGroup.cs" />
     <Compile Include="Timeline\TimelineTrack.cs" />
+    <Compile Include="TimerMethods.cs" />
     <Compile Include="ToggleSwitch\ToggleSwitchControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
