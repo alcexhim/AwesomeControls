@@ -38,6 +38,7 @@ namespace AwesomeControls.ListView
 			int counterB = Count - 1;
 
 			if (counterF < 0) counterF = 0;
+			if (counterF > Count - 1) counterF = Count - 1;
 
 			List<ListViewItem> lst = new List<ListViewItem>();
 
