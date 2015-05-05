@@ -37,6 +37,8 @@ namespace AwesomeControls.ListView
             int counterF = start;
             int counterB = Count - 1;
 
+			if (counterF < 0) counterF = 0;
+
             List<ListViewItem> lst = new List<ListViewItem>();
 
             Rectangle rectF, rectB;
