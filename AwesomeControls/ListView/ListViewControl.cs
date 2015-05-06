@@ -276,7 +276,15 @@ namespace AwesomeControls.ListView
 		protected override void OnLostFocus(EventArgs e)
 		{
 			base.OnLostFocus(e);
+
+			EndLabelEdit(true);
 			Refresh();
+		}
+		protected override void OnLeave(EventArgs e)
+		{
+			base.OnLeave(e);
+
+			EndLabelEdit(true);
 		}
 		#endregion
 
@@ -360,6 +368,9 @@ namespace AwesomeControls.ListView
 
 			if ((Control.ModifierKeys & Keys.Control) == Keys.Control) wasControlKeyPressed = true;
 			ListViewItem lvi = HitTest(e.Location);
+			
+			bool selectionChanged = true;
+
 			if (lvi != null)
 			{
 				if (lvi.Items.Count > 0 && e.X >= 8 && e.X <= 8 + 8)
@@ -393,7 +404,6 @@ namespace AwesomeControls.ListView
 						}
 					}
 
-					bool selectionChanged = true;
 					if (lvi.Selected && ((Control.ModifierKeys & Keys.Control) == Keys.Control) && ((Control.ModifierKeys & Keys.Shift) != Keys.Shift))
 					{
 						lvi.Selected = false;
@@ -422,12 +432,6 @@ namespace AwesomeControls.ListView
 					if (selectionChanged)
 					{
 						OnSelectionChanged(EventArgs.Empty);
-
-						if (_labelEditTimer != null)
-						{
-							TimerMethods.ClearTimeout(_labelEditTimer);
-							_labelEditTimer = null;
-						}
 					}
 
 					if (mvarAllowDrag) m_DraggingItem = true;
@@ -435,6 +439,8 @@ namespace AwesomeControls.ListView
 			}
 			else
 			{
+				if (SelectedItems.Count == 0) selectionChanged = false;
+
 				if (ShouldShowColumns() && e.Y < mvarColumnHeaderHeight)
 				{
 					int x = 0;
@@ -481,6 +487,8 @@ namespace AwesomeControls.ListView
 				}
 				OnSelectionChanged(EventArgs.Empty);
 			}
+
+			if (selectionChanged) EndLabelEdit(true);
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -977,17 +985,30 @@ namespace AwesomeControls.ListView
 			txtRename.Text = e.Label;
 			txtRename.Enabled = true;
 			txtRename.Visible = true;
+
+			inhibitEndLabelEdit = true;
 			txtRename.Focus();
+			inhibitEndLabelEdit = false;
 		}
+		private bool inhibitEndLabelEdit = false;
 		private void EndLabelEdit(bool cancel)
 		{
+			// if (!this.FindForm().Focused) return;
+			if (inhibitEndLabelEdit) return;
+
+			if (cancel && _labelEditTimer != null)
+			{
+				TimerMethods.ClearTimeout(_labelEditTimer);
+				_labelEditTimer = null;
+			}
+
 			ListViewItem lvi = (txtRename.Tag as ListViewItem);
 			if (!cancel) lvi.Text = txtRename.Text;
 
 			txtRename.Visible = false;
 			txtRename.Enabled = false;
 
-			Focus();
+			if (txtRename.Focused) this.Focus();
 
 			if (!cancel) OnItemLabelEdited(new ListViewItemLabelEditedEventArgs(lvi));
 		}
