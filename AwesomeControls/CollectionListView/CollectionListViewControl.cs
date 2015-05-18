@@ -163,7 +163,7 @@ namespace AwesomeControls.CollectionListView
 			}
 
 			tsbClear.Visible = mvarAllowItemRemove;
-			tsbRemove.Enabled = allowItemClear;
+			tsbClear.Enabled = allowItemClear;
 
 			tsbSep1.Visible = mvarAllowItemReorder;
 			tsbMoveUp.Visible = mvarAllowItemReorder;
