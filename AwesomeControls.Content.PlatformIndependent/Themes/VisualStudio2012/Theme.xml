@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AwesomeControls>
+	<Theming>
+		<Themes>
+			<Theme ID="{C7203BAC-EE7C-486C-9C58-F13603522045}" Title="Visual Studio 2012" Inherits="{0DB6F9DC-27B3-487F-9693-44BDE86FB061}">
+				<ColorSchemes>
+					<ColorScheme ID="{FC6E971B-AB7C-4316-9856-175EF6262D65}" Title="Dark">
+						<ColorTable>
+							<Color ID="ThemeColorGreen" Value="#608B4E" />
+							<Color ID="ThemeColorBlue" Value="#569CD6" />
+						</ColorTable>
+					</ColorScheme>
+				</ColorSchemes>
+				<Metrics>
+					<Metric ID="DropDownButtonPadding" Type="Padding" Left="0" Top="0" Right="0" Bottom="0" />
+				</Metrics>
+				<Properties>
+					<!-- TODO: Fix the toplevel window border drawing before enabling this feature! -->
+					<Property Name="UseCustomToplevelWindowFrame" Value="false" />
+					
+					<!-- None, Slide, Fade -->
+					<Property Name="CommandBarMenuAnimationType" Value="None" />
+					
+					
+				</Properties>
+			</Theme>
+		</Themes>
+	</Theming>
+</AwesomeControls>
