@@ -143,7 +143,7 @@ namespace AwesomeControls.ListView
 		{
 			get
 			{
-				ListViewItem.ListViewItemCollection lvic = new ListViewItem.ListViewItemCollection();
+				ListViewItem.ListViewItemCollection lvic = new ListViewItem.ListViewItemCollection(this);
 				foreach (ListViewItem lvi in mvarItems)
 				{
 					if (lvi.Selected)
@@ -352,7 +352,8 @@ namespace AwesomeControls.ListView
 						AutoResizeColumn(lvc);
 					}
 				}
-				else if (lvi != null)
+				
+				if (lvi != null)
 				{
 					OnItemActivate(EventArgs.Empty);
 				}

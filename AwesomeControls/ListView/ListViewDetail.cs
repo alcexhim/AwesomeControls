@@ -18,7 +18,7 @@ namespace AwesomeControls.ListView
 				return item;
 			}
 
-			public ListViewDetail this[int index]
+			public new ListViewDetail this[int index]
 			{
 				get
 				{

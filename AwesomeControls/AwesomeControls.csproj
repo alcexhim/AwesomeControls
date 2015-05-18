@@ -117,7 +117,7 @@
     </Compile>
     <Compile Include="Breadcrumb\BreadcrumbItem.cs" />
     <Compile Include="CollectionListView\ItemEligibilityEvent.cs" />
-    <Compile Include="CollectionListView\ItemPropertiesEventArgs.cs" />
+    <Compile Include="CollectionListView\ItemPropertiesEvent.cs" />
     <Compile Include="CommandBars\CBContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -185,6 +185,12 @@
     <Compile Include="CollectionListView\CollectionListViewControl.Designer.cs">
       <DependentUpon>CollectionListViewControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GuidTextBox\GuidTextBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GuidTextBox\GuidTextBoxControl.Designer.cs">
+      <DependentUpon>GuidTextBoxControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListView\ListViewItemLabelEditEvent.cs" />
     <Compile Include="Mirror.Methods.cs" />
     <Compile Include="NativeDialogs\FolderBrowserDialog.cs" />
@@ -223,6 +229,7 @@
     <Compile Include="PropertyGrid\PropertyGridSortingMode.cs" />
     <Compile Include="PropertyGrid\PropertyValueParsingEvent.cs" />
     <Compile Include="PropertyGrid\PropertyValueRenderingEvent.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="StringWrapper.cs" />
     <Compile Include="TextBox\TextBoxSyntaxGroup.cs" />
     <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
@@ -562,6 +569,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CollectionListView\CollectionListViewControl.resx">
       <DependentUpon>CollectionListViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuidTextBox\GuidTextBoxControl.resx">
+      <DependentUpon>GuidTextBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListView\ListViewControl.resx">
       <DependentUpon>ListViewControl.cs</DependentUpon>
