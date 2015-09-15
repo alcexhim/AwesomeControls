@@ -2,7 +2,10 @@
 <AwesomeControls>
 	<Theming>
 		<Themes>
-			<Theme ID="{C7203BAC-EE7C-486C-9C58-F13603522045}" Title="Visual Studio 2012" Inherits="{0DB6F9DC-27B3-487F-9693-44BDE86FB061}">
+			<Theme ID="{25134C94-B1EB-4C38-9B5B-A2E29FC57AE1}" Inherits="{0DB6F9DC-27B3-487F-9693-44BDE86FB061}">
+				<Information>
+					<Title>Visual Studio 2012</Title>
+				</Information>
 				<ColorSchemes>
 					<ColorScheme ID="{FC6E971B-AB7C-4316-9856-175EF6262D65}" Title="Dark">
 						<ColorTable>

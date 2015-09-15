@@ -42,6 +42,7 @@
     <Content Include="Themes\VisualStudio2005\Theme.xml" />
     <Content Include="Themes\VisualStudio2008\Theme.xml" />
     <Content Include="Themes\VisualStudio2010\Theme.xml" />
+    <Content Include="Themes\VisualStudio2012\Dark\Theme.xml" />
     <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemAdd.png" />
     <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemClear.png" />
     <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemRemove.png" />
