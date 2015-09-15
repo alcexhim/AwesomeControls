@@ -242,7 +242,7 @@ namespace AwesomeControls.CommandBars
 
 		public void BuildThemesDropDownItems(System.Windows.Forms.ToolStripItemCollection dropDownItems)
 		{
-			foreach (Theming.Theme theme in Theming.Theme.GetAvailableThemes())
+			foreach (Theming.Theme theme in Theming.Theme.Get())
 			{
 				System.Windows.Forms.ToolStripMenuItem mnuItem = new System.Windows.Forms.ToolStripMenuItem(theme.Title, null, mnuViewThemesTheme_Click);
 				mnuItem.CheckOnClick = true;

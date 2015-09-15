@@ -233,8 +233,12 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringWrapper.cs" />
     <Compile Include="TextBox\TextBoxSyntaxGroup.cs" />
-    <Compile Include="Theming\BuiltinThemes\SlickTheme.cs" />
-    <Compile Include="Theming\BuiltinThemes\StyleSheetTheme.cs" />
+    <Compile Include="Theming\BuiltinThemes\ClassicTheme.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Theming\BuiltinThemes\SystemTheme.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Theming\CommandBarMenuAnimationType.cs" />
     <Compile Include="CommandBars\CBPanel.cs">
       <SubType>Component</SubType>
@@ -471,22 +475,11 @@
     <Compile Include="TextBox\TextBoxToolTipWindow.Designer.cs">
       <DependentUpon>TextBoxToolTipWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Theming\BuiltinThemes\OfficeXPTheme.cs" />
-    <Compile Include="Theming\BuiltinThemes\VisualStudio2012Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\Office2007Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\VisualStudio2008Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\VisualStudio2010Theme.cs" />
     <Compile Include="Theming\ColorTable.cs" />
     <Compile Include="Theming\FontTable.cs" />
     <Compile Include="Theming\MetricTable.cs" />
     <Compile Include="Theming\RibbonColorScheme.cs" />
     <Compile Include="Theming\Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\Office2000Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\Office2003Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\SystemTheme.cs" />
-    <Compile Include="Theming\BuiltinThemes\VisualStudio2005Theme.cs" />
-    <Compile Include="Theming\BuiltinThemes\ClassicTheme.cs" />
-    <Compile Include="Theming\Themes.cs" />
     <Compile Include="Timeline\TimelineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

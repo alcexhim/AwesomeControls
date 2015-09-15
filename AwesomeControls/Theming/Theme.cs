@@ -774,7 +774,7 @@ namespace AwesomeControls.Theming
 		#endregion
 
 		private static Theme[] mvarAvailableThemes = null;
-		public static Theme[] GetAvailableThemes()
+		public static Theme[] Get()
 		{
 			if (mvarAvailableThemes == null)
 			{
@@ -808,6 +808,16 @@ namespace AwesomeControls.Theming
 				mvarAvailableThemes = list.ToArray();
 			}
 			return mvarAvailableThemes;
+		}
+
+		public static Theme GetByID(Guid id)
+		{
+			Theme[] themes = Get();
+			foreach (Theme theme in themes)
+			{
+				if (theme.ID == id) return theme;
+			}
+			return null;
 		}
 
 		#region Ribbon Color
