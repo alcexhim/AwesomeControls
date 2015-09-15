@@ -42,6 +42,14 @@
     <Content Include="Themes\VisualStudio2005\Theme.xml" />
     <Content Include="Themes\VisualStudio2008\Theme.xml" />
     <Content Include="Themes\VisualStudio2010\Theme.xml" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileClose.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileExit.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileNewFile.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileOpenFile.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FilePageSetup.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FilePrint.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileSave.png" />
+    <Content Include="Themes\VisualStudio2012\Dark\Images\Commands\FileSaveAll.png" />
     <Content Include="Themes\VisualStudio2012\Dark\Theme.xml" />
     <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemAdd.png" />
     <Content Include="Themes\VisualStudio2012\Images\Buttons\ListViewItemClear.png" />
