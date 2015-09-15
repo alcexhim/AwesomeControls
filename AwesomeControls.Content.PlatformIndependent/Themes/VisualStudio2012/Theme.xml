@@ -7,10 +7,17 @@
 					<Title>Visual Studio 2012</Title>
 				</Information>
 				<ColorSchemes>
-					<ColorScheme ID="{FC6E971B-AB7C-4316-9856-175EF6262D65}" Title="Dark">
+					<ColorScheme ID="{FC6E971B-AB7C-4316-9856-175EF6262D65}">
+						<Information>
+							<Title>Dark</Title>
+						</Information>
 						<ColorTable>
 							<Color ID="ThemeColorGreen" Value="#608B4E" />
 							<Color ID="ThemeColorBlue" Value="#569CD6" />
+							<Color ID="ThemeColorLightBlue" Value="#92CAF4" />
+							
+							<Color ID="ThemeColorDarkGray" Value="#808080" />
+							<Color ID="ThemeColorLightGray" Value="#C8C8C8" />
 						</ColorTable>
 					</ColorScheme>
 				</ColorSchemes>
