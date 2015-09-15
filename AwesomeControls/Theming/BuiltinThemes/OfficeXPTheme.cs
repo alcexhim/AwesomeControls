@@ -12,8 +12,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 		{
 			MetricTable.DropDownButtonPadding = new System.Windows.Forms.Padding(0, 0, 0, 0);
 		}
-
-		public override string Name { get { return "Office XP"; } }
 		public override CommandBarMenuAnimationType CommandBarMenuAnimationType { get { return Theming.CommandBarMenuAnimationType.Fade; } }
 
 		protected override void InitAeroColors()

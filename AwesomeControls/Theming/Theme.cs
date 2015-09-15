@@ -10,10 +10,11 @@ namespace AwesomeControls.Theming
 {
 	public abstract class Theme
 	{
-		public virtual string Name
-		{
-			get { return String.Empty; }
-		}
+		private Guid mvarID = Guid.Empty;
+		public virtual Guid ID { get { return mvarID; } set { mvarID = value; } }
+
+		private string mvarTitle = String.Empty;
+		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
 
 		/// <summary>
 		/// Determines the type of animation used for flyout menus.
@@ -54,12 +55,6 @@ namespace AwesomeControls.Theming
 			InitThemedColors();
 		}
 
-		public virtual string GetName()
-		{
-			string name = this.GetType().Name;
-			if (name.EndsWith("Theme")) name = name.Substring(0, name.Length - "Theme".Length);
-			return name;
-		}
 		public string GetBasePath()
 		{
 			System.Reflection.Assembly entryAsm = System.Reflection.Assembly.GetEntryAssembly();
@@ -69,7 +64,7 @@ namespace AwesomeControls.Theming
 			{
 				System.IO.Path.GetDirectoryName(entryAsm.Location),
 				"Themes",
-				this.GetName()
+				this.ID.ToString("B").ToUpper()
 			});
 			return pathName;
 		}

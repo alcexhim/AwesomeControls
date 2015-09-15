@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AwesomeControls>
+	<Theming>
+		<Themes>
+			<Theme ID="{25134C94-B1EB-4C38-9B5B-A2E29FC57AE1}" Inherits="{0DB6F9DC-27B3-487F-9693-44BDE86FB061}">
+				<Information>
+					<Title>Visual Studio 2012 Dark</Title>
+				</Information>
+				<ColorTable>
+					<Color ID="ThemeColorGreen" Value="#608B4E" />
+					<Color ID="ThemeColorBlue" Value="#569CD6" />
+					<Color ID="ThemeColorLightBlue" Value="#92CAF4" />
+
+					<Color ID="ThemeColorDarkGray" Value="#808080" />
+					<Color ID="ThemeColorLightGray" Value="#C8C8C8" />
+					
+					<Color Name="DockingWindowTabBackground" Value="#2D2D30" />
+					<Color Name="DockingWindowTabForeground" Value="#D0D0D0" />
+					<Color Name="DockingWindowTabBackgroundSelected" Value="#252526" />
+					<Color Name="DockingWindowTabBorderSelected" Value="#3F3F46" />
+					<Color Name="DockingWindowTabForegroundSelected" Value="#0097FB" />
+
+					<Color Name="ScrollbarBackground" Value="#3E3E42" />
+					<Color Name="ScrollbarArrow" Value="#999999" />
+					<Color Name="ScrollbarThumb" Value="#686868" />
+
+					<Color Name="WindowBackground" Value="#1E1E1E" />
+					<Color Name="WindowForeground" Value="#F1F1F1" />
+				</ColorTable>
+				<Metrics>
+					<Metric ID="DropDownButtonPadding" Type="Padding" Left="0" Top="0" Right="0" Bottom="0" />
+				</Metrics>
+				<Properties>
+					<!-- TODO: Fix the toplevel window border drawing before enabling this feature! -->
+					<Property Name="UseCustomToplevelWindowFrame" Value="false" />
+					
+					<!-- None, Slide, Fade -->
+					<Property Name="CommandBarMenuAnimationType" Value="None" />
+					
+					
+				</Properties>
+			</Theme>
+		</Themes>
+	</Theming>
+</AwesomeControls>

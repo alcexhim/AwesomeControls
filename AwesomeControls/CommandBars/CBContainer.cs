@@ -244,7 +244,7 @@ namespace AwesomeControls.CommandBars
 		{
 			foreach (Theming.Theme theme in Theming.Theme.GetAvailableThemes())
 			{
-				System.Windows.Forms.ToolStripMenuItem mnuItem = new System.Windows.Forms.ToolStripMenuItem(theme.Name, null, mnuViewThemesTheme_Click);
+				System.Windows.Forms.ToolStripMenuItem mnuItem = new System.Windows.Forms.ToolStripMenuItem(theme.Title, null, mnuViewThemesTheme_Click);
 				mnuItem.CheckOnClick = true;
 				mnuItem.Checked = (Theming.Theme.CurrentTheme == theme);
 				mnuItem.Tag = theme;

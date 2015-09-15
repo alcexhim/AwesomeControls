@@ -172,14 +172,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 		}
 
-		public override string Name
-		{
-			get
-			{
-				return "System";
-			}
-		}
-		
 		protected override void InitCommonColors ()
 		{
 			base.InitCommonColors();

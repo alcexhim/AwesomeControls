@@ -549,9 +549,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			InitializeBlueColorTable();
 		}
 
-		private string mvarName = "Visual Studio 2012";
-		public override string Name { get { return mvarName; } }
-
 		public override void DrawCheck(Graphics graphics, ToolStripItem item, Rectangle rect)
 		{
 			Rectangle rect1 = rect;

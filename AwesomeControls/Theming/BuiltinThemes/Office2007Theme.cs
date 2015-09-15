@@ -113,14 +113,5 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			}
 			base.DrawMenuItemBackground(graphics, item);
 		}
-
-		private string mvarName = "Office 2007";
-		public override string Name
-		{
-			get
-			{
-				return mvarName;
-			}
-		}
 	}
 }

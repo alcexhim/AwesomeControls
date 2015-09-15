@@ -7,14 +7,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 {
 	public class VisualStudio2005Theme : Office2003Theme
 	{
-		public override string Name
-		{
-			get
-			{
-				return "Visual Studio 2005";
-			}
-		}
-
 		protected override void InitSystemColors()
 		{
 			base.InitSystemColors();

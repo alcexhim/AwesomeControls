@@ -7,15 +7,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 {
 	public class VisualStudio2008Theme : VisualStudio2005Theme
 	{
-		private string mvarName = "Visual Studio 2008";
-		public override string Name
-		{
-			get
-			{
-				return mvarName;
-			}
-		}
-
 		protected override void InitBlueLunaColors()
 		{
 			base.InitBlueLunaColors();

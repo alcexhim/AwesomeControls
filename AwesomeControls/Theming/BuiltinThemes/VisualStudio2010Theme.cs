@@ -112,15 +112,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 			ColorTable.TextBoxBorderNormal = Color.FromArgb(133, 145, 162);
 		}
 
-		private string mvarName = "Visual Studio 2010";
-		public override string Name
-		{
-			get
-			{
-				return mvarName;
-			}
-		}
-
 		public override void DrawCheck(Graphics graphics, ToolStripItem item, Rectangle rect)
 		{
 			Rectangle rect1 = rect;

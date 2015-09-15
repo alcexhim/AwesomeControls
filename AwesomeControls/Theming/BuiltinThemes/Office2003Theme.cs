@@ -13,8 +13,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 {
 	public class Office2003Theme : OfficeXPTheme
 	{
-		public override string Name { get { return "Office 2003"; } }
-
 		private bool mvarRoundedEdges = true;
 		public bool RoundedEdges
 		{

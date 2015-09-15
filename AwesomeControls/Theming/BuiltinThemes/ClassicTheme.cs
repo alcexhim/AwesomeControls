@@ -6,15 +6,6 @@ namespace AwesomeControls.Theming
 {
 	public class ClassicTheme : Theme
 	{
-		private string mvarName = "Classic";
-		public override string Name
-		{
-			get
-			{
-				return mvarName;
-			}
-		}
-
 		protected override void InitCommonColors ()
 		{
 			base.InitCommonColors ();

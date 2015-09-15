@@ -7,7 +7,6 @@ namespace AwesomeControls.Theming.BuiltinThemes
 {
 	public class Office2000Theme : ClassicTheme
 	{
-		public override string Name { get { return "Office 2000"; } }
 		public override bool EnableSpaceSaverMenus { get { return true; } }
 
 		public override void DrawCommandBarBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStrip parent)
