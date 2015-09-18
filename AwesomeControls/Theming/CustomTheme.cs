@@ -96,14 +96,14 @@ namespace AwesomeControls.Theming
 				float w = act.Width.Evaluate(dict);
 				float h = act.Height.Evaluate(dict);
 
-				if (act.Outline != null)
-				{
-					graphics.DrawRectangle(PenFromOutline(act.Outline), x, y, w, h);
-				}
 				if (act.Fill != null)
 				{
 					graphics.FillRectangle(BrushFromFill(act.Fill), x, y, w, h);
-				}
+                }
+                if (act.Outline != null)
+                {
+                    graphics.DrawRectangle(PenFromOutline(act.Outline), x, y, w - 1, h - 1);
+                }
 			}
 		}
 
