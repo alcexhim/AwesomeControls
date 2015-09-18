@@ -163,6 +163,22 @@ namespace AwesomeControls.DataFormats.Theming
 													{
 														break;
 													}
+                                                    case "solid":
+                                                    {
+                                                        MarkupAttribute attColor = tagOutline.Attributes["Color"];
+                                                        if (attColor != null)
+                                                        {
+                                                            item.Outline = new Outline();
+                                                            item.Outline.Color = attColor.Value;
+
+                                                            MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
+                                                            if (attOutlineWidth != null)
+                                                            {
+                                                                item.Outline.Width = Single.Parse(attOutlineWidth.Value);
+                                                            }
+                                                        }
+                                                        break;
+                                                    }
 												}
 											}
 										}
