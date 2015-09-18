@@ -128,6 +128,7 @@
     <Compile Include="CommandBars\CBMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataFormats\Theming\ThemeXMLDataFormat.cs" />
     <Compile Include="DesignerTools.cs" />
     <Compile Include="DockingWindows\Dialogs\WindowListDialog.cs">
       <SubType>Form</SubType>
@@ -202,6 +203,23 @@
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V1\Structures.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\FolderSelectDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\Reflector.cs" />
+    <Compile Include="ObjectModels\Theming\Fill.cs" />
+    <Compile Include="ObjectModels\Theming\Outline.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingActions\RectangleRenderingAction.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingExpression.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingExpressionItem.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingExpressionItems\LiteralRenderingExpressionItem.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingExpressionItems\VariableRenderingExpressionItem.cs" />
+    <Compile Include="ObjectModels\Theming\Theme.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeColor.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeComponent.cs" />
+    <Compile Include="ObjectModels\Theming\Rendering.cs" />
+    <Compile Include="ObjectModels\Theming\RenderingAction.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeComponentGuids.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeComponentState.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeComponentStateGuids.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeComponentStateReference.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeObjectModel.cs" />
     <Compile Include="PieMenu\PieMenuItem.cs" />
     <Compile Include="PieMenu\PieMenuItemGroup.cs" />
     <Compile Include="PieMenu\PieMenuManager.cs" />
@@ -476,6 +494,7 @@
       <DependentUpon>TextBoxToolTipWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Theming\ColorTable.cs" />
+    <Compile Include="Theming\CustomTheme.cs" />
     <Compile Include="Theming\FontTable.cs" />
     <Compile Include="Theming\MetricTable.cs" />
     <Compile Include="Theming\RibbonColorScheme.cs" />
@@ -666,5 +685,6 @@
       <Name>UniversalEditor.Plugins.Web</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.Targets" />
 </Project>

@@ -5,6 +5,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using AwesomeControls.ObjectModels.Theming;
+using UniversalEditor.Accessors;
+using AwesomeControls.DataFormats.Theming;
 
 namespace AwesomeControls.Theming
 {
@@ -12,6 +15,9 @@ namespace AwesomeControls.Theming
 	{
 		private Guid mvarID = Guid.Empty;
 		public virtual Guid ID { get { return mvarID; } set { mvarID = value; } }
+
+		private string mvarName = String.Empty;
+		public string Name { get { return mvarName; } set { mvarName = value; } }
 
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
@@ -144,11 +150,7 @@ namespace AwesomeControls.Theming
 		}
 
 		private static Theme mvarCurrentTheme = new BuiltinThemes.SystemTheme();
-		public static Theme CurrentTheme
-		{
-			get { return mvarCurrentTheme; }
-			set { mvarCurrentTheme = value; }
-		}
+		public static Theme CurrentTheme { get { return mvarCurrentTheme; } set { mvarCurrentTheme = value; } }
 
 		private ColorTable mvarColorTable = new ColorTable();
 		public ColorTable ColorTable { get { return mvarColorTable; } set { mvarColorTable = value; } }
@@ -787,7 +789,7 @@ namespace AwesomeControls.Theming
 						Type[] types = asm.GetTypes();
 						foreach (Type type in types)
 						{
-							if (type.IsSubclassOf(typeof(Theme)) && !type.IsAbstract)
+							if (type.IsSubclassOf(typeof(Theme)) && !type.IsAbstract && type != typeof(CustomTheme))
 							{
 								list.Add((Theme)asm.CreateInstance(type.FullName));
 							}
@@ -798,14 +800,49 @@ namespace AwesomeControls.Theming
 						foreach (Type type in ex.Types)
 						{
 							if (type == null) continue;
-							if (type.IsSubclassOf(typeof(Theme)) && !type.IsAbstract)
+							if (type.IsSubclassOf(typeof(Theme)) && !type.IsAbstract && type != typeof(CustomTheme))
 							{
 								list.Add((Theme)asm.CreateInstance(type.FullName));
 							}
 						}
 					}
 				}
+
+
+				string themeDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + "Themes";
+				if (System.IO.Directory.Exists(themeDir))
+				{
+					string[] themePaths = System.IO.Directory.GetDirectories(themeDir);
+					foreach (string themePath in themePaths)
+					{
+						string themeFileName = themePath + System.IO.Path.DirectorySeparatorChar.ToString() + "Theme.xml";
+						if (System.IO.File.Exists(themeFileName))
+						{
+							ThemeObjectModel theme = new ThemeObjectModel();
+							UniversalEditor.Document.Load(theme, new ThemeXMLDataFormat(), new FileAccessor(themeFileName));
+							foreach (AwesomeControls.ObjectModels.Theming.Theme themeDefinition in theme.Themes)
+							{
+								list.Add(new CustomTheme(themeDefinition));
+							}
+						}
+					}
+				}
 				mvarAvailableThemes = list.ToArray();
+
+				foreach (Theme theme in mvarAvailableThemes)
+				{
+					if (theme is CustomTheme)
+					{
+						CustomTheme ct = (theme as CustomTheme);
+						foreach (ThemeComponent tc in ct.ThemeDefinition.Components)
+						{
+							if (tc.InheritsComponentID != Guid.Empty)
+							{
+								tc.InheritsComponent = ct.ThemeDefinition.Components[tc.InheritsComponentID];
+							}
+						}
+					}
+				}
 			}
 			return mvarAvailableThemes;
 		}
