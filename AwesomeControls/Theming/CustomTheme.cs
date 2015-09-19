@@ -206,13 +206,23 @@ namespace AwesomeControls.Theming
             {
 				tc = GetComponent(ThemeComponentGuids.CommandBarTopLevelItem);
             }
-            if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarItem);
+			if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarMenuItem);
+			if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarItem);
 
             ControlState state = ControlState.Normal;
             if (item.Selected) state = ControlState.Hover;
             if (item.Pressed) state = ControlState.Pressed;
             if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
         }
+		public override void DrawCommandButtonBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripButton item, System.Windows.Forms.ToolStrip parent)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarItem);
+
+			ControlState state = ControlState.Normal;
+			if (item.Selected) state = ControlState.Hover;
+			if (item.Pressed) state = ControlState.Pressed;
+			if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
+		}
         public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
         {
             color = ColorFromString("@CommandBarItemForeground");
