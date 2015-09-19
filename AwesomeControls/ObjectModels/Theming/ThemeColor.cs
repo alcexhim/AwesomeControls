@@ -21,6 +21,10 @@ namespace AwesomeControls.ObjectModels.Theming
 					return null;
 				}
 			}
+            public bool Contains(string name)
+            {
+                return (this[name] != null);
+            }
 		}
 
 		private Guid mvarID = Guid.Empty;

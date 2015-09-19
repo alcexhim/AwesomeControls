@@ -320,45 +320,48 @@ namespace AwesomeControls.Theming
 		}
 		public virtual void DrawText(Graphics graphics, string text, Color color, Font font, Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
 		{
-			if (item is ToolStripMenuItem)
-			{
-				if (item.IsOnDropDown)
-				{
-					if (item.Pressed)
-					{
-						color = ColorTable.CommandBarMenuControlTextPressed;
-					}
-					else if (item.Selected)
-					{
-						color = ColorTable.CommandBarMenuControlTextHighlight;
-					}
-					else
-					{
-						color = ColorTable.CommandBarMenuControlText;
-					}
-				}
-				else
-				{
-					if (item.Pressed)
-					{
-						color = ColorTable.CommandBarControlTextPressed;
-					}
-					else if (item.Selected)
-					{
-						color = ColorTable.CommandBarControlTextHover;
-					}
-					else
-					{
-						color = ColorTable.CommandBarControlText;
-					}
-				}
-			}
-			else if (item is ToolStripStatusLabel)
-			{
-				color = ColorTable.StatusBarText;
-			}
+            if (color == Color.Empty)
+            {
+                if (item is ToolStripMenuItem)
+                {
+                    if (item.IsOnDropDown)
+                    {
+                        if (item.Pressed)
+                        {
+                            color = ColorTable.CommandBarMenuControlTextPressed;
+                        }
+                        else if (item.Selected)
+                        {
+                            color = ColorTable.CommandBarMenuControlTextHighlight;
+                        }
+                        else
+                        {
+                            color = ColorTable.CommandBarMenuControlText;
+                        }
+                    }
+                    else
+                    {
+                        if (item.Pressed)
+                        {
+                            color = ColorTable.CommandBarControlTextPressed;
+                        }
+                        else if (item.Selected)
+                        {
+                            color = ColorTable.CommandBarControlTextHover;
+                        }
+                        else
+                        {
+                            color = ColorTable.CommandBarControlText;
+                        }
+                    }
+                }
+                else if (item is ToolStripStatusLabel)
+                {
+                    color = ColorTable.StatusBarText;
+                }
 
-			color = (item.Enabled ? color : SystemColors.GrayText);
+                color = (item.Enabled ? color : SystemColors.GrayText);
+            }
 
 			if (textDirection != ToolStripTextDirection.Horizontal && textRectangle.Width > 0 && textRectangle.Height > 0)
 			{
@@ -834,6 +837,18 @@ namespace AwesomeControls.Theming
 					if (theme is CustomTheme)
 					{
 						CustomTheme ct = (theme as CustomTheme);
+						if (ct.ThemeDefinition.InheritsThemeID != Guid.Empty)
+						{
+							CustomTheme ct1 = (GetByID(ct.ThemeDefinition.InheritsThemeID) as CustomTheme);
+							if (ct1 == null)
+							{
+								Console.WriteLine("ac-theme: custom theme with ID '" + ct.ThemeDefinition.InheritsThemeID.ToString("B").ToUpper() + "' not found");
+							}
+							else
+							{
+								ct.ThemeDefinition.InheritsTheme = ct1.ThemeDefinition;
+							}
+						}
 						foreach (ThemeComponent tc in ct.ThemeDefinition.Components)
 						{
 							if (tc.InheritsComponentID != Guid.Empty)

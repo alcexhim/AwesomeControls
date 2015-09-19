@@ -47,5 +47,11 @@ namespace AwesomeControls.ObjectModels.Theming
 			}
 			return clone;
 		}
+
+		private Guid mvarInheritsThemeID = Guid.Empty;
+		public Guid InheritsThemeID { get { return mvarInheritsThemeID; } set { mvarInheritsThemeID = value; } }
+
+		private Theme mvarInheritsTheme = null;
+		public Theme InheritsTheme { get { return mvarInheritsTheme; } set { mvarInheritsTheme = value; } }
 	}
 }

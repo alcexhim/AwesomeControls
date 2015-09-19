@@ -21,11 +21,21 @@ namespace AwesomeControls.Theming
 			base.Title = themeDefinition.Title;
 		}
 
-		private System.Drawing.Color ColorFromString(string value)
+		private System.Drawing.Color ColorFromString(string value, AwesomeControls.ObjectModels.Theming.Theme theme = null)
 		{
+			if (theme == null) theme = mvarThemeDefinition;
+
 			if (value.StartsWith("@"))
 			{
-				string color = mvarThemeDefinition.Colors[value.Substring(1)].Value;
+                string name = value.Substring(1);
+                if (!theme.Colors.Contains(name))
+                {
+					if (theme.InheritsTheme != null) return ColorFromString(value, theme.InheritsTheme);
+
+                    Console.WriteLine("ac-theme: theme definition does not contain color '" + name + "'");
+                    return System.Drawing.Color.Empty;
+                }
+				string color = theme.Colors[name].Value;
 				return ColorFromString(color);
 			}
 			else if (value.StartsWith("#") && value.Length == 7)
@@ -81,18 +91,18 @@ namespace AwesomeControls.Theming
 			return null;
 		}
 
-		private void DrawRenderingAction(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStrip parent, RenderingAction action)
+		private void DrawRenderingAction(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, RenderingAction action)
 		{
 			Dictionary<string, object> dict = new Dictionary<string, object>();
-			dict.Add("Component.Width", parent.Width);
-			dict.Add("Component.Height", parent.Height);
+			dict.Add("Component.Width", bounds.Width);
+			dict.Add("Component.Height", bounds.Height);
 
 			if (action is RectangleRenderingAction)
 			{
 				RectangleRenderingAction act = (action as RectangleRenderingAction);
 				
-				float x = act.X.Evaluate(dict);
-				float y = act.Y.Evaluate(dict);
+				float x = act.X.Evaluate(dict) + bounds.X;
+				float y = act.Y.Evaluate(dict) + bounds.Y;
 				float w = act.Width.Evaluate(dict);
 				float h = act.Height.Evaluate(dict);
 
@@ -107,53 +117,113 @@ namespace AwesomeControls.Theming
 			}
 		}
 
-		private void DrawRendering(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStrip parent, Rendering rendering)
+		private void DrawRendering(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, Rendering rendering)
 		{
 			foreach (RenderingAction action in rendering.Actions)
 			{
-				DrawRenderingAction(graphics, parent, action);
+				DrawRenderingAction(graphics, bounds, action);
 			}
 		}
 
-		private void DrawThemeComponent(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStrip parent, ThemeComponent tc)
+		private void DrawThemeComponent(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, ThemeComponent tc, ControlState state)
 		{
 			if (tc.InheritsComponent != null)
 			{
-				DrawThemeComponent(graphics, parent, tc.InheritsComponent);
+				DrawThemeComponent(graphics, bounds, tc.InheritsComponent, state);
 			}
 
 			foreach (Rendering rendering in tc.Renderings)
 			{
-				if (rendering.States.Count == 0 || rendering.States.Contains(ThemeComponentStateGuids.Normal))
+				if (rendering.States.Count == 0 || rendering.States.Contains(GetThemeStateGUIDForControlState(state)))
 				{
 					// we can use this rendering
-					DrawRendering(graphics, parent, rendering);
+					DrawRendering(graphics, bounds, rendering);
 				}
 			}
 		}
+
+        private Guid GetThemeStateGUIDForControlState(ControlState state)
+        {
+            switch (state)
+            {
+                case ControlState.Normal:
+                {
+                    return ThemeComponentStateGuids.Normal;
+                }
+                case ControlState.Hover:
+                {
+                    return ThemeComponentStateGuids.Hover;
+                }
+                case ControlState.Pressed:
+                {
+                    return ThemeComponentStateGuids.Pressed;
+                }
+                case ControlState.Disabled:
+                {
+                    return ThemeComponentStateGuids.Disabled;
+                }
+            }
+            return ThemeComponentStateGuids.None;
+        }
 
 		public override void DrawCommandBarBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStrip parent)
 		{
 			if (parent is System.Windows.Forms.MenuStrip)
 			{
-				ThemeComponent tc = mvarThemeDefinition.Components[ThemeComponentGuids.CommandBarMenu];
-				if (tc != null) DrawThemeComponent(graphics, parent, tc);
+				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarMenu);
+				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStripDropDownMenu)
 			{
-				ThemeComponent tc = mvarThemeDefinition.Components[ThemeComponentGuids.CommandBarPopup];
-				if (tc != null) DrawThemeComponent(graphics, parent, tc);
+				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
+                if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStrip)
 			{
-				ThemeComponent tc = mvarThemeDefinition.Components[ThemeComponentGuids.CommandBar];
-				if (tc != null) DrawThemeComponent(graphics, parent, tc);
+				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBar);
+                if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
 			}
 			else
 			{
 
 			}
 		}
+
+		private ThemeComponent GetComponent(Guid id, AwesomeControls.ObjectModels.Theming.Theme theme = null)
+		{
+			if (theme == null) theme = mvarThemeDefinition;
+			
+			ThemeComponent tc = theme.Components[id];
+			if (tc == null && theme.InheritsTheme != null) return GetComponent(id, theme.InheritsTheme);
+			
+			return tc;
+		}
+
+        public override void DrawMenuItemBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripItem item)
+        {
+            ThemeComponent tc = null;
+            if (!item.IsOnDropDown)
+            {
+				tc = GetComponent(ThemeComponentGuids.CommandBarTopLevelItem);
+            }
+            if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarItem);
+
+            ControlState state = ControlState.Normal;
+            if (item.Selected) state = ControlState.Hover;
+            if (item.Pressed) state = ControlState.Pressed;
+            if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
+        }
+        public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
+        {
+            color = ColorFromString("@CommandBarItemForeground");
+            base.DrawText(graphics, text, color, font, textRectangle, textFormat, textDirection, item);
+        }
+
+        public override void DrawCommandBarPanelBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
+        {
+            ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarRaftingContainer);
+            if (tc != null) DrawThemeComponent(graphics, rectangle, tc, ControlState.Normal);
+        }
 
 		public override void DrawDropDownBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle, ControlState state)
 		{
