@@ -32,6 +32,8 @@ namespace AwesomeControls.DockingWindows.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
+
+			lv.Items.Clear();
 			foreach (DockingWindow dw in mvarParentContainer.Areas[DockPosition.Center].Areas[DockPosition.Center].Windows)
 			{
 				ListViewItem lvi = new ListViewItem();
