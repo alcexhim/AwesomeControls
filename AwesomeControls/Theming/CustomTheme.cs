@@ -258,8 +258,14 @@ namespace AwesomeControls.Theming
 			ThemeComponent tc = GetComponent(ThemeComponentGuids.DocumentTab);
 			if (tc != null)
 			{
-				DrawThemeComponent(graphics, rectTab, tc, ThemeComponentStateGuids.Normal);
+				DrawThemeComponent(graphics, rectTab, tc, GetThemeStateGUIDForControlState(controlState, focused, selected));
 			}
+		}
+
+		public override void DrawContentAreaBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.ContentArea);
+			if (tc != null) DrawThemeComponent(graphics, rectangle, tc, ThemeComponentStateGuids.Normal);
 		}
 
         public override void DrawMenuItemBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripItem item)
@@ -338,7 +344,8 @@ namespace AwesomeControls.Theming
 
 		public override void DrawListSelectionRectangle(System.Drawing.Graphics g, System.Drawing.Rectangle rect)
 		{
-			throw new NotImplementedException();
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.ListViewSelectionRectangle);
+			if (tc != null) DrawThemeComponent(g, rect, tc, ThemeComponentStateGuids.Normal);
 		}
 
 		public override void DrawListColumnBackground(System.Drawing.Graphics g, System.Drawing.Rectangle rect, ControlState state, bool sorted)

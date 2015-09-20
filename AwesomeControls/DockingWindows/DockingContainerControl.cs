@@ -349,11 +349,11 @@ namespace AwesomeControls.DockingWindows
 
 					if (area.Position == DockPosition.Center)
 					{
-						Theming.Theme.CurrentTheme.DrawDocumentTabBackground(g, rectTitle, window.TabState, area.Position, window.Selected, Focused);
+						Theming.Theme.CurrentTheme.DrawDocumentTabBackground(g, rectTitle, window.TabState, area.Position, window.Selected, ActiveControl == window.Control);
 					}
 					else
 					{
-						Theming.Theme.CurrentTheme.DrawDockPanelTabBackground(g, rectTitle, window.TabState, area.Position, window.Selected, Focused);
+						Theming.Theme.CurrentTheme.DrawDockPanelTabBackground(g, rectTitle, window.TabState, area.Position, window.Selected, ActiveControl == window.Control);
 					}
 
 					if (area.Position == DockPosition.Top || area.Position == DockPosition.Bottom || area.Position == DockPosition.Center)
