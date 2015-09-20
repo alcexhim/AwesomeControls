@@ -14,5 +14,8 @@ namespace AwesomeControls.ObjectModels.Theming
 		public static readonly Guid CommandBarMenuItem = new Guid("{F064AB35-B3EE-4645-95B9-3DAFE1BD94B7}");
 		public static readonly Guid CommandBarPopup = new Guid("{68969627-9C9D-487A-B89A-36AFC4810459}");
         public static readonly Guid CommandBarRaftingContainer = new Guid("{1FB02962-E290-46CC-B615-8E852EDE9B84}");
+
+		public static readonly Guid DocumentTab = new Guid("{88B2D8F5-B1B5-44B2-BC89-04E107329945}");
+		public static readonly Guid ListViewItem = new Guid("{98810A61-0F05-45AD-BFF4-AEEE5565B2C1}");
 	}
 }

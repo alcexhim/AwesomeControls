@@ -125,16 +125,16 @@ namespace AwesomeControls.Theming
 			}
 		}
 
-		private void DrawThemeComponent(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, ThemeComponent tc, ControlState state)
+		private void DrawThemeComponent(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, ThemeComponent tc, Guid stateID)
 		{
 			if (tc.InheritsComponent != null)
 			{
-				DrawThemeComponent(graphics, bounds, tc.InheritsComponent, state);
+				DrawThemeComponent(graphics, bounds, tc.InheritsComponent, stateID);
 			}
 
 			foreach (Rendering rendering in tc.Renderings)
 			{
-				if (rendering.States.Count == 0 || rendering.States.Contains(GetThemeStateGUIDForControlState(state)))
+				if (rendering.States.Count == 0 || rendering.States.Contains(stateID))
 				{
 					// we can use this rendering
 					DrawRendering(graphics, bounds, rendering);
@@ -142,20 +142,74 @@ namespace AwesomeControls.Theming
 			}
 		}
 
-        private Guid GetThemeStateGUIDForControlState(ControlState state)
+        private Guid GetThemeStateGUIDForControlState(ControlState state, bool focused, bool selected)
         {
             switch (state)
             {
                 case ControlState.Normal:
                 {
+					if (focused)
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.NormalFocusedSelected;
+						}
+						else
+						{
+							return ThemeComponentStateGuids.NormalFocused;
+						}
+					}
+					else
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.NormalSelected;
+						}
+					}
                     return ThemeComponentStateGuids.Normal;
                 }
                 case ControlState.Hover:
                 {
+					if (focused)
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.HoverFocusedSelected;
+						}
+						else
+						{
+							return ThemeComponentStateGuids.HoverFocused;
+						}
+					}
+					else
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.HoverSelected;
+						}
+					}
                     return ThemeComponentStateGuids.Hover;
                 }
                 case ControlState.Pressed:
-                {
+				{
+					if (focused)
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.PressedFocusedSelected;
+						}
+						else
+						{
+							return ThemeComponentStateGuids.PressedFocused;
+						}
+					}
+					else
+					{
+						if (selected)
+						{
+							return ThemeComponentStateGuids.PressedSelected;
+						}
+					}
                     return ThemeComponentStateGuids.Pressed;
                 }
                 case ControlState.Disabled:
@@ -171,17 +225,17 @@ namespace AwesomeControls.Theming
 			if (parent is System.Windows.Forms.MenuStrip)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarMenu);
-				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStripDropDownMenu)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
-                if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStrip)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBar);
-                if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ControlState.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
 			}
 			else
 			{
@@ -199,6 +253,15 @@ namespace AwesomeControls.Theming
 			return tc;
 		}
 
+		public override void DrawDocumentTabBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectTab, ControlState controlState, DockingWindows.DockPosition position, bool selected, bool focused)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.DocumentTab);
+			if (tc != null)
+			{
+				DrawThemeComponent(graphics, rectTab, tc, ThemeComponentStateGuids.Normal);
+			}
+		}
+
         public override void DrawMenuItemBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripItem item)
         {
             ThemeComponent tc = null;
@@ -209,18 +272,21 @@ namespace AwesomeControls.Theming
 			if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarMenuItem);
 			if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarItem);
 
-            ControlState state = ControlState.Normal;
-            if (item.Selected) state = ControlState.Hover;
-            if (item.Pressed) state = ControlState.Pressed;
+			Guid state = ThemeComponentStateGuids.Normal;
+			if (item.Selected) state = ThemeComponentStateGuids.Hover;
+			if (item.Pressed) state = ThemeComponentStateGuids.Pressed;
+			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
+
             if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
         }
 		public override void DrawCommandButtonBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripButton item, System.Windows.Forms.ToolStrip parent)
 		{
 			ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarItem);
 
-			ControlState state = ControlState.Normal;
-			if (item.Selected) state = ControlState.Hover;
-			if (item.Pressed) state = ControlState.Pressed;
+			Guid state = ThemeComponentStateGuids.Normal;
+			if (item.Selected) state = ThemeComponentStateGuids.Hover;
+			if (item.Pressed) state = ThemeComponentStateGuids.Pressed;
+			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
 			if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
 		}
         public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
@@ -232,7 +298,7 @@ namespace AwesomeControls.Theming
         public override void DrawCommandBarPanelBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
         {
             ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarRaftingContainer);
-            if (tc != null) DrawThemeComponent(graphics, rectangle, tc, ControlState.Normal);
+			if (tc != null) DrawThemeComponent(graphics, rectangle, tc, ThemeComponentStateGuids.Normal);
         }
 
 		public override void DrawDropDownBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle, ControlState state)
@@ -262,7 +328,12 @@ namespace AwesomeControls.Theming
 
 		public override void DrawListItemBackground(System.Drawing.Graphics g, System.Drawing.Rectangle rect, ControlState state, bool selected, bool focused)
 		{
-			throw new NotImplementedException();
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.ListViewItem);
+			if (tc != null)
+			{
+				Guid guid = GetThemeStateGUIDForControlState(state, focused, selected);
+				DrawThemeComponent(g, rect, tc, guid);
+			}
 		}
 
 		public override void DrawListSelectionRectangle(System.Drawing.Graphics g, System.Drawing.Rectangle rect)
