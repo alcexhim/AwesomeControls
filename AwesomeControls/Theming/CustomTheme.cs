@@ -91,11 +91,34 @@ namespace AwesomeControls.Theming
 			return null;
 		}
 
-		private void DrawRenderingAction(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, RenderingAction action)
+		private void DrawRenderingAction(System.Drawing.Graphics graphics, object component, RenderingAction action)
 		{
 			Dictionary<string, object> dict = new Dictionary<string, object>();
+
+			System.Drawing.Rectangle bounds = new System.Drawing.Rectangle();
+			if (component is System.Windows.Forms.Control)
+			{
+				bounds = (component as System.Windows.Forms.Control).ClientRectangle;
+				bounds = new System.Drawing.Rectangle(0, 0, bounds.Width, bounds.Height);
+			}
+			else if (component is System.Windows.Forms.ToolStripItem)
+			{
+				bounds = (component as System.Windows.Forms.ToolStripItem).Bounds;
+				bounds = new System.Drawing.Rectangle(0, 0, bounds.Width, bounds.Height);
+			}
+			else if (component is System.Drawing.Rectangle)
+			{
+				bounds = (System.Drawing.Rectangle)component;
+			}
+
 			dict.Add("Component.Width", bounds.Width);
 			dict.Add("Component.Height", bounds.Height);
+
+			if (component is System.Windows.Forms.ToolStripSplitButton)
+			{
+				dict.Add("Component.ButtonWidth", (component as System.Windows.Forms.ToolStripSplitButton).ButtonBounds.Width);
+				dict.Add("Component.DropDownButtonWidth", (component as System.Windows.Forms.ToolStripSplitButton).DropDownButtonBounds.Width);
+			}
 
 			if (action is RectangleRenderingAction)
 			{
@@ -115,21 +138,35 @@ namespace AwesomeControls.Theming
                     graphics.DrawRectangle(PenFromOutline(act.Outline), x, y, w - 1, h - 1);
                 }
 			}
-		}
-
-		private void DrawRendering(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, Rendering rendering)
-		{
-			foreach (RenderingAction action in rendering.Actions)
+			else if (action is LineRenderingAction)
 			{
-				DrawRenderingAction(graphics, bounds, action);
+				LineRenderingAction act = (action as LineRenderingAction);
+
+				float x1 = act.X1.Evaluate(dict) + bounds.X;
+				float y1 = act.Y1.Evaluate(dict) + bounds.Y;
+				float x2 = act.X2.Evaluate(dict);
+				float y2 = act.Y2.Evaluate(dict);
+
+				if (act.Outline != null)
+				{
+					graphics.DrawLine(PenFromOutline(act.Outline), x1, y1, x2, y2);
+				}
 			}
 		}
 
-		private void DrawThemeComponent(System.Drawing.Graphics graphics, System.Drawing.Rectangle bounds, ThemeComponent tc, Guid stateID)
+		private void DrawRendering(System.Drawing.Graphics graphics, object component, Rendering rendering)
+		{
+			foreach (RenderingAction action in rendering.Actions)
+			{
+				DrawRenderingAction(graphics, component, action);
+			}
+		}
+
+		private void DrawThemeComponent(System.Drawing.Graphics graphics, object component, ThemeComponent tc, Guid stateID)
 		{
 			if (tc.InheritsComponent != null)
 			{
-				DrawThemeComponent(graphics, bounds, tc.InheritsComponent, stateID);
+				DrawThemeComponent(graphics, component, tc.InheritsComponent, stateID);
 			}
 
 			foreach (Rendering rendering in tc.Renderings)
@@ -137,7 +174,7 @@ namespace AwesomeControls.Theming
 				if (rendering.States.Count == 0 || rendering.States.Contains(stateID))
 				{
 					// we can use this rendering
-					DrawRendering(graphics, bounds, rendering);
+					DrawRendering(graphics, component, rendering);
 				}
 			}
 		}
@@ -225,17 +262,17 @@ namespace AwesomeControls.Theming
 			if (parent is System.Windows.Forms.MenuStrip)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarMenu);
-				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStripDropDownMenu)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
-				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStrip)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBar);
-				if (tc != null) DrawThemeComponent(graphics, parent.ClientRectangle, tc, ThemeComponentStateGuids.Normal);
+				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
 			}
 			else
 			{
@@ -283,7 +320,7 @@ namespace AwesomeControls.Theming
 			if (item.Pressed) state = ThemeComponentStateGuids.Pressed;
 			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
 
-            if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
+            if (tc != null) DrawThemeComponent(graphics, item, tc, state);
         }
 		public override void DrawCommandButtonBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripButton item, System.Windows.Forms.ToolStrip parent)
 		{
@@ -293,7 +330,18 @@ namespace AwesomeControls.Theming
 			if (item.Selected) state = ThemeComponentStateGuids.Hover;
 			if (item.Pressed) state = ThemeComponentStateGuids.Pressed;
 			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
-			if (tc != null) DrawThemeComponent(graphics, new System.Drawing.Rectangle(0, 0, item.Bounds.Width, item.Bounds.Height), tc, state);
+			if (tc != null) DrawThemeComponent(graphics, item, tc, state);
+		}
+		public override void DrawSplitButtonBackground(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripItem item, System.Windows.Forms.ToolStrip parent)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarSplitItem);
+			if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarItem);
+
+			Guid state = ThemeComponentStateGuids.Normal;
+			if (item.Selected) state = ThemeComponentStateGuids.Hover;
+			if (item.Pressed) state = ThemeComponentStateGuids.Pressed;
+			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
+			if (tc != null) DrawThemeComponent(graphics, item, tc, state);
 		}
         public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
         {

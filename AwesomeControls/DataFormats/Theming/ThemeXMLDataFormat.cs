@@ -147,78 +147,134 @@ namespace AwesomeControls.DataFormats.Theming
 									switch (tagRenderingAction.FullName)
 									{
 										case "Rectangle":
+										{
+											MarkupAttribute attX = tagRenderingAction.Attributes["X"];
+											MarkupAttribute attY = tagRenderingAction.Attributes["Y"];
+											MarkupAttribute attWidth = tagRenderingAction.Attributes["Width"];
+											MarkupAttribute attHeight = tagRenderingAction.Attributes["Height"];
+
+											RectangleRenderingAction item = new RectangleRenderingAction();
+											item.X = RenderingExpression.Parse(attX.Value);
+											item.Y = RenderingExpression.Parse(attY.Value);
+											item.Width = RenderingExpression.Parse(attWidth.Value);
+											item.Height = RenderingExpression.Parse(attHeight.Value);
+
+											MarkupTagElement tagOutline = (tagRenderingAction.Elements["Outline"] as MarkupTagElement);
+											if (tagOutline != null)
 											{
-												MarkupAttribute attX = tagRenderingAction.Attributes["X"];
-												MarkupAttribute attY = tagRenderingAction.Attributes["Y"];
-												MarkupAttribute attWidth = tagRenderingAction.Attributes["Width"];
-												MarkupAttribute attHeight = tagRenderingAction.Attributes["Height"];
-
-												RectangleRenderingAction item = new RectangleRenderingAction();
-												item.X = RenderingExpression.Parse(attX.Value);
-												item.Y = RenderingExpression.Parse(attY.Value);
-												item.Width = RenderingExpression.Parse(attWidth.Value);
-												item.Height = RenderingExpression.Parse(attHeight.Value);
-
-												MarkupTagElement tagOutline = (tagRenderingAction.Elements["Outline"] as MarkupTagElement);
-												if (tagOutline != null)
+												MarkupAttribute attOutlineType = tagOutline.Attributes["Type"];
+												if (attOutlineType != null)
 												{
-													MarkupAttribute attOutlineType = tagOutline.Attributes["Type"];
-													if (attOutlineType != null)
+													switch (attOutlineType.Value.ToLower())
 													{
-														switch (attOutlineType.Value.ToLower())
+														case "none":
 														{
-															case "none":
+															break;
+														}
+														case "solid":
+														{
+															MarkupAttribute attColor = tagOutline.Attributes["Color"];
+															if (attColor != null)
 															{
-																break;
-															}
-															case "solid":
-															{
-																MarkupAttribute attColor = tagOutline.Attributes["Color"];
-																if (attColor != null)
-																{
-																	item.Outline = new Outline();
-																	item.Outline.Color = attColor.Value;
+																item.Outline = new Outline();
+																item.Outline.Color = attColor.Value;
 
-																	MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
-																	if (attOutlineWidth != null)
-																	{
-																		item.Outline.Width = Single.Parse(attOutlineWidth.Value);
-																	}
+																MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
+																if (attOutlineWidth != null)
+																{
+																	item.Outline.Width = Single.Parse(attOutlineWidth.Value);
 																}
-																break;
 															}
+															break;
 														}
 													}
 												}
-
-												MarkupTagElement tagFill = (tagRenderingAction.Elements["Fill"] as MarkupTagElement);
-												if (tagFill != null)
-												{
-													MarkupAttribute attFillType = tagFill.Attributes["Type"];
-													if (attFillType != null)
-													{
-														switch (attFillType.Value.ToLower())
-														{
-															case "none":
-															{
-																break;
-															}
-															case "solid":
-															{
-																MarkupAttribute attFillColor = tagFill.Attributes["Color"];
-																if (attFillColor != null)
-																{
-																	item.Fill = new SolidFill(attFillColor.Value);
-																}
-																break;
-															}
-														}
-													}
-												}
-
-												rendering.Actions.Add(item);
-												break;
 											}
+
+											MarkupTagElement tagFill = (tagRenderingAction.Elements["Fill"] as MarkupTagElement);
+											if (tagFill != null)
+											{
+												MarkupAttribute attFillType = tagFill.Attributes["Type"];
+												if (attFillType != null)
+												{
+													switch (attFillType.Value.ToLower())
+													{
+														case "none":
+														{
+															break;
+														}
+														case "solid":
+														{
+															MarkupAttribute attFillColor = tagFill.Attributes["Color"];
+															if (attFillColor != null)
+															{
+																item.Fill = new SolidFill(attFillColor.Value);
+															}
+															break;
+														}
+													}
+												}
+											}
+
+											rendering.Actions.Add(item);
+											break;
+										}
+										case "Line":
+										{
+											LineRenderingAction item = new LineRenderingAction();
+
+											MarkupAttribute attX1 = tagRenderingAction.Attributes["X1"];
+											if (attX1 != null)
+											{
+												item.X1 = RenderingExpression.Parse(attX1.Value);
+											}
+											MarkupAttribute attX2 = tagRenderingAction.Attributes["X2"];
+											if (attX2 != null)
+											{
+												item.X2 = RenderingExpression.Parse(attX2.Value);
+											}
+											MarkupAttribute attY1 = tagRenderingAction.Attributes["Y1"];
+											if (attY1 != null)
+											{
+												item.Y1 = RenderingExpression.Parse(attY1.Value);
+											}
+											MarkupAttribute attY2 = tagRenderingAction.Attributes["Y2"];
+											if (attY2 != null)
+											{
+												item.Y2 = RenderingExpression.Parse(attY2.Value);
+											}
+
+											MarkupAttribute attOutlineType = tagRenderingAction.Attributes["Type"];
+											if (attOutlineType != null)
+											{
+												switch (attOutlineType.Value.ToLower())
+												{
+													case "none":
+													{
+														break;
+													}
+													case "solid":
+													{
+														MarkupAttribute attColor = tagRenderingAction.Attributes["Color"];
+														if (attColor != null)
+														{
+															item.Outline = new Outline();
+															item.Outline.Color = attColor.Value;
+
+															MarkupAttribute attOutlineWidth = tagRenderingAction.Attributes["Width"];
+															if (attOutlineWidth != null)
+															{
+																item.Outline.Width = Single.Parse(attOutlineWidth.Value);
+															}
+														}
+														break;
+													}
+												}
+											}
+
+											rendering.Actions.Add(item);
+											break;
+										}
 									}
 								}
 
