@@ -244,34 +244,37 @@ namespace AwesomeControls.DataFormats.Theming
 												item.Y2 = RenderingExpression.Parse(attY2.Value);
 											}
 
-											MarkupAttribute attOutlineType = tagRenderingAction.Attributes["Type"];
-											if (attOutlineType != null)
+											MarkupTagElement tagOutline = (tagRenderingAction.Elements["Outline"] as MarkupTagElement);
+											if (tagOutline != null)
 											{
-												switch (attOutlineType.Value.ToLower())
+												MarkupAttribute attOutlineType = tagOutline.Attributes["Type"];
+												if (attOutlineType != null)
 												{
-													case "none":
+													switch (attOutlineType.Value.ToLower())
 													{
-														break;
-													}
-													case "solid":
-													{
-														MarkupAttribute attColor = tagRenderingAction.Attributes["Color"];
-														if (attColor != null)
+														case "none":
 														{
-															item.Outline = new Outline();
-															item.Outline.Color = attColor.Value;
-
-															MarkupAttribute attOutlineWidth = tagRenderingAction.Attributes["Width"];
-															if (attOutlineWidth != null)
-															{
-																item.Outline.Width = Single.Parse(attOutlineWidth.Value);
-															}
+															break;
 														}
-														break;
+														case "solid":
+														{
+															MarkupAttribute attColor = tagOutline.Attributes["Color"];
+															if (attColor != null)
+															{
+																item.Outline = new Outline();
+																item.Outline.Color = attColor.Value;
+
+																MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
+																if (attOutlineWidth != null)
+																{
+																	item.Outline.Width = Single.Parse(attOutlineWidth.Value);
+																}
+															}
+															break;
+														}
 													}
 												}
 											}
-
 											rendering.Actions.Add(item);
 											break;
 										}

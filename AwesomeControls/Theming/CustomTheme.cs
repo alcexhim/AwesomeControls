@@ -114,6 +114,15 @@ namespace AwesomeControls.Theming
 			dict.Add("Component.Width", bounds.Width);
 			dict.Add("Component.Height", bounds.Height);
 
+			if (component is System.Windows.Forms.ToolStripDropDownMenu)
+			{
+				System.Windows.Forms.ToolStripDropDownMenu tsddm = (component as System.Windows.Forms.ToolStripDropDownMenu);
+				if (tsddm.OwnerItem != null)
+				{
+					dict.Add("Component.Parent.Width", tsddm.OwnerItem.Width);
+					dict.Add("Component.Parent.Height", tsddm.OwnerItem.Height);
+				}
+			}
 			if (component is System.Windows.Forms.ToolStripSplitButton)
 			{
 				dict.Add("Component.ButtonWidth", (component as System.Windows.Forms.ToolStripSplitButton).ButtonBounds.Width);
@@ -176,6 +185,20 @@ namespace AwesomeControls.Theming
 					// we can use this rendering
 					DrawRendering(graphics, component, rendering);
 				}
+			}
+		}
+
+		public override void DrawSeparator(System.Drawing.Graphics graphics, System.Windows.Forms.ToolStripItem item, System.Drawing.Rectangle rectangle, bool vertical)
+		{
+			if (vertical)
+			{
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorForeground")), 3, 2, 3, item.Bounds.Height - 2);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorBackground")), 4, 2, 4, item.Bounds.Height - 2);
+			}
+			else
+			{
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorForeground")), 2, 3, item.Bounds.Width - 2, 3);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorBackground")), 2, 4, item.Bounds.Width - 2, 4);
 			}
 		}
 
@@ -266,7 +289,13 @@ namespace AwesomeControls.Theming
 			}
 			else if (parent is System.Windows.Forms.ToolStripDropDownMenu)
 			{
-				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
+				System.Windows.Forms.ToolStripDropDownMenu tsddm = (parent as System.Windows.Forms.ToolStripDropDownMenu);
+				ThemeComponent tc = null;
+				if (tsddm.OwnerItem != null && !tsddm.OwnerItem.IsOnDropDown)
+				{
+					tc = GetComponent(ThemeComponentGuids.CommandBarTopLevelPopup);
+				}
+				if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
 				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
 			}
 			else if (parent is System.Windows.Forms.ToolStrip)

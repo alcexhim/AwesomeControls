@@ -815,10 +815,9 @@ namespace AwesomeControls.Theming
 				string themeDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + "Themes";
 				if (System.IO.Directory.Exists(themeDir))
 				{
-					string[] themePaths = System.IO.Directory.GetDirectories(themeDir);
-					foreach (string themePath in themePaths)
+					string[] themeFileNames = System.IO.Directory.GetFiles(themeDir, "*.xml", System.IO.SearchOption.AllDirectories);
+					foreach (string themeFileName in themeFileNames)
 					{
-						string themeFileName = themePath + System.IO.Path.DirectorySeparatorChar.ToString() + "Theme.xml";
 						if (System.IO.File.Exists(themeFileName))
 						{
 							ThemeObjectModel theme = new ThemeObjectModel();
