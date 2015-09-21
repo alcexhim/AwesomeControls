@@ -42,6 +42,7 @@
     <Content Include="Themes\VisualStudio2005\Theme.xml" />
     <Content Include="Themes\VisualStudio2008\Theme.xml" />
     <Content Include="Themes\VisualStudio2010\Theme.xml" />
+    <Content Include="Themes\VisualStudio2012\Blue\Theme.xml" />
     <Content Include="Themes\VisualStudio2012\Dark\Images\Buttons\ListViewItemAdd.png" />
     <Content Include="Themes\VisualStudio2012\Dark\Images\Buttons\ListViewItemClear.png" />
     <Content Include="Themes\VisualStudio2012\Dark\Images\Buttons\ListViewItemRemove.png" />
@@ -143,7 +144,6 @@
     <Content Include="Themes\VisualStudio2013\Dark\Images\Commands\FileSaveAll.png" />
     <Content Include="Themes\Windows Classic\Theme.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Target Name="Build">
     <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
   </Target>

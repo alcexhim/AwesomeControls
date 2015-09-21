@@ -409,6 +409,14 @@ namespace AwesomeControls.Theming
 			throw new NotImplementedException();
 		}
 
+		public override void DrawListViewBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.ListView);
+			if (tc != null)
+			{
+				DrawThemeComponent(graphics, rectangle, tc, ThemeComponentStateGuids.Normal);
+			}
+		}
 		public override void DrawListItemBackground(System.Drawing.Graphics g, System.Drawing.Rectangle rect, ControlState state, bool selected, bool focused)
 		{
 			ThemeComponent tc = GetComponent(ThemeComponentGuids.ListViewItem);

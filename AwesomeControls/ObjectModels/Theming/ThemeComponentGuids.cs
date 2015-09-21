@@ -20,6 +20,8 @@ namespace AwesomeControls.ObjectModels.Theming
 		public static readonly Guid ContentArea = new Guid("{2CA5F623-7ECF-4A1A-BBD5-1B57D4EB46C8}");
 
 		public static readonly Guid DocumentTab = new Guid("{88B2D8F5-B1B5-44B2-BC89-04E107329945}");
+
+		public static readonly Guid ListView = new Guid("{3176A0F5-A678-4606-8E64-3E64E679BAA7}");
 		public static readonly Guid ListViewItem = new Guid("{98810A61-0F05-45AD-BFF4-AEEE5565B2C1}");
 		public static readonly Guid ListViewSelectionRectangle = new Guid("{E7F9B7FE-E761-4086-9815-5DE2B674893A}");
 	}
