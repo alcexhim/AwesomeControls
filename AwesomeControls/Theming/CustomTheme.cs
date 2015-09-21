@@ -1,4 +1,5 @@
 ﻿using AwesomeControls.ObjectModels.Theming;
+using AwesomeControls.ObjectModels.Theming.Metrics;
 using AwesomeControls.ObjectModels.Theming.RenderingActions;
 using System;
 using System.Collections.Generic;
@@ -81,30 +82,94 @@ namespace AwesomeControls.Theming
 			System.Drawing.Pen pen = new System.Drawing.Pen(ColorFromString(outline.Color), outline.Width);
 			return pen;
 		}
-		private System.Drawing.Brush BrushFromFill(Fill fill)
+		private System.Drawing.Brush BrushFromFill(Fill fill, System.Drawing.RectangleF rect)
 		{
 			if (fill is SolidFill)
 			{
 				SolidFill fil = (fill as SolidFill);
 				return new System.Drawing.SolidBrush(ColorFromString(fil.Color));
 			}
+			else if (fill is LinearGradientFill)
+			{
+				LinearGradientFill fil = (fill as LinearGradientFill);
+
+				System.Drawing.Drawing2D.LinearGradientBrush brush = new System.Drawing.Drawing2D.LinearGradientBrush(rect, System.Drawing.Color.Transparent, System.Drawing.Color.Transparent, LinearGradientFillOrientationToLinearGradientMode(fil.Orientation));
+				if (fil.ColorStops.Count > 0)
+				{
+					List<System.Drawing.Color> colorList = new List<System.Drawing.Color>();
+					List<float> positionList = new List<float>();
+
+					for (int i = 0; i < fil.ColorStops.Count; i++)
+					{
+						colorList.Add(ColorFromString(fil.ColorStops[i].Color));
+						positionList.Add(FloatFromString(fil.ColorStops[i].Position));
+					}
+
+					System.Drawing.Drawing2D.ColorBlend blend = new System.Drawing.Drawing2D.ColorBlend(fil.ColorStops.Count);
+					blend.Colors = colorList.ToArray();
+					blend.Positions = positionList.ToArray();
+					brush.InterpolationColors = blend;
+				}
+				return brush;
+			}
 			return null;
+		}
+
+		private float FloatFromString(string value)
+		{
+			if (value.EndsWith("%"))
+			{
+				value = value.Substring(0, value.Length - 1);
+				float val = (float)(Double.Parse(value) / 100);
+				return val;
+			}
+			else
+			{
+				float val = 0.0f;
+				if (Single.TryParse(value, out val)) return val;
+			}
+			return 0;
+		}
+
+		private System.Drawing.Drawing2D.LinearGradientMode LinearGradientFillOrientationToLinearGradientMode(LinearGradientFillOrientation orientation)
+		{
+			switch (orientation)
+			{
+				case LinearGradientFillOrientation.BackwardDiagonal: return System.Drawing.Drawing2D.LinearGradientMode.BackwardDiagonal;
+				case LinearGradientFillOrientation.ForwardDiagonal: return System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
+				case LinearGradientFillOrientation.Horizontal: return System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+				case LinearGradientFillOrientation.Vertical: return System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+			}
+			return System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
 		}
 
 		private void DrawRenderingAction(System.Drawing.Graphics graphics, object component, RenderingAction action)
 		{
 			Dictionary<string, object> dict = new Dictionary<string, object>();
 
-			System.Drawing.Rectangle bounds = new System.Drawing.Rectangle();
+			System.Drawing.RectangleF bounds = new System.Drawing.RectangleF();
 			if (component is System.Windows.Forms.Control)
 			{
 				bounds = (component as System.Windows.Forms.Control).ClientRectangle;
-				bounds = new System.Drawing.Rectangle(0, 0, bounds.Width, bounds.Height);
+				bounds = new System.Drawing.RectangleF(0, 0, bounds.Width, bounds.Height);
 			}
 			else if (component is System.Windows.Forms.ToolStripItem)
 			{
-				bounds = (component as System.Windows.Forms.ToolStripItem).Bounds;
-				bounds = new System.Drawing.Rectangle(0, 0, bounds.Width, bounds.Height);
+				System.Windows.Forms.ToolStripItem tsi = (component as System.Windows.Forms.ToolStripItem);
+				bounds = tsi.Bounds;
+				bounds = new System.Drawing.RectangleF(0, 0, bounds.Width, bounds.Height);
+				
+				if (tsi is System.Windows.Forms.ToolStripMenuItem)
+				{
+					PaddingMetric padding = (GetMetric("MenuItemMargin") as PaddingMetric);
+					if (padding != null)
+					{
+						bounds.X += padding.Left;
+						bounds.Y += padding.Top;
+						bounds.Width -= padding.Right;
+						bounds.Height -= padding.Bottom;
+					}
+				}
 			}
 			else if (component is System.Drawing.Rectangle)
 			{
@@ -140,7 +205,7 @@ namespace AwesomeControls.Theming
 
 				if (act.Fill != null)
 				{
-					graphics.FillRectangle(BrushFromFill(act.Fill), x, y, w, h);
+					graphics.FillRectangle(BrushFromFill(act.Fill, new System.Drawing.RectangleF(x, y, w, h)), x, y, w, h);
                 }
                 if (act.Outline != null)
                 {
@@ -161,6 +226,16 @@ namespace AwesomeControls.Theming
 					graphics.DrawLine(PenFromOutline(act.Outline), x1, y1, x2, y2);
 				}
 			}
+		}
+
+		private ThemeMetric GetMetric(string name, AwesomeControls.ObjectModels.Theming.Theme theme = null)
+		{
+			if (theme == null) theme = mvarThemeDefinition;
+
+			ThemeMetric tc = theme.Metrics[name];
+			if (tc == null && theme.InheritsTheme != null) return GetMetric(name, theme.InheritsTheme);
+
+			return tc;
 		}
 
 		private void DrawRendering(System.Drawing.Graphics graphics, object component, Rendering rendering)

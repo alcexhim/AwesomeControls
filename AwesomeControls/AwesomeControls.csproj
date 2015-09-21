@@ -204,6 +204,8 @@
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\FolderSelectDialog.cs" />
     <Compile Include="NativeDialogs\Internal\FolderBrowserDialog\V2\Reflector.cs" />
     <Compile Include="ObjectModels\Theming\Fill.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeMetric.cs" />
+    <Compile Include="ObjectModels\Theming\Metrics\PaddingMetric.cs" />
     <Compile Include="ObjectModels\Theming\Outline.cs" />
     <Compile Include="ObjectModels\Theming\RenderingActions\LineRenderingAction.cs" />
     <Compile Include="ObjectModels\Theming\RenderingActions\RectangleRenderingAction.cs" />

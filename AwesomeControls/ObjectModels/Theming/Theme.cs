@@ -28,6 +28,9 @@ namespace AwesomeControls.ObjectModels.Theming
 		private ThemeColor.ThemeColorCollection mvarColors = new ThemeColor.ThemeColorCollection();
 		public ThemeColor.ThemeColorCollection Colors { get { return mvarColors; } }
 
+		private ThemeMetric.ThemeMetricCollection mvarMetrics = new ThemeMetric.ThemeMetricCollection();
+		public ThemeMetric.ThemeMetricCollection Metrics { get { return mvarMetrics; } }
+
 		private ThemeComponent.ThemeComponentCollection mvarComponents = new ThemeComponent.ThemeComponentCollection();
 		public ThemeComponent.ThemeComponentCollection Components { get { return mvarComponents; } }
 

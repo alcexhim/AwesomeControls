@@ -8,6 +8,7 @@ using UniversalEditor.ObjectModels.Markup;
 
 using AwesomeControls.ObjectModels.Theming;
 using AwesomeControls.ObjectModels.Theming.RenderingActions;
+using AwesomeControls.ObjectModels.Theming.Metrics;
 
 namespace AwesomeControls.DataFormats.Theming
 {
@@ -57,6 +58,40 @@ namespace AwesomeControls.DataFormats.Theming
 				{
 					MarkupTagElement tagInformationTitle = (tagInformation.Elements["Title"] as MarkupTagElement);
 					if (tagInformationTitle != null) theme.Title = tagInformationTitle.Value;
+				}
+
+				MarkupTagElement tagMetrics = (tagTheme.Elements["Metrics"] as MarkupTagElement);
+				if (tagMetrics != null)
+				{
+					foreach (MarkupElement elMetric in tagMetrics.Elements)
+					{
+						MarkupTagElement tagMetric = (elMetric as MarkupTagElement);
+						if (tagMetric == null) continue;
+
+						MarkupAttribute attMetricName = tagMetric.Attributes["Name"];
+						if (attMetricName == null) continue;
+
+						switch (tagMetric.FullName.ToLower())
+						{
+							case "paddingmetric":
+							{
+								PaddingMetric metric = new PaddingMetric();
+								metric.Name = attMetricName.Value;
+
+								MarkupAttribute attMetricLeft = tagMetric.Attributes["Left"];
+								if (attMetricLeft != null) metric.Left = Single.Parse(attMetricLeft.Value);
+								MarkupAttribute attMetricTop = tagMetric.Attributes["Top"];
+								if (attMetricTop != null) metric.Top = Single.Parse(attMetricTop.Value);
+								MarkupAttribute attMetricBottom = tagMetric.Attributes["Bottom"];
+								if (attMetricBottom != null) metric.Bottom = Single.Parse(attMetricBottom.Value);
+								MarkupAttribute attMetricRight = tagMetric.Attributes["Right"];
+								if (attMetricRight != null) metric.Right = Single.Parse(attMetricRight.Value);
+
+								theme.Metrics.Add(metric);
+								break;
+							}
+						}
+					}
 				}
 
 				MarkupTagElement tagColors = (tagTheme.Elements["Colors"] as MarkupTagElement);
@@ -159,62 +194,8 @@ namespace AwesomeControls.DataFormats.Theming
 											item.Width = RenderingExpression.Parse(attWidth.Value);
 											item.Height = RenderingExpression.Parse(attHeight.Value);
 
-											MarkupTagElement tagOutline = (tagRenderingAction.Elements["Outline"] as MarkupTagElement);
-											if (tagOutline != null)
-											{
-												MarkupAttribute attOutlineType = tagOutline.Attributes["Type"];
-												if (attOutlineType != null)
-												{
-													switch (attOutlineType.Value.ToLower())
-													{
-														case "none":
-														{
-															break;
-														}
-														case "solid":
-														{
-															MarkupAttribute attColor = tagOutline.Attributes["Color"];
-															if (attColor != null)
-															{
-																item.Outline = new Outline();
-																item.Outline.Color = attColor.Value;
-
-																MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
-																if (attOutlineWidth != null)
-																{
-																	item.Outline.Width = Single.Parse(attOutlineWidth.Value);
-																}
-															}
-															break;
-														}
-													}
-												}
-											}
-
-											MarkupTagElement tagFill = (tagRenderingAction.Elements["Fill"] as MarkupTagElement);
-											if (tagFill != null)
-											{
-												MarkupAttribute attFillType = tagFill.Attributes["Type"];
-												if (attFillType != null)
-												{
-													switch (attFillType.Value.ToLower())
-													{
-														case "none":
-														{
-															break;
-														}
-														case "solid":
-														{
-															MarkupAttribute attFillColor = tagFill.Attributes["Color"];
-															if (attFillColor != null)
-															{
-																item.Fill = new SolidFill(attFillColor.Value);
-															}
-															break;
-														}
-													}
-												}
-											}
+											item.Outline = OutlineFromTag(tagRenderingAction.Elements["Outline"] as MarkupTagElement);
+											item.Fill = FillFromTag(tagRenderingAction.Elements["Fill"] as MarkupTagElement);
 
 											rendering.Actions.Add(item);
 											break;
@@ -244,37 +225,8 @@ namespace AwesomeControls.DataFormats.Theming
 												item.Y2 = RenderingExpression.Parse(attY2.Value);
 											}
 
-											MarkupTagElement tagOutline = (tagRenderingAction.Elements["Outline"] as MarkupTagElement);
-											if (tagOutline != null)
-											{
-												MarkupAttribute attOutlineType = tagOutline.Attributes["Type"];
-												if (attOutlineType != null)
-												{
-													switch (attOutlineType.Value.ToLower())
-													{
-														case "none":
-														{
-															break;
-														}
-														case "solid":
-														{
-															MarkupAttribute attColor = tagOutline.Attributes["Color"];
-															if (attColor != null)
-															{
-																item.Outline = new Outline();
-																item.Outline.Color = attColor.Value;
+											item.Outline = OutlineFromTag(tagRenderingAction.Elements["Outline"] as MarkupTagElement);
 
-																MarkupAttribute attOutlineWidth = tagOutline.Attributes["Width"];
-																if (attOutlineWidth != null)
-																{
-																	item.Outline.Width = Single.Parse(attOutlineWidth.Value);
-																}
-															}
-															break;
-														}
-													}
-												}
-											}
 											rendering.Actions.Add(item);
 											break;
 										}
@@ -309,6 +261,103 @@ namespace AwesomeControls.DataFormats.Theming
 				}
 				themes.Themes.Add(theme);
 			}
+		}
+
+		private Outline OutlineFromTag(MarkupTagElement tag)
+		{
+			if (tag == null) return null;
+
+			MarkupAttribute attOutlineType = tag.Attributes["Type"];
+			if (attOutlineType != null)
+			{
+				switch (attOutlineType.Value.ToLower())
+				{
+					case "none":
+					{
+						break;
+					}
+					case "solid":
+					{
+						MarkupAttribute attColor = tag.Attributes["Color"];
+						if (attColor != null)
+						{
+							Outline outline = new Outline();
+							outline.Color = attColor.Value;
+
+							MarkupAttribute attOutlineWidth = tag.Attributes["Width"];
+							if (attOutlineWidth != null)
+							{
+								outline.Width = Single.Parse(attOutlineWidth.Value);
+							}
+							return outline;
+						}
+						break;
+					}
+				}
+			}
+			return null;
+		}
+
+		private Fill FillFromTag(MarkupTagElement tag)
+		{
+			if (tag == null) return null;
+			
+			MarkupAttribute attFillType = tag.Attributes["Type"];
+			if (attFillType != null)
+			{
+				switch (attFillType.Value.ToLower())
+				{
+					case "none":
+					{
+						break;
+					}
+					case "solid":
+					{
+						MarkupAttribute attFillColor = tag.Attributes["Color"];
+						if (attFillColor != null)
+						{
+							return new SolidFill(attFillColor.Value);
+						}
+						break;
+					}
+					case "lineargradient":
+					{
+						MarkupAttribute attOrientation = tag.Attributes["Orientation"];
+						if (attOrientation == null) return null;
+
+						MarkupTagElement tagColorStops = (tag.Elements["ColorStops"] as MarkupTagElement);
+						if (tagColorStops != null)
+						{
+							LinearGradientFill fill = new LinearGradientFill();
+
+							switch (attOrientation.Value.ToLower())
+							{
+								case "horizontal": fill.Orientation = LinearGradientFillOrientation.Horizontal; break;
+								case "vertical": fill.Orientation = LinearGradientFillOrientation.Vertical; break;
+							}
+
+							foreach (MarkupElement elColorStop in tagColorStops.Elements)
+							{
+								MarkupTagElement tagColorStop = (elColorStop as MarkupTagElement);
+								if (tagColorStop == null) continue;
+								if (tagColorStop.FullName != "ColorStop") continue;
+
+								MarkupAttribute attPosition = tagColorStop.Attributes["Position"];
+								if (attPosition == null) continue;
+
+								MarkupAttribute attColor = tagColorStop.Attributes["Color"];
+								if (attColor == null) continue;
+
+								fill.ColorStops.Add(new LinearGradientFillColorStop(attPosition.Value, attColor.Value));
+							}
+
+							return fill;
+						}
+						break;
+					}
+				}
+			}
+			return null;
 		}
 		protected override void BeforeSaveInternal(Stack<ObjectModel> objectModels)
 		{

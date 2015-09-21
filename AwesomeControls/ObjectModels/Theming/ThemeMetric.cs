@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AwesomeControls.ObjectModels.Theming
+{
+	public abstract class ThemeMetric
+	{
+		public class ThemeMetricCollection
+			: System.Collections.ObjectModel.Collection<ThemeMetric>
+		{
+			public ThemeMetric this[string name]
+			{
+				get
+				{
+					foreach (ThemeMetric item in this)
+					{
+						if (item.Name == name) return item;
+					}
+					return null;
+				}
+			}
+		}
+
+		private string mvarName = String.Empty;
+		public string Name { get { return mvarName; } set { mvarName = value; } }
+	}
+}
