@@ -138,6 +138,7 @@
     <Content Include="Themes\VisualStudio2012\Dark\Images\TreeView\Solution.png" />
     <Content Include="Themes\VisualStudio2012\Dark\Images\TreeView\UserControl.png" />
     <Content Include="Themes\VisualStudio2012\Dark\Theme.xml" />
+    <Content Include="Themes\VisualStudio2012\Light\Theme.xml" />
     <Content Include="Themes\VisualStudio2012\Theme.xml" />
     <Content Include="Themes\VisualStudio2013\Dark\Images\Commands\FileOpenFile.png" />
     <Content Include="Themes\VisualStudio2013\Dark\Images\Commands\FileSave.png" />
