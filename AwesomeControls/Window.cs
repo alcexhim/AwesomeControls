@@ -66,9 +66,11 @@ namespace AwesomeControls
 		private bool mvarUseThemeWindowBorder = true;
 		public bool UseThemeWindowBorder { get { return mvarUseThemeWindowBorder; } set { mvarUseThemeWindowBorder = value; } }
 
+		public const bool ThemeWindowBorderEnabled = false;
+
 		protected override void WndProc(ref Message m)
 		{
-			if (mvarUseThemeWindowBorder && Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame)
+			if (ThemeWindowBorderEnabled && mvarUseThemeWindowBorder && Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame)
 			{
 				switch (Environment.OSVersion.Platform)
 				{
@@ -90,14 +92,14 @@ namespace AwesomeControls
 								{
 									Graphics g = Graphics.FromHdc(hdc);
 
-									Theming.Theme.CurrentTheme.DrawToplevelWindowBorder(g, new Rectangle(0, 0, Width, Height), Text);
+									Theming.Theme.CurrentTheme.DrawToplevelWindowBorder(g, new Rectangle(0, 0, Width, 32), Text);
 
 									g.Flush();
 									Internal.Windows.Methods.ReleaseDC(m.HWnd, hdc);
 								}
 
-								if (msg == Internal.Windows.Constants.WindowMessage.WM_NCACTIVATE) break;
-								return;
+								if (msg == Internal.Windows.Constants.WindowMessage.NonClientPaint || msg == Internal.Windows.Constants.WindowMessage.SetText) return;
+								break;
 							}
 						}
 						break;
