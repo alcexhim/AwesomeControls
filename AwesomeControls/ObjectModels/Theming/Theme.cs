@@ -44,6 +44,10 @@ namespace AwesomeControls.ObjectModels.Theming
 			{
 				clone.Colors.Add(item.Clone() as ThemeColor);
 			}
+			foreach (ThemeMetric item in mvarMetrics)
+			{
+				clone.Metrics.Add(item.Clone() as ThemeMetric);
+			}
 			foreach (ThemeComponent item in mvarComponents)
 			{
 				clone.Components.Add(item.Clone() as ThemeComponent);

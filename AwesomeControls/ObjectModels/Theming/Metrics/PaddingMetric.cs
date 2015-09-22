@@ -18,5 +18,15 @@ namespace AwesomeControls.ObjectModels.Theming.Metrics
 		public float Left { get { return mvarLeft; } set { mvarLeft = value; } }
 		private float mvarRight = 0.0f;
 		public float Right { get { return mvarRight; } set { mvarRight = value; } }
+
+		public override object Clone()
+		{
+			PaddingMetric clone = new PaddingMetric();
+			clone.Bottom = mvarBottom;
+			clone.Left = mvarLeft;
+			clone.Right = mvarRight;
+			clone.Top = mvarTop;
+			return clone;
+		}
 	}
 }

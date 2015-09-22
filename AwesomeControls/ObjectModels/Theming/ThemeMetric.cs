@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AwesomeControls.ObjectModels.Theming
 {
-	public abstract class ThemeMetric
+	public abstract class ThemeMetric : ICloneable
 	{
 		public class ThemeMetricCollection
 			: System.Collections.ObjectModel.Collection<ThemeMetric>
@@ -25,5 +25,7 @@ namespace AwesomeControls.ObjectModels.Theming
 
 		private string mvarName = String.Empty;
 		public string Name { get { return mvarName; } set { mvarName = value; } }
+
+		public abstract object Clone();
 	}
 }
