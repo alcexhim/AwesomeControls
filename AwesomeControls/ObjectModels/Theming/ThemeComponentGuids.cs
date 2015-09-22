@@ -24,5 +24,9 @@ namespace AwesomeControls.ObjectModels.Theming
 		public static readonly Guid ListView = new Guid("{3176A0F5-A678-4606-8E64-3E64E679BAA7}");
 		public static readonly Guid ListViewItem = new Guid("{98810A61-0F05-45AD-BFF4-AEEE5565B2C1}");
 		public static readonly Guid ListViewSelectionRectangle = new Guid("{E7F9B7FE-E761-4086-9815-5DE2B674893A}");
+
+		public static readonly Guid TextBox = new Guid("{6517D097-8649-4905-97AA-A6FE1B39B376}");
+
+		public static readonly Guid Window = new Guid("{69DFC07B-3A05-4BDA-95EF-FD3B487AEF69}");
 	}
 }

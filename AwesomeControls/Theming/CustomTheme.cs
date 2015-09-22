@@ -481,7 +481,23 @@ namespace AwesomeControls.Theming
 
 		public override void DrawTextBoxBackground(System.Drawing.Graphics g, System.Drawing.Rectangle rect, ControlState state)
 		{
-			throw new NotImplementedException();
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.TextBox);
+			if (tc != null) DrawThemeComponent(g, rect, tc, GetThemeStateGUIDForControlState(state, true, true));
+		}
+
+		public override bool HasCustomToplevelWindowFrame
+		{
+			get
+			{
+				ThemeComponent tc = GetComponent(ThemeComponentGuids.Window);
+				return (tc != null);
+			}
+		}
+
+		public override void DrawToplevelWindowBorder(System.Drawing.Graphics g, System.Drawing.Rectangle rectangle, string titleText)
+		{
+			ThemeComponent tc = GetComponent(ThemeComponentGuids.Window);
+			if (tc != null) DrawThemeComponent(g, rectangle, tc, ThemeComponentStateGuids.NormalFocused);
 		}
 
 		public override void DrawListViewBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
