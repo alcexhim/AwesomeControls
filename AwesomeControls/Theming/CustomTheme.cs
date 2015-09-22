@@ -143,6 +143,12 @@ namespace AwesomeControls.Theming
 			return System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
 		}
 
+		public override string GetBasePath()
+		{
+			if (String.IsNullOrEmpty(mvarThemeDefinition.BasePath)) return base.GetBasePath();
+			return mvarThemeDefinition.BasePath;
+		}
+
 		private void DrawRenderingAction(System.Drawing.Graphics graphics, object component, RenderingAction action)
 		{
 			Dictionary<string, object> dict = new Dictionary<string, object>();
