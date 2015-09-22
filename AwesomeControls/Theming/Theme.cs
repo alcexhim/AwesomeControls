@@ -61,7 +61,7 @@ namespace AwesomeControls.Theming
 			InitThemedColors();
 		}
 
-		public string GetBasePath()
+		public virtual string GetBasePath()
 		{
 			System.Reflection.Assembly entryAsm = System.Reflection.Assembly.GetEntryAssembly();
 			if (entryAsm == null) return String.Empty;
@@ -76,17 +76,40 @@ namespace AwesomeControls.Theming
 		}
 		public Image GetImage(string path)
 		{
-			// Buttons/ListViewItemAdd
-			string filename = GetBasePath() + System.IO.Path.DirectorySeparatorChar.ToString() + "Images" + System.IO.Path.DirectorySeparatorChar.ToString() + path;
+			string filename = null;
+			/*
+			if (mvarCurrentTheme is CustomTheme)
+			{
+				CustomTheme ct = (mvarCurrentTheme as CustomTheme);
+				ThemeStockImage img = ct.ThemeDefinition.StockImages[path];
+				if (img != null)
+				{
+					filename = GetBasePath() + System.IO.Path.DirectorySeparatorChar.ToString() + "Images" + System.IO.Path.DirectorySeparatorChar.ToString() + ct.ThemeDefinition.BasePath + System.IO.Path.DirectorySeparatorChar.ToString() + img.ImageFileName;
+				}
+			}
+			*/
+			if (filename == null || !System.IO.File.Exists(filename))
+			{
+				filename = GetBasePath() + System.IO.Path.DirectorySeparatorChar.ToString() + "Images" + System.IO.Path.DirectorySeparatorChar.ToString() + path;
+			}
 
 			// normalize directory separator chars (not really necessary but looks pretty)
 			filename = filename.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
 			filename = filename.Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
 
+			path = path.Replace("\\", System.IO.Path.DirectorySeparatorChar.ToString());
+			path = path.Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
+
 			if (System.IO.File.Exists(filename))
 			{
 				Image image = Image.FromFile(filename);
 				return image;
+			}
+			else
+			{
+				Console.Write("ac-theme: stock image '" + path + "' not found");
+				if (mvarCurrentTheme != null) Console.Write(" for theme '" + mvarCurrentTheme.Name + "'");
+				Console.WriteLine();
 			}
 			return null;
 		}

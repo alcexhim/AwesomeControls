@@ -48,6 +48,10 @@ namespace AwesomeControls.DataFormats.Theming
 				if (attThemeID == null) continue;
 
 				Theme theme = new Theme();
+				
+				UniversalEditor.Accessors.FileAccessor fa = (this.Accessor as UniversalEditor.Accessors.FileAccessor);
+				if (fa != null) theme.BasePath = System.IO.Path.GetDirectoryName(fa.FileName);
+
 				theme.ID = new Guid(attThemeID.Value);
 
 				MarkupAttribute attInheritsThemeID = tagTheme.Attributes["InheritsThemeID"];
@@ -117,6 +121,29 @@ namespace AwesomeControls.DataFormats.Theming
 						if (attColorValue != null) color.Value = attColorValue.Value;
 
 						theme.Colors.Add(color);
+					}
+				}
+
+				MarkupTagElement tagStockImages = (tagTheme.Elements["StockImages"] as MarkupTagElement);
+				if (tagStockImages != null)
+				{
+					foreach (MarkupElement elStockImage in tagStockImages.Elements)
+					{
+						MarkupTagElement tagStockImage = (elStockImage as MarkupTagElement);
+						if (tagStockImage == null) continue;
+						if (tagStockImage.FullName != "StockImage") continue;
+
+						MarkupAttribute attStockImageName = tagStockImage.Attributes["Name"];
+						if (attStockImageName == null) continue;
+
+						MarkupAttribute attStockImageFileName = tagStockImage.Attributes["FileName"];
+						if (attStockImageFileName == null) continue;
+
+						ThemeStockImage stockImage = new ThemeStockImage();
+						stockImage.Name = attStockImageName.Value;
+						stockImage.ImageFileName = attStockImageFileName.Value;
+
+						theme.StockImages.Add(stockImage);
 					}
 				}
 
