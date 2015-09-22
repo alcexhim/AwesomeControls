@@ -67,8 +67,8 @@
           <Color Name="ScrollbarArrow" Value="#999999" />
           <Color Name="ScrollbarThumb" Value="#686868" />
 
-          <Color Name="SeparatorBackground" Value="#F5F5F5" />
-          <Color Name="SeparatorForeground" Value="#CCCEDB" />
+          <Color Name="SeparatorDark" Value="#CCCEDB" />
+          <Color Name="SeparatorLight" Value="#F5F5F5" />
 
           <Color Name="WindowNormalBorder" Value="#CCCEDB" />
           <Color Name="WindowNormalBackground" Value="#FFFFFF" />

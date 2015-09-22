@@ -267,13 +267,13 @@ namespace AwesomeControls.Theming
 		{
 			if (vertical)
 			{
-				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorForeground")), 3, 2, 3, item.Bounds.Height - 2);
-				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorBackground")), 4, 2, 4, item.Bounds.Height - 2);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorDark")), 3, 2, 3, item.Bounds.Height - 2);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorLight")), 4, 2, 4, item.Bounds.Height - 2);
 			}
 			else
 			{
-				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorForeground")), 2, 3, item.Bounds.Width - 2, 3);
-				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorBackground")), 2, 4, item.Bounds.Width - 2, 4);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorDark")), 2, 3, item.Bounds.Width - 2, 3);
+				graphics.DrawLine(new System.Drawing.Pen(ColorFromString("@SeparatorLight")), 2, 4, item.Bounds.Width - 2, 4);
 			}
 		}
 
