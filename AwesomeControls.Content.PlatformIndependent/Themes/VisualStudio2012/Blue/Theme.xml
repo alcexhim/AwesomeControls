@@ -73,6 +73,14 @@
 
           <Color Name="WindowBackground" Value="#1E1E1E" />
           <Color Name="WindowForeground" Value="#F1F1F1" />
+		  
+		  <Color Name="WindowActiveBorder" Value="#0D202D" />
+		  <Color Name="WindowInactiveBorder" Value="#525252" />
+		  
+		  <Color Name="WindowTitleBarBackground" Value="#D6DBE9" />
+		  
+		  <Color Name="WindowTitleBarActiveForeground" Value="#000000" />
+		  <Color Name="WindowTitleBarInactiveForeground" Value="#787B83" />
         </Colors>
       </Theme>
     </Themes>
