@@ -224,6 +224,7 @@
     <Compile Include="ObjectModels\Theming\ThemeComponentStateGuids.cs" />
     <Compile Include="ObjectModels\Theming\ThemeComponentStateReference.cs" />
     <Compile Include="ObjectModels\Theming\ThemeObjectModel.cs" />
+    <Compile Include="ObjectModels\Theming\ThemeProperty.cs" />
     <Compile Include="ObjectModels\Theming\ThemeStockImage.cs" />
     <Compile Include="PieMenu\PieMenuItem.cs" />
     <Compile Include="PieMenu\PieMenuItemGroup.cs" />

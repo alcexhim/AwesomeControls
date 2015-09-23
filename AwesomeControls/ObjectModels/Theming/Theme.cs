@@ -37,6 +37,9 @@ namespace AwesomeControls.ObjectModels.Theming
 		private ThemeStockImage.ThemeStockImageCollection mvarStockImages = new ThemeStockImage.ThemeStockImageCollection();
 		public ThemeStockImage.ThemeStockImageCollection StockImages { get { return mvarStockImages; } }
 
+		private ThemeProperty.ThemePropertyCollection mvarProperties = new ThemeProperty.ThemePropertyCollection();
+		public ThemeProperty.ThemePropertyCollection Properties { get { return mvarProperties; } }
+
 		public object Clone()
 		{
 			Theme clone = new Theme();
@@ -58,6 +61,10 @@ namespace AwesomeControls.ObjectModels.Theming
 			foreach (ThemeStockImage item in mvarStockImages)
 			{
 				clone.StockImages.Add(item.Clone() as ThemeStockImage);
+			}
+			foreach (ThemeProperty item in mvarProperties)
+			{
+				clone.Properties.Add(item.Clone() as ThemeProperty);
 			}
 			return clone;
 		}

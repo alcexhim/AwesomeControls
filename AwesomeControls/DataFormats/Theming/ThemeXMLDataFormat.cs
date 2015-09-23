@@ -147,6 +147,28 @@ namespace AwesomeControls.DataFormats.Theming
 					}
 				}
 
+				MarkupTagElement tagProperties = (tagTheme.Elements["Properties"] as MarkupTagElement);
+				if (tagProperties != null)
+				{
+					foreach (MarkupElement elProperty in tagProperties.Elements)
+					{
+						MarkupTagElement tagProperty = (elProperty as MarkupTagElement);
+						if (tagProperty == null) continue;
+						if (tagProperty.FullName != "Property") continue;
+
+						MarkupAttribute attName = tagProperty.Attributes["Name"];
+						if (attName == null) continue;
+
+						ThemeProperty property = new ThemeProperty();
+						property.Name = attName.Value;
+
+						MarkupAttribute attValue = tagProperty.Attributes["Value"];
+						if (attValue != null) property.Value = attValue.Value;
+
+						theme.Properties.Add(property);
+					}
+				}
+
 				MarkupTagElement tagComponents = (tagTheme.Elements["Components"] as MarkupTagElement);
 				if (tagComponents != null)
 				{

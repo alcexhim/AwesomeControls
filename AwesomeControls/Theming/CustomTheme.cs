@@ -495,8 +495,8 @@ namespace AwesomeControls.Theming
 		{
 			get
 			{
-				ThemeComponent tc = GetComponent(ThemeComponentGuids.Window);
-				return (tc != null);
+				ThemeProperty prop = mvarThemeDefinition.Properties["UseCustomTopLevelWindowFrame"];
+				return (prop != null && prop.Value == "true");
 			}
 		}
 
