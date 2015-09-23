@@ -1126,7 +1126,7 @@ namespace AwesomeControls.Theming
 		/// </summary>
 		/// <param name="g"></param>
 		/// <param name="rectangle"></param>
-		public virtual void DrawToplevelWindowBorder(Graphics g, Rectangle rectangle, string titleText)
+		public virtual void DrawToplevelWindowBorder(Graphics g, Rectangle rectangle, string titleText, bool isActive)
 		{
 		}
 

@@ -17,13 +17,6 @@ namespace AwesomeControls
 			base.DoubleBuffered = true;
 		}
 
-		protected override void OnPaintBackground(PaintEventArgs e)
-		{
-			base.OnPaintBackground(e);
-			if (Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame) Theming.Theme.CurrentTheme.DrawToplevelWindowBorder(e.Graphics, new Rectangle(0, 0, this.Width, this.Height), this.Text);
-		}
-
-
 		private bool animationInProgress = false;
 
 		private bool mvarAnimate = false;
@@ -64,6 +57,40 @@ namespace AwesomeControls
 			}
 		}
 
+		private bool mvarIsActive = false;
+		public bool IsActive { get { return mvarIsActive; } }
+
+		protected override void OnActivated(EventArgs e)
+		{
+			base.OnActivated(e);
+			mvarIsActive = true;
+			Invalidate();
+		}
+		protected override void OnDeactivate(EventArgs e)
+		{
+			base.OnDeactivate(e);
+			mvarIsActive = false;
+			Invalidate();
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if (Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame)
+			{
+				Theming.Theme.CurrentTheme.DrawToplevelWindowBorder(e.Graphics, new Rectangle(0, 0, this.Width, this.Height), this.Text, this.IsActive);
+			}
+		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			if (Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame)
+			{
+				Invalidate(new Rectangle(0, 0, this.Width, this.Height));
+			}
+		}
+
 		private bool mvarUseThemeWindowBorder = true;
 		public bool UseThemeWindowBorder { get { return mvarUseThemeWindowBorder; } set { mvarUseThemeWindowBorder = value; } }
 
@@ -76,12 +103,43 @@ namespace AwesomeControls
 			if (IsUsingThemeWindowBorder())
 			{
 				Point pt = PointToScreen(e.Location);
-
 				if (pt.X >= this.Left && pt.Y >= this.Top && pt.X <= this.Right && pt.Y <= this.Top + 32)
 				{
-					// thanks http://webspace.webring.com/people/lp/practicalvb/vb/input/dragform.html
+					if (e.Button == System.Windows.Forms.MouseButtons.Right)
+					{
+						Internal.Windows.Methods.ReleaseCapture();
+						Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCRBUTTONDOWN, Internal.Windows.Constants.HTCAPTION, 0);
+					}
+				}
+			}
+		}
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+			if (IsUsingThemeWindowBorder())
+			{
+				Point pt = PointToScreen(e.Location);
+				if (pt.X >= this.Left && pt.Y >= this.Top && pt.X <= this.Right && pt.Y <= this.Top + 32)
+				{
+					if (e.Button == System.Windows.Forms.MouseButtons.Left)
+					{
+						// thanks http://webspace.webring.com/people/lp/practicalvb/vb/input/dragform.html
+						Internal.Windows.Methods.ReleaseCapture();
+						Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCLBUTTONDOWN, Internal.Windows.Constants.HTCAPTION, 0);
+					}
+				}
+			}
+		}
+		protected override void OnMouseDoubleClick(MouseEventArgs e)
+		{
+			base.OnMouseDoubleClick(e);
+			if (IsUsingThemeWindowBorder())
+			{
+				Point pt = PointToScreen(e.Location);
+				if (pt.X >= this.Left && pt.Y >= this.Top && pt.X <= this.Right && pt.Y <= this.Top + 32)
+				{
 					Internal.Windows.Methods.ReleaseCapture();
-					Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCLBUTTONDOWN, Internal.Windows.Constants.HTCAPTION, 0);
+					Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCLBUTTONDBLCLK, Internal.Windows.Constants.HTCAPTION, 0);
 				}
 			}
 		}
@@ -90,7 +148,15 @@ namespace AwesomeControls
 			base.OnMouseUp(e);
 			if (IsUsingThemeWindowBorder())
 			{
-				// Internal.Windows.Methods.ReleaseCapture();
+				Point pt = PointToScreen(e.Location);
+				if (pt.X >= this.Left && pt.Y >= this.Top && pt.X <= this.Right && pt.Y <= this.Top + 32)
+				{
+					if (e.Button == System.Windows.Forms.MouseButtons.Right)
+					{
+						Internal.Windows.Methods.ReleaseCapture();
+						Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCRBUTTONUP, Internal.Windows.Constants.HTCAPTION, 0);
+					}
+				}
 			}
 		}
 

@@ -279,6 +279,28 @@ namespace AwesomeControls.DataFormats.Theming
 											rendering.Actions.Add(item);
 											break;
 										}
+										case "Text":
+										{
+											MarkupAttribute attX = tagRenderingAction.Attributes["X"];
+											MarkupAttribute attY = tagRenderingAction.Attributes["Y"];
+											MarkupAttribute attWidth = tagRenderingAction.Attributes["Width"];
+											MarkupAttribute attHeight = tagRenderingAction.Attributes["Height"];
+
+											TextRenderingAction item = new TextRenderingAction();
+											item.X = RenderingExpression.Parse(attX.Value);
+											item.Y = RenderingExpression.Parse(attY.Value);
+											item.Width = RenderingExpression.Parse(attWidth.Value);
+											item.Height = RenderingExpression.Parse(attHeight.Value);
+
+											MarkupAttribute attColor = tagRenderingAction.Attributes["Color"];
+											if (attColor != null) item.Color = attColor.Value;
+
+											MarkupAttribute attValue = tagRenderingAction.Attributes["Value"];
+											if (attValue != null) item.Value = attValue.Value;
+
+											rendering.Actions.Add(item);
+											break;
+										}
 									}
 								}
 

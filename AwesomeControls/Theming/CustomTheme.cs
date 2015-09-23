@@ -149,9 +149,15 @@ namespace AwesomeControls.Theming
 			return mvarThemeDefinition.BasePath;
 		}
 
-		private void DrawRenderingAction(System.Drawing.Graphics graphics, object component, RenderingAction action)
+		private void DrawRenderingAction(System.Drawing.Graphics graphics, object component, RenderingAction action, Dictionary<string, object> variables)
 		{
+			if (variables == null) variables = new Dictionary<string, object>();
 			Dictionary<string, object> dict = new Dictionary<string, object>();
+
+			foreach (KeyValuePair<string, object> kvp in variables)
+			{
+				dict.Add(kvp.Key, kvp.Value);
+			}
 
 			System.Drawing.RectangleF bounds = new System.Drawing.RectangleF();
 			if (component is System.Windows.Forms.Control)
@@ -232,6 +238,20 @@ namespace AwesomeControls.Theming
 					graphics.DrawLine(PenFromOutline(act.Outline), x1, y1, x2, y2);
 				}
 			}
+			else if (action is TextRenderingAction)
+			{
+				TextRenderingAction act = (action as TextRenderingAction);
+
+				int x = (int)Math.Round(act.X.Evaluate(dict) + bounds.X);
+				int y = (int)Math.Round(act.Y.Evaluate(dict) + bounds.Y);
+				int width = (int)Math.Round(act.Width.Evaluate(dict));
+				int height = (int)Math.Round(act.Height.Evaluate(dict));
+				System.Drawing.Color color = ColorFromString(act.Color);
+				string value = act.Value.ReplaceVariables(dict);
+
+				graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+				System.Windows.Forms.TextRenderer.DrawText(graphics, value, System.Windows.Forms.SystemInformation.MenuFont, new System.Drawing.Rectangle(x, y, width, height), color, System.Windows.Forms.TextFormatFlags.Left);
+			}
 		}
 
 		private ThemeMetric GetMetric(string name, AwesomeControls.ObjectModels.Theming.Theme theme = null)
@@ -244,19 +264,19 @@ namespace AwesomeControls.Theming
 			return tc;
 		}
 
-		private void DrawRendering(System.Drawing.Graphics graphics, object component, Rendering rendering)
+		private void DrawRendering(System.Drawing.Graphics graphics, object component, Rendering rendering, Dictionary<string, object> variables = null)
 		{
 			foreach (RenderingAction action in rendering.Actions)
 			{
-				DrawRenderingAction(graphics, component, action);
+				DrawRenderingAction(graphics, component, action, variables);
 			}
 		}
 
-		private void DrawThemeComponent(System.Drawing.Graphics graphics, object component, ThemeComponent tc, Guid stateID)
+		private void DrawThemeComponent(System.Drawing.Graphics graphics, object component, ThemeComponent tc, Guid stateID, Dictionary<string, object> variables = null)
 		{
 			if (tc.InheritsComponent != null)
 			{
-				DrawThemeComponent(graphics, component, tc.InheritsComponent, stateID);
+				DrawThemeComponent(graphics, component, tc.InheritsComponent, stateID, variables);
 			}
 
 			foreach (Rendering rendering in tc.Renderings)
@@ -264,7 +284,7 @@ namespace AwesomeControls.Theming
 				if (rendering.States.Count == 0 || rendering.States.Contains(stateID))
 				{
 					// we can use this rendering
-					DrawRendering(graphics, component, rendering);
+					DrawRendering(graphics, component, rendering, variables);
 				}
 			}
 		}
@@ -463,7 +483,9 @@ namespace AwesomeControls.Theming
 			if (tc != null) DrawThemeComponent(graphics, item, tc, state);
 		}
         public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
-        {
+		{
+			graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			
             color = ColorFromString("@CommandBarItemForeground");
             base.DrawText(graphics, text, color, font, textRectangle, textFormat, textDirection, item);
         }
@@ -509,10 +531,15 @@ namespace AwesomeControls.Theming
 			}
 		}
 
-		public override void DrawToplevelWindowBorder(System.Drawing.Graphics g, System.Drawing.Rectangle rectangle, string titleText)
+		public override void DrawToplevelWindowBorder(System.Drawing.Graphics g, System.Drawing.Rectangle rectangle, string titleText, bool isActive)
 		{
 			ThemeComponent tc = GetComponent(ThemeComponentGuids.Window);
-			if (tc != null) DrawThemeComponent(g, rectangle, tc, ThemeComponentStateGuids.NormalFocused);
+			Dictionary<string, object> dict = new Dictionary<string, object>();
+			dict.Add("Window.Title", titleText);
+			if (tc != null)
+			{
+				DrawThemeComponent(g, rectangle, tc, (isActive ? ThemeComponentStateGuids.NormalFocused : ThemeComponentStateGuids.Normal), dict);
+			}
 		}
 
 		public override void DrawListViewBackground(System.Drawing.Graphics graphics, System.Drawing.Rectangle rectangle)
