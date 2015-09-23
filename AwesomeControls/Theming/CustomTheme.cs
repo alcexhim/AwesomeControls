@@ -390,6 +390,15 @@ namespace AwesomeControls.Theming
 			}
 		}
 
+		private ThemeProperty GetProperty(string name, AwesomeControls.ObjectModels.Theming.Theme theme = null)
+		{
+			if (theme == null) theme = mvarThemeDefinition;
+			
+			ThemeProperty property = theme.Properties[name];
+			if (property == null && theme.InheritsTheme != null) return GetProperty(name, theme.InheritsTheme);
+			return property;
+		}
+
 		private ThemeComponent GetComponent(Guid id, AwesomeControls.ObjectModels.Theming.Theme theme = null)
 		{
 			if (theme == null) theme = mvarThemeDefinition;
@@ -495,7 +504,7 @@ namespace AwesomeControls.Theming
 		{
 			get
 			{
-				ThemeProperty prop = mvarThemeDefinition.Properties["UseCustomTopLevelWindowFrame"];
+				ThemeProperty prop = GetProperty("UseCustomTopLevelWindowFrame");
 				return (prop != null && prop.Value == "true");
 			}
 		}

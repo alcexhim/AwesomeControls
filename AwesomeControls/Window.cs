@@ -19,7 +19,8 @@ namespace AwesomeControls
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			// base.OnPaintBackground(e);
+			base.OnPaintBackground(e);
+			if (Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame) Theming.Theme.CurrentTheme.DrawToplevelWindowBorder(e.Graphics, new Rectangle(0, 0, this.Width, this.Height), this.Text);
 		}
 
 
@@ -66,11 +67,41 @@ namespace AwesomeControls
 		private bool mvarUseThemeWindowBorder = true;
 		public bool UseThemeWindowBorder { get { return mvarUseThemeWindowBorder; } set { mvarUseThemeWindowBorder = value; } }
 
-		public const bool ThemeWindowBorderEnabled = false;
+		public const bool ThemeWindowBorderEnabled = true;
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (IsUsingThemeWindowBorder())
+			{
+				Point pt = PointToScreen(e.Location);
+
+				if (pt.X >= this.Left && pt.Y >= this.Top && pt.X <= this.Right && pt.Y <= this.Top + 32)
+				{
+					// thanks http://webspace.webring.com/people/lp/practicalvb/vb/input/dragform.html
+					Internal.Windows.Methods.ReleaseCapture();
+					Internal.Windows.Methods.SendMessage(this.Handle, Internal.Windows.Constants.WindowMessage.WM_NCLBUTTONDOWN, Internal.Windows.Constants.HTCAPTION, 0);
+				}
+			}
+		}
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			base.OnMouseUp(e);
+			if (IsUsingThemeWindowBorder())
+			{
+				// Internal.Windows.Methods.ReleaseCapture();
+			}
+		}
+
+		private bool IsUsingThemeWindowBorder()
+		{
+			return ThemeWindowBorderEnabled && mvarUseThemeWindowBorder && Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame;
+		}
 
 		protected override void WndProc(ref Message m)
 		{
-			if (ThemeWindowBorderEnabled && mvarUseThemeWindowBorder && Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame)
+			if (IsUsingThemeWindowBorder())
 			{
 				switch (Environment.OSVersion.Platform)
 				{
@@ -82,11 +113,30 @@ namespace AwesomeControls
 						Internal.Windows.Constants.WindowMessage msg = (Internal.Windows.Constants.WindowMessage)m.Msg;
 						switch (msg)
 						{
+							case Internal.Windows.Constants.WindowMessage.WM_NCCALCSIZE:
+							{
+								System.Drawing.Rectangle rect = (System.Drawing.Rectangle)System.Runtime.InteropServices.Marshal.PtrToStructure(m.LParam, typeof(System.Drawing.Rectangle));
+
+								int captionHeight = SystemInformation.CaptionHeight + SystemInformation.HorizontalResizeBorderThickness;
+
+								int customBorderWidth = 1;
+
+								rect.X -= SystemInformation.VerticalResizeBorderThickness;
+								rect.Width += SystemInformation.VerticalResizeBorderThickness;
+								rect.Y -= captionHeight;
+								rect.Height += SystemInformation.HorizontalResizeBorderThickness;
+
+								this.Padding = new System.Windows.Forms.Padding(customBorderWidth, 32, customBorderWidth, customBorderWidth);
+
+								System.Runtime.InteropServices.Marshal.StructureToPtr(rect, m.LParam, true);
+								break;
+							}
 							case Internal.Windows.Constants.WindowMessage.Activate:
 							case Internal.Windows.Constants.WindowMessage.NonClientPaint:
-							case Internal.Windows.Constants.WindowMessage.WM_NCACTIVATE:
+							case Internal.Windows.Constants.WindowMessage.NonClientActivate:
 							case Internal.Windows.Constants.WindowMessage.SetText:
 							{
+								/*
 								IntPtr hdc = Internal.Windows.Methods.GetWindowDC(m.HWnd);
 								if ((int)hdc != 0)
 								{
@@ -99,6 +149,7 @@ namespace AwesomeControls
 								}
 
 								if (msg == Internal.Windows.Constants.WindowMessage.NonClientPaint || msg == Internal.Windows.Constants.WindowMessage.SetText) return;
+								*/
 								break;
 							}
 						}
@@ -106,7 +157,6 @@ namespace AwesomeControls
 					}
 				}
 			}
-
 			base.WndProc(ref m);
 		}
 

@@ -6,6 +6,7 @@ namespace AwesomeControls.Internal.Windows
 {
 	public static class Constants
 	{
+		public const int HTCAPTION = 2;
 		public enum ListViewMessage : int
 		{
 			First = 0x1000,
@@ -280,7 +281,7 @@ namespace AwesomeControls.Internal.Windows
 			WM_NCCALCSIZE = 0x0083,
 			WM_NCHITTEST = 0x0084,
 			NonClientPaint = 0x0085,
-			WM_NCACTIVATE = 0x0086,
+			NonClientActivate = 0x0086,
 			WM_GETDLGCODE = 0x0087,
 			WM_SYNCPAINT = 0x0088,
 			WM_NCMOUSEMOVE = 0x00A0,

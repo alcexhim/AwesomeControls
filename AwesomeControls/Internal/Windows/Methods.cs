@@ -14,6 +14,9 @@ namespace AwesomeControls.Internal.Windows
 		public static extern int GetWindowLong(IntPtr hWnd, Constants.WindowLongType flag);
         [DllImport("user32.dll")]
 		public static extern int SetWindowLong(IntPtr hWnd, Constants.WindowLongType flag, int dwNewLong);
+		[DllImport("user32.dll")]
+		public static extern int ReleaseCapture();
+
 
 		#region DC
 		[DllImport("User32.dll")]
@@ -37,7 +40,10 @@ namespace AwesomeControls.Internal.Windows
 		public static extern int SendMessage(IntPtr hWnd, Constants.ListViewHeaderMessage msg, int wParam, ref Structures.HDITEM hditem);
         [DllImport("user32.dll")]
 		public static extern int SendMessage(IntPtr hWnd, Constants.ListViewHeaderMessage msg, int wParam, ref Structures.RECT rect);
+		[DllImport("user32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, Constants.WindowMessage msg, int wParam, int lParam);
         #endregion
         #endregion
-    }
+
+	}
 }
