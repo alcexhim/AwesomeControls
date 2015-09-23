@@ -60,8 +60,10 @@ namespace AwesomeControls.CommandBars
 
 				wnd.Location = Cursor.Position;
 
-				if ((Cursor.Position.X > mvarLastKnownToolstripPanel.Left && Cursor.Position.X < mvarLastKnownToolstripPanel.Top)
-					|| (Cursor.Position.Y > mvarLastKnownToolstripPanel.Top && Cursor.Position.Y < mvarLastKnownToolstripPanel.Bottom))
+				System.Drawing.Point clientPoint = PointToClient(Cursor.Position);
+
+				if ((clientPoint.X > (mvarLastKnownToolstripPanel.Left - graceMargin) && clientPoint.X < (mvarLastKnownToolstripPanel.Top - graceMargin))
+					|| (clientPoint.Y > (mvarLastKnownToolstripPanel.Top + graceMargin) && clientPoint.Y < (mvarLastKnownToolstripPanel.Bottom + graceMargin)))
 				{
 					Attach();
 
@@ -108,6 +110,7 @@ namespace AwesomeControls.CommandBars
 		private bool m_DraggingStarted = false;
 		private ToolStripPanel mvarLastKnownToolstripPanel = null;
 
+		private const int graceMargin = 16;
 
 		protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs mea)
 		{
@@ -115,20 +118,22 @@ namespace AwesomeControls.CommandBars
 			if (m_DraggingStarted)
 			{
 				ToolStripPanel panel = (base.Parent as ToolStripPanel);
+				System.Drawing.Point clientPoint = PointToClient(Cursor.Position);
 
 				bool found = false;
+
 				if (panel != null)
 				{
 					mvarLastKnownToolstripPanel = panel;
-					if (Cursor.Position.X < panel.Left || Cursor.Position.Y < panel.Top || Cursor.Position.X > panel.Right || Cursor.Position.Y > panel.Bottom)
+					if (clientPoint.X < (panel.Left - graceMargin) || clientPoint.Y < (panel.Top - graceMargin) || clientPoint.X > (panel.Right + graceMargin) || clientPoint.Y > (panel.Bottom + graceMargin))
 					{
 						found = true;
 					}
 				}
 				else
 				{
-					if (System.Windows.Forms.Cursor.Position.X < base.FindForm().Left || System.Windows.Forms.Cursor.Position.Y < base.FindForm().Top
-						|| System.Windows.Forms.Cursor.Position.X > base.FindForm().Right || System.Windows.Forms.Cursor.Position.Y > base.FindForm().Bottom)
+					if (Cursor.Position.X < base.FindForm().Left || Cursor.Position.Y < base.FindForm().Top
+						|| Cursor.Position.X > base.FindForm().Right || Cursor.Position.Y > base.FindForm().Bottom)
 					{
 						found = true;
 					}
@@ -163,6 +168,12 @@ namespace AwesomeControls.CommandBars
 
 			Form form = FindForm();
 			if (form != null) form.Focus();
+
+			if ((Control.MouseButtons & System.Windows.Forms.MouseButtons.Left) == System.Windows.Forms.MouseButtons.Left)
+			{
+				m_DraggingStarted = true;
+				m_Dragging = true;
+			}
 		}
 		public void Detach()
 		{
