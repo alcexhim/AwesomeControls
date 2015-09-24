@@ -25,6 +25,19 @@ namespace AwesomeControls.Internal.Windows
 		public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 		#endregion
 
+		[DllImport("user32.dll")]
+		public static extern bool UpdateLayeredWindow
+		(
+			[In()] IntPtr hwnd,
+			[In(), Optional()] IntPtr hdcDst,
+			[In(), Optional()] ref Structures.POINT pptDst,
+			[In(), Optional()] ref Structures.SIZE psize,
+			[In(), Optional()] IntPtr hdcSrc,
+			[In(), Optional()] ref Structures.POINT pptSrc,
+			[In()] int /*COLORREF*/ crKey,
+			[In(), Optional()] ref Structures.BLENDFUNCTION pblend,
+			[In()] Constants.UpdateLayeredWindowFlags dwFlags
+		);
 
         #region SendMessage
         [DllImport("user32.dll")]

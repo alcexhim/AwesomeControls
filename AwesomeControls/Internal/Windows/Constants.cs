@@ -533,6 +533,13 @@ namespace AwesomeControls.Internal.Windows
 			FilterChange = (First - 12),
 			FilterButtonClick = (First - 13)
 		}
+
+		public enum WindowStyle
+		{
+			ClipChildren = 0x02000000,
+			ClipSiblings = 0x04000000,
+			Popup = (unchecked((int)0x80000000))
+		}
 		public enum WindowExtendedStyle
 		{
 			/// <summary>
@@ -690,6 +697,36 @@ namespace AwesomeControls.Internal.Windows
 			/// The window has a border with a raised edge.
 			/// </summary>
 			WindowEdge = 0x00000100
+		}
+
+		public enum UpdateLayeredWindowFlags
+		{
+			/// <summary>
+			/// Use crKey as the transparency color.
+			/// </summary>
+			ColorKey = 0x00000001,
+			/// <summary>
+			/// Use pblend as the blend function. If the display mode is 256 colors or less, the effect of this value is the same as the effect of <see cref="Opaque" />.
+			/// </summary>
+			Alpha = 0x00000002,
+			/// <summary>
+			/// Draw an opaque layered window.
+			/// </summary>
+			Opaque = 0x00000004
+		}
+		
+		public enum BlendFunctionOperation : byte
+		{
+			SourceOver = 0x00
+		}
+		public enum BlendFunctionFlags : byte
+		{
+			None = 0x00
+		}
+		public enum BlendFunctionAlphaFormat : byte
+		{
+			None = 0x00,
+			SourceAlpha = 0x01
 		}
 	}
 }

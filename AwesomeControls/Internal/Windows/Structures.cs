@@ -152,13 +152,60 @@ namespace AwesomeControls.Internal.Windows
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WINDOWPOS
 		{
-			IntPtr hwnd;
-			IntPtr hwndInsertAfter;
-			int x;
-			int y;
-			int cx;
-			int cy;
-			uint flags;
+			public IntPtr hwnd;
+			public IntPtr hwndInsertAfter;
+			public int x;
+			public int y;
+			public int cx;
+			public int cy;
+			public uint flags;
+		}
+
+		public struct BLENDFUNCTION
+		{
+			public Constants.BlendFunctionOperation BlendOp;
+			public Constants.BlendFunctionFlags BlendFlags;
+			public byte SourceConstantAlpha;
+			public Constants.BlendFunctionAlphaFormat AlphaFormat;
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		public struct POINT
+		{
+			public int X;
+			public int Y;
+
+			public POINT(int x, int y)
+			{
+				this.X = x;
+				this.Y = y;
+			}
+
+			public POINT(System.Drawing.Point pt) : this(pt.X, pt.Y) { }
+
+			public static implicit operator System.Drawing.Point(POINT p)
+			{
+				return new System.Drawing.Point(p.X, p.Y);
+			}
+
+			public static implicit operator POINT(System.Drawing.Point p)
+			{
+				return new POINT(p.X, p.Y);
+			}
+		}
+		/// <summary>
+		/// Specifies the width and height of a rectangle.
+		/// </summary>
+		[StructLayout(LayoutKind.Sequential)]
+		public struct SIZE
+		{
+			public int cx;
+			public int cy;
+
+			public SIZE(int cx, int cy)
+			{
+				this.cx = cx;
+				this.cy = cy;
+			}
 		}
 	}
 }

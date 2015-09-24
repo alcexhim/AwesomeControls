@@ -38,6 +38,8 @@ namespace AwesomeControls
 				}
 				animationInProgress = false;
 			}
+
+			RefreshDropShadowWindows();
 		}
 		protected override void OnClosing(CancelEventArgs e)
 		{
@@ -60,17 +62,152 @@ namespace AwesomeControls
 		private bool mvarIsActive = false;
 		public bool IsActive { get { return mvarIsActive; } }
 
+
+		private DropShadowVisibility mvarDropShadowVisibility = DropShadowVisibility.Default;
+		[Category("Appearance")]
+		public DropShadowVisibility DropShadowVisibility
+		{
+			get { return mvarDropShadowVisibility; }
+			set
+			{
+				mvarDropShadowVisibility = value;
+				if (!DesignMode) RefreshDropShadowWindows();
+			}
+		}
+
+		protected override void OnMove(EventArgs e)
+		{
+			base.OnMove(e);
+			RefreshDropShadowWindows(RefreshDropShadowWindowsFlags.Position);
+		}
+
+		private bool IsDropShadowVisible()
+		{
+			// not implemented properly (yet...)
+			return false;
+
+			if (mvarDropShadowVisibility == AwesomeControls.DropShadowVisibility.None) return false;
+			// TODO: logic goes here!
+			return true;
+		}
+
+		private void RefreshDropShadowWindows(RefreshDropShadowWindowsFlags flags = RefreshDropShadowWindowsFlags.All)
+		{
+			int DropShadowSize = 8;
+
+			if (mvarDropShadowWindows == null) mvarDropShadowWindows = new DropShadowWindow[4];
+			for (int i = 0; i < mvarDropShadowWindows.Length; i++)
+			{
+				if (mvarDropShadowWindows[i] == null) mvarDropShadowWindows[i] = new DropShadowWindow();
+				if (mvarDropShadowWindows[i].IsDisposed) mvarDropShadowWindows[i] = new DropShadowWindow();
+				if (!IsDropShadowVisible())
+				{
+					mvarDropShadowWindows[i].Visible = false;
+					continue;
+				}
+
+				mvarDropShadowWindows[i].Position = (DropShadowPosition)i;
+
+				switch (mvarDropShadowWindows[i].Position)
+				{
+					case DropShadowPosition.Top:
+					{
+						if ((flags & RefreshDropShadowWindowsFlags.Size) == RefreshDropShadowWindowsFlags.Size)
+						{
+							mvarDropShadowWindows[i].Width = this.Width;
+							mvarDropShadowWindows[i].Height = DropShadowSize;
+						}
+						mvarDropShadowWindows[i].Left = this.Left;
+						mvarDropShadowWindows[i].Top = this.Top - mvarDropShadowWindows[i].Height;
+						break;
+					}
+					case DropShadowPosition.Bottom:
+					{
+						if ((flags & RefreshDropShadowWindowsFlags.Size) == RefreshDropShadowWindowsFlags.Size)
+						{
+							mvarDropShadowWindows[i].Width = this.Width;
+							mvarDropShadowWindows[i].Height = DropShadowSize;
+						}
+						mvarDropShadowWindows[i].Left = this.Left;
+						mvarDropShadowWindows[i].Top = this.Bottom;
+						break;
+					}
+					case DropShadowPosition.Left:
+					{
+						if ((flags & RefreshDropShadowWindowsFlags.Size) == RefreshDropShadowWindowsFlags.Size)
+						{
+							mvarDropShadowWindows[i].Width = DropShadowSize;
+							mvarDropShadowWindows[i].Height = this.Height;
+						}
+						mvarDropShadowWindows[i].Left = this.Left - mvarDropShadowWindows[i].Width;
+						mvarDropShadowWindows[i].Top = this.Top;
+						break;
+					}
+					case DropShadowPosition.Right:
+					{
+						if ((flags & RefreshDropShadowWindowsFlags.Size) == RefreshDropShadowWindowsFlags.Size)
+						{
+							mvarDropShadowWindows[i].Width = DropShadowSize;
+							mvarDropShadowWindows[i].Height = this.Height;
+						}
+						mvarDropShadowWindows[i].Left = this.Right;
+						mvarDropShadowWindows[i].Top = this.Top;
+						break;
+					}
+				}
+
+				if (((flags & RefreshDropShadowWindowsFlags.Size) == RefreshDropShadowWindowsFlags.Size) || !mvarDropShadowWindows[i].Visible)
+				{
+					if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Minimized)
+					{
+						mvarDropShadowWindows[i].Visible = false;
+					}
+					else
+					{
+						mvarDropShadowWindows[i].Visible = true;
+					}
+				}
+			}
+
+			if ((flags & RefreshDropShadowWindowsFlags.Activation) == RefreshDropShadowWindowsFlags.Activation)
+			{
+				inhibitActivate = true;
+				for (int i = 0; i < mvarDropShadowWindows.Length; i++)
+				{
+					mvarDropShadowWindows[i].BringToFront();
+				}
+				BringToFront();
+				Focus();
+				inhibitActivate = false;
+			}
+		}
+
+		private DropShadowWindow[] mvarDropShadowWindows = null;
+		private bool inhibitActivate = false;
+
 		protected override void OnActivated(EventArgs e)
 		{
-			base.OnActivated(e);
 			mvarIsActive = true;
 			Invalidate();
+
+			if (!inhibitActivate)
+			{
+				base.OnActivated(e);
+
+				RefreshDropShadowWindows(RefreshDropShadowWindowsFlags.Activation);
+			}
 		}
 		protected override void OnDeactivate(EventArgs e)
 		{
-			base.OnDeactivate(e);
 			mvarIsActive = false;
 			Invalidate();
+
+			if (!inhibitActivate)
+			{
+				base.OnDeactivate(e);
+
+				RefreshDropShadowWindows(RefreshDropShadowWindowsFlags.Activation);
+			}
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -89,6 +226,7 @@ namespace AwesomeControls
 			{
 				Invalidate(new Rectangle(0, 0, this.Width, this.Height));
 			}
+			RefreshDropShadowWindows(RefreshDropShadowWindowsFlags.Size);
 		}
 
 		private bool mvarUseThemeWindowBorder = true;
@@ -249,5 +387,14 @@ namespace AwesomeControls
 				return cp;
 			}
 		}
+	}
+
+	public enum RefreshDropShadowWindowsFlags
+	{
+		None = 0,
+		Activation = 1,
+		Position = 2,
+		Size = 4,
+		All = Activation | Position | Size
 	}
 }

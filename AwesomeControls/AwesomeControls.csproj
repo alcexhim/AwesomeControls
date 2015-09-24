@@ -173,6 +173,14 @@
     <Compile Include="DropDown\DropDownWindow.Designer.cs">
       <DependentUpon>DropDownWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DropShadowPosition.cs" />
+    <Compile Include="DropShadowVisibility.cs" />
+    <Compile Include="DropShadowWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DropShadowWindow.Designer.cs">
+      <DependentUpon>DropShadowWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileTextBox\FileTextBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -574,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DropDown\DropDownWindow.resx">
       <DependentUpon>DropDownWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DropShadowWindow.resx">
+      <DependentUpon>DropShadowWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DynamicContainer\DynamicContainerControl.resx">
       <DependentUpon>DynamicContainerControl.cs</DependentUpon>
