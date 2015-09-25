@@ -303,6 +303,22 @@ namespace AwesomeControls
 			return ThemeWindowBorderEnabled && mvarUseThemeWindowBorder && Theming.Theme.CurrentTheme.HasCustomToplevelWindowFrame;
 		}
 
+		private bool IsRectangleMaximized(System.Drawing.Rectangle rect)
+		{
+			foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)
+			{
+				if (rect.X < screen.WorkingArea.X && rect.Y < screen.WorkingArea.Y && rect.Width > screen.WorkingArea.Width && rect.Height > screen.WorkingArea.Height) return true;
+			}
+			return false;
+		}
+		private bool IsRectangleMinimized(System.Drawing.Rectangle rect)
+		{
+			// TODO: don't hardcode this!!!
+			return (rect.X == -32000 && rect.Y == -32000);
+		}
+
+		private int wasRectangleMinimized = 0;
+
 		protected override void WndProc(ref Message m)
 		{
 			if (IsUsingThemeWindowBorder())
@@ -319,18 +335,89 @@ namespace AwesomeControls
 						{
 							case Internal.Windows.Constants.WindowMessage.WM_NCCALCSIZE:
 							{
+								int customBorderWidth = 1;
+								if (wasRectangleMinimized == 1)
+								{
+									wasRectangleMinimized = 2;
+									return;
+								}
+								else if (wasRectangleMinimized == 2)
+								{
+									wasRectangleMinimized = 0;
+									return;
+								}
+
 								System.Drawing.Rectangle rect = (System.Drawing.Rectangle)System.Runtime.InteropServices.Marshal.PtrToStructure(m.LParam, typeof(System.Drawing.Rectangle));
 
-								int captionHeight = SystemInformation.CaptionHeight + SystemInformation.HorizontalResizeBorderThickness;
+								if (IsRectangleMinimized(rect))
+								{
+									wasRectangleMinimized = 1;
+									return;
+								}
 
-								int customBorderWidth = 1;
+								if (!IsRectangleMaximized(rect))
+								{
+									switch (FormBorderStyle)
+									{
+										case System.Windows.Forms.FormBorderStyle.Sizable:
+										case System.Windows.Forms.FormBorderStyle.SizableToolWindow:
+										{
+											rect.X -= SystemInformation.VerticalResizeBorderThickness;
+											rect.Width += SystemInformation.VerticalResizeBorderThickness;
+											rect.Height += SystemInformation.HorizontalResizeBorderThickness;
+											rect.Y -= SystemInformation.HorizontalResizeBorderThickness;
+											break;
+										}
+										case System.Windows.Forms.FormBorderStyle.Fixed3D:
+										{
+											// TODO: is +1 a magic constant we shouldn't use?
+											rect.X -= (SystemInformation.Border3DSize.Width + 3);
+											rect.Width += (SystemInformation.Border3DSize.Width + 3);
+											rect.Height += (SystemInformation.Border3DSize.Height + 3);
+											rect.Y -= (SystemInformation.Border3DSize.Height + 3);
+											break;
+										}
+										case System.Windows.Forms.FormBorderStyle.FixedToolWindow:
+										case System.Windows.Forms.FormBorderStyle.FixedDialog:
+										case System.Windows.Forms.FormBorderStyle.FixedSingle:
+										{
+											// TODO: is +1 a magic constant we shouldn't use?
+											rect.X -= (SystemInformation.Border3DSize.Width + 1);
+											rect.Width += (SystemInformation.Border3DSize.Width + 1);
+											rect.Height += (SystemInformation.Border3DSize.Height + 1);
+											rect.Y -= (SystemInformation.Border3DSize.Height + 1);
+											break;
+										}
+									}
+								}
 
-								rect.X -= SystemInformation.VerticalResizeBorderThickness;
-								rect.Width += SystemInformation.VerticalResizeBorderThickness;
-								rect.Y -= captionHeight;
-								rect.Height += SystemInformation.HorizontalResizeBorderThickness;
+								switch (FormBorderStyle)
+								{
+									case System.Windows.Forms.FormBorderStyle.Fixed3D:
+									case System.Windows.Forms.FormBorderStyle.FixedDialog:
+									case System.Windows.Forms.FormBorderStyle.FixedSingle:
+									case System.Windows.Forms.FormBorderStyle.Sizable:
+									{
+										rect.Y -= SystemInformation.CaptionHeight;
+										break;
+									}
+									case System.Windows.Forms.FormBorderStyle.FixedToolWindow:
+									case System.Windows.Forms.FormBorderStyle.SizableToolWindow:
+									{
+										rect.Y -= SystemInformation.ToolWindowCaptionHeight;
+										break;
+									}
+								}
 
-								this.Padding = new System.Windows.Forms.Padding(customBorderWidth, 32, customBorderWidth, customBorderWidth);
+								int customTitleBarHeight = 32;
+								if (FormBorderStyle == System.Windows.Forms.FormBorderStyle.SizableToolWindow || FormBorderStyle == System.Windows.Forms.FormBorderStyle.FixedToolWindow)
+								{
+									int twch = SystemInformation.ToolWindowCaptionHeight;
+									int ch = SystemInformation.CaptionHeight;
+
+									customTitleBarHeight = (int)(((double)twch / (double)ch) * customTitleBarHeight);
+								}
+								this.Padding = new System.Windows.Forms.Padding(customBorderWidth, customTitleBarHeight, customBorderWidth, customBorderWidth);
 
 								System.Runtime.InteropServices.Marshal.StructureToPtr(rect, m.LParam, true);
 								break;
