@@ -25,12 +25,6 @@
 					</Component>
 					<!-- CommandBarItem -->
 					<Component ID="{D83F03AF-EEBE-4EFB-ACDB-7D2952B5D566}">
-						<!-- This component supports the Normal, Hover, and Pressed states -->
-						<States>
-							<State ID="{8DB00426-DE86-4F13-B451-D83602D5585E}" Name="Normal" />
-							<State ID="{753EF929-00E9-4C9A-BE0E-F897DCA649B8}" Name="Hover" />
-							<State ID="{962963D7-D209-42D0-94BA-AB022109AB53}" Name="Pressed" />
-						</States>
 						<Renderings>
 							<Rendering>
 								<States>
@@ -60,12 +54,6 @@
 					</Component>
 					<!-- CommandBarSplitItem -->
 					<Component ID="{4F01984B-BA87-4EDB-A759-0698910AE56E}">
-						<!-- This component supports the Normal, Hover, and Pressed states -->
-						<States>
-							<State ID="{8DB00426-DE86-4F13-B451-D83602D5585E}" Name="Normal" />
-							<State ID="{753EF929-00E9-4C9A-BE0E-F897DCA649B8}" Name="Hover" />
-							<State ID="{962963D7-D209-42D0-94BA-AB022109AB53}" Name="Pressed" />
-						</States>
 						<Renderings>
 							<Rendering>
 								<States>
@@ -98,12 +86,6 @@
 					</Component>
 					<!-- CommandBarMenuItem -->
 					<Component ID="{F064AB35-B3EE-4645-95B9-3DAFE1BD94B7}">
-						<!-- This component supports the Normal, Hover, and Pressed states -->
-						<States>
-							<State ID="{8DB00426-DE86-4F13-B451-D83602D5585E}" Name="Normal" />
-							<State ID="{753EF929-00E9-4C9A-BE0E-F897DCA649B8}" Name="Hover" />
-							<State ID="{962963D7-D209-42D0-94BA-AB022109AB53}" Name="Pressed" />
-						</States>
 						<Renderings>
 							<Rendering>
 								<States>
@@ -177,16 +159,16 @@
 										<Outline Type="None" />
 										<Fill Type="Solid" Color="@CommandBarPopupBackground" />
 									</Rectangle>
-									<Line X1="$(Component.Parent.Width)" Y1="0" X2="$(Component.Width)" Y2="0">
+									<Line X1="$(Component.Parent.Width) - 1" Y1="0" X2="$(Component.Width)" Y2="0">
 										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
 									</Line>
 									<Line X1="0" Y1="0" X2="0" Y2="$(Component.Height)">
 										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
 									</Line>
-									<Line X1="0" Y1="$(Component.Height)" X2="$(Component.Width)" Y2="$(Component.Height)">
+									<Line X1="0" Y1="$(Component.Height) - 1" X2="$(Component.Width)" Y2="$(Component.Height) - 1">
 										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
 									</Line>
-									<Line X1="$(Component.Width)" Y1="0" X2="$(Component.Width)" Y2="$(Component.Height)">
+									<Line X1="$(Component.Width) - 1" Y1="0" X2="$(Component.Width) - 1" Y2="$(Component.Height)">
 										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
 									</Line>
 								</Actions>
