@@ -690,15 +690,15 @@
     <None Include="Resources\ArrowDown.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\UniversalEditor\CSharp\V5\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
       <Project>{2d4737e6-6d95-408a-90db-8dff38147e85}</Project>
       <Name>UniversalEditor.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalEditor\CSharp\V5\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
       <Project>{30467e5c-05bc-4856-aadc-13906ef4cadd}</Project>
       <Name>UniversalEditor.Essential</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalEditor\CSharp\V5\Plugins\UniversalEditor.Plugins.Web\UniversalEditor.Plugins.Web.csproj">
+    <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Web\UniversalEditor.Plugins.Web.csproj">
       <Project>{64089452-6a08-47a5-a857-bf418f80d4a3}</Project>
       <Name>UniversalEditor.Plugins.Web</Name>
     </ProjectReference>
