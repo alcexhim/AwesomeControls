@@ -399,6 +399,11 @@ namespace AwesomeControls.Theming
 				if (tc == null) tc = GetComponent(ThemeComponentGuids.CommandBarPopup);
 				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
 			}
+			else if (parent is System.Windows.Forms.StatusStrip)
+			{
+				ThemeComponent tc = GetComponent(ThemeComponentGuids.StatusBar);
+				if (tc != null) DrawThemeComponent(graphics, parent, tc, ThemeComponentStateGuids.Normal);
+			}
 			else if (parent is System.Windows.Forms.ToolStrip)
 			{
 				ThemeComponent tc = GetComponent(ThemeComponentGuids.CommandBar);
@@ -482,6 +487,7 @@ namespace AwesomeControls.Theming
 			if (!item.Enabled) state = ThemeComponentStateGuids.Disabled;
 			if (tc != null) DrawThemeComponent(graphics, item, tc, state);
 		}
+
         public override void DrawText(System.Drawing.Graphics graphics, string text, System.Drawing.Color color, System.Drawing.Font font, System.Drawing.Rectangle textRectangle, System.Windows.Forms.TextFormatFlags textFormat, System.Windows.Forms.ToolStripTextDirection textDirection, System.Windows.Forms.ToolStripItem item)
 		{
 			graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;

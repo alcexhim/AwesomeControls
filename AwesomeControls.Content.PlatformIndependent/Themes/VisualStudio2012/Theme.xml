@@ -364,6 +364,17 @@
 							</Rendering>
 						</Renderings>
 					</Component>
+					<Component ID="{AAC316E5-9D9B-40D4-A7E0-C73BD831B80F}">
+						<Renderings>
+							<Rendering>
+								<Actions>
+									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
+										<Fill Type="Solid" Color="@StatusBarBackground" />
+									</Rectangle>
+								</Actions>
+							</Rendering>
+						</Renderings>
+					</Component>
 				</Components>
 				<Colors>
 					<Color Name="StatusBarOrangeBackground" Value="#CA5100" />
