@@ -377,10 +377,10 @@
 					</Component>
 				</Components>
 				<Colors>
-					<Color Name="StatusBarOrangeBackground" Value="#CA5100" />
-					<Color Name="StatusBarBlueBackground" Value="#007ACC" />
-					<Color Name="StatusBarDarkBlueBackground" Value="#0E639C" />
-					<Color Name="StatusBarPurpleBackground" Value="#68217A" />
+					<Color Name="StatusBarBackgroundOrange" Value="#CA5100" />
+					<Color Name="StatusBarBackgroundBlue" Value="#007ACC" />
+					<Color Name="StatusBarBackgroundDarkBlue" Value="#0E639C" />
+					<Color Name="StatusBarBackgroundPurple" Value="#68217A" />
 					<Color Name="StatusBarBackground" Value="@StatusBarPurpleBackground" />
 				</Colors>
 				<Metrics>
