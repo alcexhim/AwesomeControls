@@ -21,6 +21,14 @@ namespace AwesomeControls.Theming
 
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
+		public void SetColor(string name, string value)
+		{
+			SetColorInternal(name, value);
+		}
+		protected virtual void SetColorInternal(string name, string value)
+		{
+
+		}
 
 		/// <summary>
 		/// Determines the type of animation used for flyout menus.

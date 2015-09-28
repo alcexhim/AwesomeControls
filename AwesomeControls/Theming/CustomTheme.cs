@@ -22,6 +22,12 @@ namespace AwesomeControls.Theming
 			base.Title = themeDefinition.Title;
 		}
 
+		private Dictionary<string, string> mvarThemeColorOverrides = new Dictionary<string, string>();
+		protected override void SetColorInternal(string name, string value)
+		{
+			mvarThemeColorOverrides[name] = value;
+		}
+
 		private System.Drawing.Color ColorFromString(string value, AwesomeControls.ObjectModels.Theming.Theme theme = null)
 		{
 			if (theme == null) theme = mvarThemeDefinition;
@@ -29,6 +35,8 @@ namespace AwesomeControls.Theming
 			if (value.StartsWith("@"))
 			{
                 string name = value.Substring(1);
+				if (mvarThemeColorOverrides.ContainsKey(name)) return ColorFromString(mvarThemeColorOverrides[name]);
+
                 if (!theme.Colors.Contains(name))
                 {
 					if (theme.InheritsTheme != null) return ColorFromString(value, theme.InheritsTheme);
