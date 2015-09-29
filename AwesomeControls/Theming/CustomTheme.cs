@@ -501,6 +501,8 @@ namespace AwesomeControls.Theming
 			graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 			
             color = ColorFromString("@CommandBarItemForeground");
+			if (!item.Enabled) color = ColorFromString("@CommandBarItemForegroundDisabled");
+
             base.DrawText(graphics, text, color, font, textRectangle, textFormat, textDirection, item);
         }
 

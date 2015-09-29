@@ -22,6 +22,8 @@
 					<Color Name="CommandBarRaftingContainerBackground" Value="@CommandBarBackground" />
 
 					<Color Name="CommandBarItemForeground" Value="#1E1E1E" />
+					<Color Name="CommandBarItemForegroundDisabled" Value="#A2A4A5" />
+					
 					<Color Name="CommandBarItemHoverBackground" Value="#C9DEF5" />
 					<Color Name="CommandBarItemHoverBorder" Value="@CommandBarItemHoverBackground" />
 					<Color Name="CommandBarItemPressedBackground" Value="#007ACC" />
