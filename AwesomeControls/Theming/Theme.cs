@@ -30,6 +30,15 @@ namespace AwesomeControls.Theming
 
 		}
 
+		public void SetFont(string name, string value)
+		{
+			SetFontInternal(name, value);
+		}
+		protected virtual void SetFontInternal(string name, string value)
+		{
+
+		}
+
 		/// <summary>
 		/// Determines the type of animation used for flyout menus.
 		/// </summary>

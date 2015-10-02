@@ -106,7 +106,9 @@
     <Content Include="Themes\Office2007\Images\SolutionExplorer\Properties.png" />
     <Content Include="Themes\Office2007\Images\SolutionExplorer\Refresh.png" />
     <Content Include="Themes\Office2007\Images\SolutionExplorer\ShowAllFiles.png" />
-    <Content Include="Themes\Office2007\Theme.xml" />
+    <Content Include="Themes\Office2007\Theme.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Themes\VisualStudio2005\Theme.xml" />
     <Content Include="Themes\VisualStudio2008\Theme.xml" />
     <Content Include="Themes\VisualStudio2010\Theme.xml" />

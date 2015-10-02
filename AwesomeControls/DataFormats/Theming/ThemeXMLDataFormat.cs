@@ -124,6 +124,29 @@ namespace AwesomeControls.DataFormats.Theming
 					}
 				}
 
+				MarkupTagElement tagFonts = (tagTheme.Elements["Fonts"] as MarkupTagElement);
+				if (tagFonts != null)
+				{
+					foreach (MarkupElement elFont in tagFonts.Elements)
+					{
+						MarkupTagElement tagFont = (elFont as MarkupTagElement);
+						if (tagFont == null) continue;
+						if (tagFont.FullName != "Font") continue;
+
+						MarkupAttribute attFontName = tagFont.Attributes["Name"];
+						if (attFontName == null) continue;
+
+						MarkupAttribute attFontValue = tagFont.Attributes["Value"];
+						if (attFontValue == null) continue;
+
+						ThemeFont font = new ThemeFont();
+						font.Name = attFontName.Value;
+						font.Value = attFontValue.Value;
+
+						theme.Fonts.Add(font);
+					}
+				}
+
 				MarkupTagElement tagStockImages = (tagTheme.Elements["StockImages"] as MarkupTagElement);
 				if (tagStockImages != null)
 				{
@@ -295,6 +318,9 @@ namespace AwesomeControls.DataFormats.Theming
 											MarkupAttribute attColor = tagRenderingAction.Attributes["Color"];
 											if (attColor != null) item.Color = attColor.Value;
 
+											MarkupAttribute attFont = tagRenderingAction.Attributes["Font"];
+											if (attFont != null) item.Font = attFont.Value;
+
 											MarkupAttribute attValue = tagRenderingAction.Attributes["Value"];
 											if (attValue != null) item.Value = attValue.Value;
 
@@ -338,6 +364,8 @@ namespace AwesomeControls.DataFormats.Theming
 		{
 			if (tag == null) return null;
 
+			Outline outline = null;
+
 			MarkupAttribute attOutlineType = tag.Attributes["Type"];
 			if (attOutlineType != null)
 			{
@@ -352,21 +380,58 @@ namespace AwesomeControls.DataFormats.Theming
 						MarkupAttribute attColor = tag.Attributes["Color"];
 						if (attColor != null)
 						{
-							Outline outline = new Outline();
-							outline.Color = attColor.Value;
+							SolidOutline realOutline = new SolidOutline();
+							realOutline.Color = attColor.Value;
+							outline = realOutline;
+						}
+						break;
+					}
+					case "inset":
+					case "outset":
+					{
+						MarkupAttribute attLightColor = tag.Attributes["LightColor"];
+						MarkupAttribute attDarkColor = tag.Attributes["DarkColor"];
+						MarkupAttribute attColor = tag.Attributes["Color"];
 
-							MarkupAttribute attOutlineWidth = tag.Attributes["Width"];
-							if (attOutlineWidth != null)
+						if ((attLightColor != null && attDarkColor != null) || (attColor != null))
+						{
+							ThreeDOutline realOutline = new ThreeDOutline();
+							switch (attOutlineType.Value.ToLower())
 							{
-								outline.Width = Single.Parse(attOutlineWidth.Value);
+								case "inset":
+								{
+									realOutline.Type = ThreeDOutlineType.Inset;
+									break;
+								}
+								case "outset":
+								{
+									realOutline.Type = ThreeDOutlineType.Outset;
+									break;
+								}
 							}
-							return outline;
+							if (attLightColor != null && attDarkColor != null)
+							{
+								realOutline.LightColor = attLightColor.Value;
+								realOutline.DarkColor = attDarkColor.Value;
+							}
+							else if (attColor != null)
+							{
+								realOutline.LightColor = attColor.Value;
+								realOutline.DarkColor = attColor.Value;
+							}
+							outline = realOutline;
 						}
 						break;
 					}
 				}
+
+				MarkupAttribute attOutlineWidth = tag.Attributes["Width"];
+				if (attOutlineWidth != null && outline != null)
+				{
+					outline.Width = Single.Parse(attOutlineWidth.Value);
+				}
 			}
-			return null;
+			return outline;
 		}
 
 		private Fill FillFromTag(MarkupTagElement tag)

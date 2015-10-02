@@ -28,6 +28,9 @@ namespace AwesomeControls.ObjectModels.Theming
 		private ThemeColor.ThemeColorCollection mvarColors = new ThemeColor.ThemeColorCollection();
 		public ThemeColor.ThemeColorCollection Colors { get { return mvarColors; } }
 
+		private ThemeFont.ThemeFontCollection mvarFonts = new ThemeFont.ThemeFontCollection();
+		public ThemeFont.ThemeFontCollection Fonts { get { return mvarFonts; } }
+
 		private ThemeMetric.ThemeMetricCollection mvarMetrics = new ThemeMetric.ThemeMetricCollection();
 		public ThemeMetric.ThemeMetricCollection Metrics { get { return mvarMetrics; } }
 
@@ -49,6 +52,10 @@ namespace AwesomeControls.ObjectModels.Theming
 			foreach (ThemeColor item in mvarColors)
 			{
 				clone.Colors.Add(item.Clone() as ThemeColor);
+			}
+			foreach (ThemeFont item in mvarFonts)
+			{
+				clone.Fonts.Add(item.Clone() as ThemeFont);
 			}
 			foreach (ThemeMetric item in mvarMetrics)
 			{

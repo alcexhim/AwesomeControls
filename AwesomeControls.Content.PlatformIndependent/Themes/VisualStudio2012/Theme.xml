@@ -345,7 +345,7 @@
 									<State ID="{8DB00426-DE86-4F13-B451-D83602D5585E}" />
 								</States>
 								<Actions>
-									<Text X="42" Y="11" Width="$(Component.Width)" Height="32" Value="$(Window.Title)" Color="@WindowTitleBarInactiveForeground" />
+									<Text X="42" Y="11" Width="$(Component.Width)" Height="32" Value="$(Window.Title)" Color="@WindowTitleBarInactiveForeground" Font="@TitleBarFont" />
 									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
 										<Outline Type="Solid" Color="@WindowInactiveBorder" />
 									</Rectangle>
@@ -356,7 +356,7 @@
 									<State ID="{DEBD7515-DC08-40C0-8BDE-4C988626B0B1}" />
 								</States>
 								<Actions>
-									<Text X="42" Y="11" Width="$(Component.Width)" Height="32" Value="$(Window.Title)" Color="@WindowTitleBarActiveForeground" />
+									<Text X="42" Y="11" Width="$(Component.Width)" Height="32" Value="$(Window.Title)" Color="@WindowTitleBarActiveForeground" Font="@TitleBarFont" />
 									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
 										<Outline Type="Solid" Color="@WindowActiveBorder" />
 									</Rectangle>
@@ -383,18 +383,18 @@
 					<Color Name="StatusBarBackgroundPurple" Value="#68217A" />
 					<Color Name="StatusBarBackground" Value="@StatusBarBackgroundPurple" />
 				</Colors>
+				<Fonts>
+					<Font Name="TitleBarFont" Value="CaptionFont" />
+				</Fonts>
 				<Metrics>
 					<PaddingMetric Name="DropDownButtonPadding" Left="0" Top="0" Right="0" Bottom="0" />
 					<PaddingMetric Name="TopLevelWindowFrameMargin" Left="0" Top="48" Right="0" Bottom="0" />
 				</Metrics>
 				<Properties>
-					<!-- TODO: Fix the toplevel window border drawing before enabling this feature! -->
 					<Property Name="UseCustomTopLevelWindowFrame" Value="true" />
 
 					<!-- None, Slide, Fade -->
 					<Property Name="CommandBarMenuAnimationType" Value="None" />
-
-
 				</Properties>
 			</Theme>
 		</Themes>

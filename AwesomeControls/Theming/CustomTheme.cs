@@ -28,6 +28,78 @@ namespace AwesomeControls.Theming
 			mvarThemeColorOverrides[name] = value;
 		}
 
+		private Dictionary<string, string> mvarThemeFontOverrides = new Dictionary<string, string>();
+		protected override void SetFontInternal(string name, string value)
+		{
+			mvarThemeFontOverrides[name] = value;
+		}
+
+		private System.Drawing.Font FontFromString(string value, AwesomeControls.ObjectModels.Theming.Theme theme = null)
+		{
+			if (theme == null) theme = mvarThemeDefinition;
+
+			if (value.StartsWith("@"))
+			{
+				string name = value.Substring(1);
+				
+				if (mvarThemeFontOverrides.ContainsKey(name))
+				{
+					if (mvarThemeFontOverrides[name] == name) return null;
+					return FontFromString(mvarThemeFontOverrides[name]);
+				}
+
+				if (!theme.Fonts.Contains(name))
+				{
+					if (theme.InheritsTheme != null) return FontFromString(value, theme.InheritsTheme);
+
+					Console.WriteLine("ac-theme: theme definition does not contain font '" + name + "'");
+					return null;
+				}
+				
+				string font = theme.Fonts[name].Value;
+				return FontFromString(font);
+			}
+			else
+			{
+				switch (value)
+				{
+					case "CaptionFont":
+					{
+						return System.Drawing.SystemFonts.CaptionFont;
+					}
+					case "DefaultFont":
+					{
+						return System.Drawing.SystemFonts.CaptionFont;
+					}
+					case "DialogFont":
+					{
+						return System.Drawing.SystemFonts.DialogFont;
+					}
+					case "IconTitleFont":
+					{
+						return System.Drawing.SystemFonts.IconTitleFont;
+					}
+					case "MenuFont":
+					{
+						return System.Drawing.SystemFonts.MenuFont;
+					}
+					case "MessageBoxFont":
+					{
+						return System.Drawing.SystemFonts.MessageBoxFont;
+					}
+					case "SmallCaptionFont":
+					{
+						return System.Drawing.SystemFonts.SmallCaptionFont;
+					}
+					case "StatusFont":
+					{
+						return System.Drawing.SystemFonts.StatusFont;
+					}
+				}
+			}
+			return null;
+		}
+
 		private System.Drawing.Color ColorFromString(string value, AwesomeControls.ObjectModels.Theming.Theme theme = null)
 		{
 			if (theme == null) theme = mvarThemeDefinition;
@@ -35,7 +107,11 @@ namespace AwesomeControls.Theming
 			if (value.StartsWith("@"))
 			{
                 string name = value.Substring(1);
-				if (mvarThemeColorOverrides.ContainsKey(name)) return ColorFromString(mvarThemeColorOverrides[name]);
+				if (mvarThemeColorOverrides.ContainsKey(name))
+				{
+					if (mvarThemeColorOverrides[name] == name) return System.Drawing.Color.Empty;
+					return ColorFromString(mvarThemeColorOverrides[name]);
+				}
 
                 if (!theme.Colors.Contains(name))
                 {
@@ -87,8 +163,16 @@ namespace AwesomeControls.Theming
 
 		private System.Drawing.Pen PenFromOutline(Outline outline)
 		{
-			System.Drawing.Pen pen = new System.Drawing.Pen(ColorFromString(outline.Color), outline.Width);
-			return pen;
+			if (outline is SolidOutline)
+			{
+				System.Drawing.Pen pen = new System.Drawing.Pen(ColorFromString((outline as SolidOutline).Color), outline.Width);
+				return pen;
+			}
+			else
+			{
+				Console.WriteLine("ac-theme: PenFromOutline: outline used to create pen must be SolidOutline");
+				return System.Drawing.Pens.Black;
+			}
 		}
 		private System.Drawing.Brush BrushFromFill(Fill fill, System.Drawing.RectangleF rect)
 		{
@@ -229,7 +313,41 @@ namespace AwesomeControls.Theming
                 }
                 if (act.Outline != null)
                 {
-                    graphics.DrawRectangle(PenFromOutline(act.Outline), x, y, w - 1, h - 1);
+					if (act.Outline is SolidOutline)
+					{
+						graphics.DrawRectangle(PenFromOutline(act.Outline), x, y, w - 1, h - 1);
+					}
+					else if (act.Outline is ThreeDOutline)
+					{
+						ThreeDOutline threed = (act.Outline as ThreeDOutline);
+
+						System.Drawing.Color lightColor = System.Drawing.Color.Empty;
+						System.Drawing.Color darkColor = System.Drawing.Color.Empty;
+
+						switch (threed.Type)
+						{
+							case ThreeDOutlineType.Inset:
+							{
+								lightColor = ColorFromString(threed.DarkColor);
+								darkColor = ColorFromString(threed.LightColor);
+								break;
+							}
+							case ThreeDOutlineType.Outset:
+							{
+								lightColor = ColorFromString(threed.LightColor);
+								darkColor = ColorFromString(threed.DarkColor);
+								break;
+							}
+						}
+
+						System.Drawing.Pen lightPen = new System.Drawing.Pen(lightColor, act.Outline.Width);
+						System.Drawing.Pen darkPen = new System.Drawing.Pen(darkColor, act.Outline.Width);
+
+						graphics.DrawLine(lightPen, x, y, x + w, y);
+						graphics.DrawLine(lightPen, x, y, x, y + h);
+						graphics.DrawLine(darkPen, x + w - 1, y, x + w - 1, y + h - 1);
+						graphics.DrawLine(darkPen, x, y + h - 1, x + w - 1, y + h - 1);
+					}
                 }
 			}
 			else if (action is LineRenderingAction)
@@ -258,7 +376,14 @@ namespace AwesomeControls.Theming
 				string value = act.Value.ReplaceVariables(dict);
 
 				graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-				System.Windows.Forms.TextRenderer.DrawText(graphics, value, System.Windows.Forms.SystemInformation.MenuFont, new System.Drawing.Rectangle(x, y, width, height), color, System.Windows.Forms.TextFormatFlags.Left);
+
+				System.Drawing.Font font = System.Drawing.SystemFonts.DefaultFont;
+				if (act.Font != null)
+				{
+					font = FontFromString(act.Font);
+				}
+
+				System.Windows.Forms.TextRenderer.DrawText(graphics, value, font, new System.Drawing.Rectangle(x, y, width, height), color, System.Windows.Forms.TextFormatFlags.Left);
 			}
 		}
 

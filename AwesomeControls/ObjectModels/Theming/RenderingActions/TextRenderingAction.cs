@@ -22,6 +22,9 @@ namespace AwesomeControls.ObjectModels.Theming.RenderingActions
 		private string mvarColor = String.Empty;
 		public string Color { get { return mvarColor; } set { mvarColor = value; } }
 
+		private string mvarFont = String.Empty;
+		public string Font { get { return mvarFont; } set { mvarFont = value; } }
+
 		private string mvarValue = String.Empty;
 		public string Value { get { return mvarValue; } set { mvarValue = value; } }
 
