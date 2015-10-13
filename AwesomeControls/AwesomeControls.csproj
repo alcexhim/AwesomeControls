@@ -117,6 +117,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Breadcrumb\BreadcrumbItem.cs" />
+    <Compile Include="ChatBox\ChatBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChatBox\ChatBoxControl.Designer.cs">
+      <DependentUpon>ChatBoxControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CollectionListView\ItemEligibilityEvent.cs" />
     <Compile Include="CollectionListView\ItemPropertiesEvent.cs" />
     <Compile Include="CommandBars\CBContextMenu.cs">
@@ -559,6 +565,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BinaryTextBox\BinaryTextBoxDropDownWindow.resx">
       <DependentUpon>BinaryTextBoxDropDownWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChatBox\ChatBoxControl.resx">
+      <DependentUpon>ChatBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommandBars\CBWindow.resx">
       <DependentUpon>CBWindow.cs</DependentUpon>
