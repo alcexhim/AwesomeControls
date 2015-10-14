@@ -16,7 +16,7 @@
 								<!-- This Rendering applies to all states, so the States tag is actually optional -->
 								<Actions>
 									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
-										<Outline Type="None" />
+										<Outline Type="Outset" LightColor="@ControlLightLight" DarkColor="@ControlDark" />
 										<Fill Type="Solid" Color="@Control" />
 									</Rectangle>
 								</Actions>
@@ -169,8 +169,8 @@
 							<Rendering>
 								<Actions>
 									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
-										<Fill Type="Solid" Color="@CommandBarRaftingContainerBackground" />
+										<Outline Type="None" />
+										<Fill Type="Solid" Color="@Control" />
 									</Rectangle>
 								</Actions>
 							</Rendering>

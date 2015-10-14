@@ -36,7 +36,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Themes\Office 2000\Theme.xml" />
+    <Content Include="Themes\Office 2000\Theme.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Themes\Office 2003\Theme.xml" />
     <Content Include="Themes\Office XP\Theme.xml" />
     <Content Include="Themes\Office2007\Images\Buttons\ListViewItemAdd.png" />
