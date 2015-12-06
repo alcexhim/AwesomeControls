@@ -61,5 +61,18 @@ namespace AwesomeControls.ChatBox
 				mvarMessage = message;
 			}
 		}
+
+		public void ReceiveMessage(string username, string message)
+		{
+			Color oldColor = txtOutput.SelectionColor;
+			txtOutput.SelectionColor = Color.Red;
+			txtOutput.SelectionFont = new System.Drawing.Font(Font, FontStyle.Bold);
+			txtOutput.SelectedText = username + ": ";
+
+			txtOutput.SelectionColor = oldColor;
+			txtOutput.SelectionFont = Font;
+			txtOutput.SelectedText = message;
+			txtOutput.AppendText("\r\n\r\n");
+		}
 	}
 }
