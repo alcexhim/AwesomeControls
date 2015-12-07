@@ -134,6 +134,13 @@
     <Compile Include="CommandBars\CBMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ComponentTray\Component.cs" />
+    <Compile Include="ComponentTray\ComponentTrayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ComponentTray\ComponentTrayControl.Designer.cs">
+      <DependentUpon>ComponentTrayControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataFormats\Theming\ThemeXMLDataFormat.cs" />
     <Compile Include="DesignerTools.cs" />
     <Compile Include="DockingWindows\Dialogs\WindowListDialog.cs">
@@ -571,6 +578,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CommandBars\CBWindow.resx">
       <DependentUpon>CBWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComponentTray\ComponentTrayControl.resx">
+      <DependentUpon>ComponentTrayControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomizeCommandBarDialog.resx">
       <DependentUpon>CustomizeCommandBarDialog.cs</DependentUpon>
