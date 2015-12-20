@@ -18,33 +18,66 @@ namespace AwesomeControls.ComponentTray
 
 		private Dictionary<Component, Rectangle> componentBounds = new Dictionary<Component, Rectangle>();
 
+		private Point mvarInitialPadding = new Point(14, 14);
+
 		private Component.ComponentCollection mvarComponents = null;
 		public Component.ComponentCollection Components { get { return mvarComponents; } }
+
+		private Point mvarInitialPoint = Point.Empty;
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			{
+				Component cmp = HitTest(e.Location);
+				if (cmp != null)
+				{
+					Point loc = GetComponentBounds(cmp).Location;
+					mvarInitialPoint = new Point(e.Location.X - loc.X, e.Location.Y - loc.Y);
+				}
+			}
+		}
+
+		public Component HitTest(Point point)
+		{
+			foreach (Component cmp in mvarComponents)
+			{
+				Rectangle rect = GetComponentBounds(cmp);
+				if (rect.Contains(point))
+				{
+					return cmp;
+				}
+			}
+			return null;
+		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
 
-			bool found = false;
-			foreach (Component cmp in mvarComponents)
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				Rectangle rect = GetComponentBounds(cmp);
-				if (rect.Contains(e.Location))
+				if (mvarHoverComponent != null)
 				{
-					mvarHoverComponent = cmp;
-					found = true;
-					break;
+					Rectangle rect = GetComponentBounds(mvarHoverComponent);
+					rect.X = (e.Location.X - mvarInitialPoint.X);
+					rect.Y = (e.Location.Y - mvarInitialPoint.Y);
+					SetComponentBounds(mvarHoverComponent, rect);
 				}
-			}
-
-			if (found)
-			{
-				Cursor = Cursors.SizeAll;
 			}
 			else
 			{
-				Cursor = Cursors.Default;
-				mvarHoverComponent = null;
+				Component cmp = HitTest(e.Location);
+				mvarHoverComponent = cmp;
+				if (cmp != null)
+				{
+					Cursor = Cursors.SizeAll;
+				}
+				else
+				{
+					Cursor = Cursors.Default;
+				}
 			}
 			Refresh();
 		}
@@ -91,6 +124,12 @@ namespace AwesomeControls.ComponentTray
 			{
 				// TODO: calculate component bounds for this component
 				Rectangle rectBounds = new Rectangle(0, 0, 0, 0);
+				if (componentBounds.Count == 0)
+				{
+					rectBounds.X += mvarInitialPadding.X;
+					rectBounds.Y += mvarInitialPadding.Y;
+				}
+
 				Size textSize = TextRenderer.MeasureText(component.Title, Font);
 				rectBounds.Height = 28;
 				rectBounds.Width = (8 + 16 + 4) + textSize.Width + 14;
