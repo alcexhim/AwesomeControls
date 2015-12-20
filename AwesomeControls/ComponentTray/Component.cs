@@ -36,16 +36,16 @@ namespace AwesomeControls.ComponentTray
 			}
 		}
 
+		public Component(string title = "", Image image = null)
+		{
+			mvarTitle = title;
+			mvarImage = image;
+		}
+
 		private Image mvarImage = null;
 		public Image Image { get { return mvarImage; } set { mvarImage = value; } }
 
 		private string mvarTitle = String.Empty;
 		public string Title { get { return mvarTitle; } set { mvarTitle = value; } }
-
-		private int mvarX = 0;
-		public int X { get { return mvarX; } set { mvarX = value; } }
-
-		private int mvarY = 0;
-		public int Y { get { return mvarY; } set { mvarY = value; } }
 	}
 }
