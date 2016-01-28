@@ -113,13 +113,13 @@
 										<Fill Type="Solid" Color="@CommandBarPopupBackground" />
 									</Rectangle>
 									<Line X1="0" Y1="0" X2="$(Component.Width) - 1" Y2="0">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
+										<Outline Type="Solid" Color="@ControlDark" />
 									</Line>
 									<Line X1="0" Y1="0" X2="0" Y2="$(Component.Height) - 1">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
+										<Outline Type="Solid" Color="@ControlDark" />
 									</Line>
 									<Line X1="$(Component.Width) - 1" Y1="0" X2="$(Component.Width) - 1" Y2="$(Component.Height) - 1">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
+										<Outline Type="Solid" Color="@ControlLightLight" />
 									</Line>
 								</Actions>
 							</Rendering>
@@ -131,38 +131,33 @@
 							<Rendering>
 								<Actions>
 									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
+										<Outline Type="None" />
 										<Fill Type="Solid" Color="@CommandBarPopupBackground" />
 									</Rectangle>
+									<Line X1="1" Y1="1" X2="$(Component.Width) - 2" Y2="1">
+										<Outline Type="Solid" Color="@ControlLightLight" />
+									</Line>
+									<Line X1="1" Y1="1" X2="1" Y2="$(Component.Height) - 2">
+										<Outline Type="Solid" Color="@ControlLightLight" />
+									</Line>
+									<Line X1="1" Y1="$(Component.Height) - 2" X2="$(Component.Width) - 2" Y2="$(Component.Height) - 2">
+										<Outline Type="Solid" Color="@ControlDark" />
+									</Line>
+									<Line X1="$(Component.Width) - 2" Y1="1" X2="$(Component.Width) - 2" Y2="$(Component.Height) - 2">
+										<Outline Type="Solid" Color="@ControlDark" />
+									</Line>
+									<Line X1="0" Y1="$(Component.Height) - 1" X2="$(Component.Width) - 1" Y2="$(Component.Height) - 1">
+										<Outline Type="Solid" Color="@ControlDarkDark" />
+									</Line>
+									<Line X1="$(Component.Width) - 1" Y1="0" X2="$(Component.Width) - 1" Y2="$(Component.Height) - 1">
+										<Outline Type="Solid" Color="@ControlDarkDark" />
+									</Line>
 								</Actions>
 							</Rendering>
 						</Renderings>
 					</Component>
 					<!-- CommandBarTopLevelPopup -->
-					<Component ID="{5D5BE8EE-973B-4BC6-A973-3A8AA955A1CC}">
-						<Renderings>
-							<Rendering>
-								<Actions>
-									<Rectangle X="0" Y="0" Width="$(Component.Width)" Height="$(Component.Height)">
-										<Outline Type="None" />
-										<Fill Type="Solid" Color="@CommandBarPopupBackground" />
-									</Rectangle>
-									<Line X1="$(Component.Parent.Width) - 1" Y1="0" X2="$(Component.Width)" Y2="0">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
-									</Line>
-									<Line X1="0" Y1="0" X2="0" Y2="$(Component.Height)">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
-									</Line>
-									<Line X1="0" Y1="$(Component.Height) - 1" X2="$(Component.Width)" Y2="$(Component.Height) - 1">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
-									</Line>
-									<Line X1="$(Component.Width) - 1" Y1="0" X2="$(Component.Width) - 1" Y2="$(Component.Height)">
-										<Outline Type="Solid" Color="@CommandBarPopupBorder" />
-									</Line>
-								</Actions>
-							</Rendering>
-						</Renderings>
-					</Component>
+					<Component ID="{5D5BE8EE-973B-4BC6-A973-3A8AA955A1CC}" InheritsComponentID="{68969627-9C9D-487A-B89A-36AFC4810459}" />
 					<!-- CommandBarRaftingContainer -->
 					<Component ID="{1FB02962-E290-46CC-B615-8E852EDE9B84}">
 						<Renderings>
@@ -372,6 +367,12 @@
 					<Color Name="ControlDark" Value="ControlDark" />
 					<Color Name="ControlDarkDark" Value="ControlDarkDark" />
 					<Color Name="Highlight" Value="Highlight" />
+					
+					<Color Name="CommandBarItemForeground" Value="ControlText" />
+					<Color Name="CommandBarPopupBackground" Value="Control" />
+					
+					<Color Name="SeparatorDark" Value="ControlDark" />
+					<Color Name="SeparatorLight" Value="ControlLightLight" />
 				</Colors>
 				<Fonts>
 					<Font Name="TitleBarFont" Value="CaptionFont" />
