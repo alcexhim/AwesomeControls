@@ -69,9 +69,6 @@
     <Optimize>false</Optimize>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
@@ -711,15 +708,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
-      <Project>{2d4737e6-6d95-408a-90db-8dff38147e85}</Project>
+      <Project>{2D4737E6-6D95-408A-90DB-8DFF38147E85}</Project>
       <Name>UniversalEditor.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
-      <Project>{30467e5c-05bc-4856-aadc-13906ef4cadd}</Project>
+      <Project>{30467E5C-05BC-4856-AADC-13906EF4CADD}</Project>
       <Name>UniversalEditor.Essential</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Web\UniversalEditor.Plugins.Web.csproj">
-      <Project>{64089452-6a08-47a5-a857-bf418f80d4a3}</Project>
+      <Project>{64089452-6A08-47A5-A857-BF418F80D4A3}</Project>
       <Name>UniversalEditor.Plugins.Web</Name>
     </ProjectReference>
   </ItemGroup>
